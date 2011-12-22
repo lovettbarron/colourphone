@@ -127,7 +127,7 @@ app.configure('production', function(){
 
 app.get('/', function(req, res){
   res.render('index', {
-    title: 'Colour Phone v0.1',
+    title: 'Colour Phone v0.2',
 //		auth: req.session.hasOwnProperty('oAuthVars'),
 		auth: everyauth.loggedIn,
 		twitter: everyauth.twitter.user,
@@ -166,71 +166,6 @@ io.sockets.on('connection', function (socket) {
 		console.log('Disconnect');
 	});
 	
-	
-	
-// OAuth
-/*****
-app.get('/twitterlogin',function(req, res) {
-* app.get('/twitterlogin',function(req, res) {
-*
-* Basic just send the User to twitter, Ideally you'd be checking if you can identify the user
-* and use stored tokens for them rather then getting them again and again and again for each Session
-*****/
-/*
-app.get('/twitterlogin', function(req, res) {
-	var oa;
-	function getOAuthRequestTokenFunc(error, oauth_token, oauth_token_secret,results) {
-		if (error) return console.log('getOAuthRequestToken Error', error);
-		req.session.callmade = true;
-		req.session.oAuthVars = {};
-		req.session.oAuthVars.oauth_token = oauth_token;
-		req.session.oAuthVars.oauth_token_secret = oauth_token_secret;
-		res.redirect('https://api.twitter.com/oauth/authorize?oauth_token=' + oauth_token);
-	}
-	//We could store all this in a DB but for another time
-	oa = makeOAuth();
-	oa.getOAuthRequestToken(getOAuthRequestTokenFunc);
-
-});
-
-/*****
-* app.get('/twitterauth',function(req, res) {...
-*
-* When we set up our App on  https://dev.twitter.com/apps/
-* we specified a Callback URL this is it so we handle the OK from twitter here.
-* You'd get the toekens here for the User and store them rather then keeping them around for just the Session.
-* Also you would
-*****/
-/*
-app.get('/twitterauth', function(req, res) {
-		if (req.session.hasOwnProperty('callmade')) {
-			var oa = makeOAuth();
-			oa.getOAuthAccessToken(req.session.oAuthVars.oauth_token, req.session.oAuthVars.oauth_token_secret, req.param('oauth_verifier'),
-			function(error, oauth_access_token,oauth_access_token_secret, tweetRes) {
-			if (error) {
-				console.log('getOAuthAccessToken error: ', error);
-				//do something here UI wise
-				return;
-			}
-			req.session.oAuthVars.oauth_access_token = oauth_access_token;
-			req.session.oAuthVars.oauth_access_token_secret = oauth_access_token_secret;
-			req.session.oAuthVars.oauth_verifier = req.param('oauth_verifier');
-			//
-			var obj = {};
-			obj.user_id = tweetRes.user_id;
-			obj.screen_name = tweetRes.screen_name;
-			obj.oauth_access_token = oauth_access_token;
-			obj.oauth_access_token_secret = oauth_access_token_secret;
-			obj.profile_image_url = tweetRes.profile_image_url;
-			//Here we add the 'obj' contain the details to a DB and user this to get the users access details.
-			res.redirect('/');
-			});
-		}
-		else {
-			res.redirect('twitterlogin');
-		}
-});
-
 /*****
 * app.post('/getFriends', function(req, res) {..
 *
