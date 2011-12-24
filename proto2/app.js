@@ -16,9 +16,23 @@ var	mongoose = require('mongoose'),
 var everyauth = require('everyauth')
   , Promise = everyauth.Promise;
 
+/// Everyauth stuff and mongoose
 everyauth.debug = true;
+/*
+everyauth.twitter
+  .consumerKey(conf.twit.consumerKey)
+  .consumerSecret(conf.twit.consumerSecret)
+  .findOrCreateUser( function (session, accessToken, accessTokenSecret, twitterUserMetadata) {
+    var user = new userSchema();
+		user.name = everyauth.twitter.user,
+		user.
+  })
+  .redirectPath('/');
+*/
 
-mongoose.connect('mongodb://localhost/colour');
+var db = mongoose.connect('mongodb://localhost/colour', function(err) {
+	console.log(err);
+});
 
 var app = module.exports = express.createServer();
 
@@ -133,6 +147,13 @@ app.get('/', function(req, res){
 		twitter: everyauth.twitter.user,
 		facebook: everyauth.facebook.user,
   });
+});
+
+app.get('/login', function(req, res) {
+	res.render('login', {
+		title: 'Login',
+		
+	});
 });
 
 app.listen(8000);
