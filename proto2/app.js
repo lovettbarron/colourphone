@@ -18,6 +18,10 @@ var everyauth = require('everyauth')
 
 /// Everyauth stuff and mongoose
 everyauth.debug = true;
+
+everyauth.everymodule.moduleErrback( function (err) {
+  console.log ( err );
+});
 /*
 everyauth.twitter
   .consumerKey(conf.twit.consumerKey)
