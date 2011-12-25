@@ -22,20 +22,23 @@ everyauth.debug = true;
 everyauth.everymodule.moduleErrback( function (err) {
   console.log ( err );
 });
-/*
+
 everyauth.twitter
   .consumerKey(conf.twit.consumerKey)
   .consumerSecret(conf.twit.consumerSecret)
   .findOrCreateUser( function (session, accessToken, accessTokenSecret, twitterUserMetadata) {
+		
     var user = new userSchema();
-		user.name = everyauth.twitter.user,
-		user.
+		user.name = everyauth.twitter.user;
+		user.twitterid = everyauth.twitter.id;
+		user.joined = ISODate();
+		user.save();
   })
   .redirectPath('/');
-*/
 
 var db = mongoose.connect('mongodb://localhost/colour', function(err) {
-	console.log(err);
+	if( err ) {	console.log(err); }
+	else { console.log("Successful connection"); }
 });
 
 var app = module.exports = express.createServer();
@@ -43,11 +46,15 @@ var app = module.exports = express.createServer();
 //Database model
 var Schema = mongoose.Schema
   , ObjectId = Schema.ObjectId;
-
+	
 var userSchema = new Schema({
-		User			: ObjectId
-  , name      : String
-  , twitterid : String
+	userID: ObjectId
+  , twitterid : { type: String, required: true, index: { unique:true, sparse:true } }
+  , name      : {
+			first: String
+			, last: String
+			}
+	, online: Boolean	
   , joined    : Date
 	, Friends		: {}
 }), User;
@@ -140,6 +147,8 @@ app.configure('development', function(){
 app.configure('production', function(){
   app.use(express.errorHandler()); 
 });
+
+mongooseAuth.helpExpress(app);
 
 // Routes
 
@@ -252,13 +261,4 @@ app.get('/getFriends', function(req, res) {
 app.get('/logout', function (req, res) {
     req.logout();
     res.redirect('/');
-});
-
-mongooseAuth.helpExpress(app);
-
-//Error handling
-everyauth.everymodule.moduleErrback( function (err) {
-	console.log( err, function() {
-		winston.log('info', 'Everyauth error: ' + err);
-	} );
 });
