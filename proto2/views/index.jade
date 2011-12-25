@@ -2,7 +2,7 @@
 script(type='text/javascript', src='/javascripts/init.js')
 
 - if (!auth)
-	var items = [ "twitter" ]
+	-var items = [ "twitter" ]
 	div#twitter
 		each item in items
 			a(href='/auth/' + item)
