@@ -251,24 +251,18 @@ app.get('/getFriends', function(req, res) {
 				    	if (error) {
 				      	console.log("[ERROR] Could not query followers: " + sys.inspect(error));
 				    	}
-							var obj= JSON.parse(data);
+							var obj = JSON.parse(data);
 							
 							var userDoc = db.users.find({'login': everyauth.user.id });
 							userDoc.twtFriends = data;
 							userDoc.twtFriends.save();
 							
-				    	res.render('twitter/friends.jade', {
-				      	locals: { 
-									title: 'Twitter Friends Ids'
-									, currentUser: req.currentUser
-									, items: obj }
-				    	});
+				    	res.send(obj);
 						});
 
 				} // end logged in block
 	else { //Not logged in block
-		console.log('Not loggedin	')	
-		io.socket.emit('friends','you are not logged in... handle on front end');
+		console.log('Not loggedin	');
 	}
 });
 
