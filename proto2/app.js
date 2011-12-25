@@ -51,20 +51,6 @@ var userSchema = new Schema({
 	, online			: Boolean
 }), User;
 
-/*
-var userSchema = new Schema({
-	userID: ObjectId
-	, twitterid : { type: String, required: true, index: { unique:true, sparse:true } }
-	, name      : {
-			first: String
-			, last: String
-			}
-	, online: Boolean	
-	, joined    : Date
-	, Friends		: {}}
-), User;
-*/
-
 userSchema.plugin(mongooseAuth, {
   everymodule: {
     everyauth: {
@@ -205,19 +191,19 @@ io.sockets.on('connection', function (socket) {
 /*****
 * app.post('/getFriends', function(req, res) {..
 * ****/
+function makeOAuth() {
+	return new oauth.OAuth('https://api.twitter.com/oauth/request_token',
+	'https://api.twitter.com/oauth/access_token',
+	conf.twit.consumerKey,
+	conf.twit.consumerSecret,
+	'1.0',
+	null,
+	'HMAC-SHA1');
+}
+
 
 app.get('/getFriends', function(req, res) {
-	
-	function makeOAuth() {
-		return new oauth.OAuth('https://api.twitter.com/oauth/request_token',
-		'https://api.twitter.com/oauth/access_token',
-		conf.twit.consumerKey,
-		conf.twit.consumerSecret,
-		'1.0',
-		null,
-		'HMAC-SHA1');
-	}
-	
+
  	//Function to Write the JSON
 	function writeRes(arg) {
 		res.writeHead(200, 'OK', {'content-type': 'text/json'});
@@ -264,6 +250,18 @@ app.get('/getFriends', function(req, res) {
 	else { //Not logged in block
 		console.log('Not loggedin	');
 	}
+});
+
+app.get('/friends', loadUser, function(req, res) {
+  consumer().getProtectedResource("http://api.twitter.com/1/friends/ids.json", "GET", req.session.oauthAccessToken, req.session.oauthAccessTokenSecret,  function (error, data) {
+    if (error) {
+      console.log("[ERROR] Could not query followers: " + sys.inspect(error));
+    }
+    var obj= JSON.parse(data);
+    res.render('twitter/friends.jade', {
+        locals: { title: 'Twitter Friends Ids', currentUser: req.currentUser, items: obj }
+    });
+  });
 });
 
 app.get('/logout', function (req, res) {
