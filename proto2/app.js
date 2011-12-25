@@ -85,7 +85,7 @@ userSchema.plugin(mongooseAuth, {
 
 mongoose.model('User', userSchema);
 
-User = mongoose.model('User');
+User = mongoose.model('User');	
 
 var colourSchema = new Schema({
     user    : ObjectId
@@ -136,7 +136,6 @@ app.configure('production', function(){
 app.get('/', function(req, res){
   res.render('index', {
     title: 'Colour Phone v0.2',
-//		auth: req.session.hasOwnProperty('oAuthVars'),
 		auth: everyauth.loggedIn,
 		twitter: everyauth.twitter.user,
 		facebook: everyauth.facebook.user,

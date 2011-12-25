@@ -1,15 +1,14 @@
-
+-var items = [ "twitter" ]
 script(type='text/javascript', src='/javascripts/init.js')
 
-- if (!auth)
-	-var items = [ "twitter" ]
+- if (!everyauth.loggedIn)
 	div#twitter
 		each item in items
 			a(href='/auth/' + item)
 				span Connect with <span style="text-transform: capitalize">!{item}</span><br />
 -else
 	div#twitter
-		Connected as #{twitter}
+		p= JSON.stringify(everyauth.twitter.user)
 
 div#canvas
 	canvas(id="draw", width='100%', height='100%')
