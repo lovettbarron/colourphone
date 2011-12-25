@@ -1,7 +1,6 @@
-
-/**
- * Module dependencies.
- */
+/************************
+ * Startup dependencies. *
+*************************/
 var express = require('express'), 
 		OAuth = require('oauth').OAuth,
 		io = require('socket.io'),
@@ -23,25 +22,18 @@ everyauth.everymodule.moduleErrback( function (err) {
   console.log ( err );
 });
 
-everyauth.twitter
-  .consumerKey(conf.twit.consumerKey)
-  .consumerSecret(conf.twit.consumerSecret)
-  .findOrCreateUser( function (session, accessToken, accessTokenSecret, twitterUserMetadata) {
-		
-    var user = new userSchema();
-		user.name = everyauth.twitter.user;
-		user.twitterid = everyauth.twitter.id;
-		user.joined = ISODate();
-		user.save();
-  })
-  .redirectPath('/');
-
+//Connect to Database
 var db = mongoose.connect('mongodb://localhost/colour', function(err) {
 	if( err ) {	console.log(err); }
 	else { console.log("Successful connection"); }
 });
 
 var app = module.exports = express.createServer();
+
+
+/************************
+ * Database setup       *
+*************************/
 
 //Database model
 var Schema = mongoose.Schema
@@ -93,6 +85,8 @@ userSchema.plugin(mongooseAuth, {
 
 mongoose.model('User', userSchema);
 
+User = mongoose.model('User');
+
 var colourSchema = new Schema({
     user    : ObjectId
 	, shared	: ObjectId
@@ -110,6 +104,9 @@ var colourSchema = new Schema({
 
 
 // Configuration
+/************************
+ * Server config        *
+*************************/
 
 app.configure(function(){
   app.set('views', __dirname + '/views');
