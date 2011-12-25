@@ -203,14 +203,6 @@ function makeOAuth() {
 
 
 app.get('/getFriends', function(req, res) {
-
- 	//Function to Write the JSON
-	function writeRes(arg) {
-		res.writeHead(200, 'OK', {'content-type': 'text/json'});
-		res.write('{"arr":' + arg + '}');
-		res.end();
-	}
-	
 	if ( everyauth.loggedIn ) {		
 /*		http.get({
 			host: 'https://api.twitter.com/'
@@ -253,14 +245,13 @@ app.get('/getFriends', function(req, res) {
 });
 
 app.get('/friends', everyauth.twitter, function(req, res) {
-  makeOAuth().getProtectedResource("http://api.twitter.com/1/friends/ids.json", "GET", everyauth.twitter.accessToken, everyauth.twitter.accessTokenSecret,  function (error, data) {
+	var oa = makeOauth();
+  oa.getProtectedResource("http://api.twitter.com/1/friends/ids.json", "GET", everyauth.twitter.accessToken, everyauth.twitter.accessTokenSecret,  function (error, data) {
     if (error) {
       console.log("[ERROR] Could not query followers: " + sys.inspect(error));
     }
     var obj= JSON.parse(data);
-    res.render('twitter/friends.jade', {
-        locals: { title: 'Twitter Friends Ids', currentUser: req.currentUser, items: obj }
-    });
+		res.send(obj);
   });
 });
 
