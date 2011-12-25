@@ -254,7 +254,7 @@ app.get('/friends', function(req, res) {
 								, 'HMAC-SHA1');
   oa.getProtectedResource("http://api.twitter.com/1/friends/ids.json", "GET", everyauth.twitter.accessToken, everyauth.twitter.accessTokenSecret, function (error, data) {
     if (error) {
-      console.log("Prob getting followers: " + JSON.parse(error) );
+      console.log("Prob getting followers: " + JSON.stringify(error) );
     }
     var obj= JSON.parse(data);
 		console.log( "Recieved object:" + obj );
