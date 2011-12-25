@@ -268,7 +268,7 @@ app.get('/getFriends', function(req, res) {
 				} // end logged in block
 	else { //Not logged in block
 		console.log('Not loggedin	')	
-		socket.emit('friends','you are not logged in... handle on front end');
+		io.socket.emit('friends','you are not logged in... handle on front end');
 	}
 });
 
