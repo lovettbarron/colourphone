@@ -8,6 +8,8 @@ var express = require('express'),
 		winston = require('winston'),
  		util = require('util');
 
+var MongoStore = require('connect-mongo');
+
 var	mongoose = require('mongoose'), 
 		mongooseAuth = require('mongoose-auth'),
 		conf = require('./config.js');
@@ -116,10 +118,17 @@ app.configure(function(){
   app.use(express.methodOverride());
 	app.use(express.cookieParser());
 	app.use(express.session({ secret: '024493' }));
-//  app.use(app.router);
   app.use(express.static(__dirname + '/public'));
   app.use(mongooseAuth.middleware());
 });
+
+//Connect-mongo session support
+app.use(express.session({
+    secret: '024493',
+    store: new MongoStore({
+      db: "colour"
+    })
+  }));
 
 mongooseAuth.helpExpress(app);
 
@@ -134,6 +143,11 @@ app.configure('production', function(){
 // Routes
 
 app.get('/', function(req, res){
+	res.cookie('colourphone', 'yes', { 
+			expires: new Date(Date.now() + 900000)
+			, httpOnly: true
+			, secure: true 
+		});
   res.render('index', {
     title: 'Colour Phone v0.2',
 		auth: everyauth.loggedIn,
@@ -187,16 +201,13 @@ io.sockets.on('connection', function (socket) {
 app.get('/getFriends', function(req, res) {
 	
 	function makeOAuth() {
-		//twitter oAuth.
-
-		var oa = new OAuth('https://api.twitter.com/oauth/request_token',
+		return new oauth.OAuth('https://api.twitter.com/oauth/request_token',
 		'https://api.twitter.com/oauth/access_token',
 		conf.twit.consumerKey,
 		conf.twit.consumerSecret,
 		'1.0',
 		null,
 		'HMAC-SHA1');
-		return oa;
 	}
 	
  	//Function to Write the JSON
@@ -207,7 +218,7 @@ app.get('/getFriends', function(req, res) {
 	}
 	
 	if ( everyauth.loggedIn ) {		
-		http.get({
+/*		http.get({
 			host: 'https://api.twitter.com/'
 			, port: 80
 			, path: '1/friends/ids.json?cursor=-1&user_id=' + everyauth.twitter.user.id
@@ -215,12 +226,31 @@ app.get('/getFriends', function(req, res) {
 				console.log("Resp: " + res.statusCode);
 				/*			db.users.find({
 				
-				})*/
+				})
 				console.log( res );
 				socket.emit( 'friends', res );
 			}).on('error', function(e) {
 			  console.log("err: " + e.message);
 				});
+				*/
+				
+				makeOAuth().getProtectedResource(
+						"http://api.twitter.com/1/friends/ids.json"
+						, "GET"
+						, req.session.oauthAccessToken
+						, req.session.oauthAccessTokenSecret
+						,  function (error, data) {
+				    	if (error) {
+				      	console.log("[ERROR] Could not query followers: " + sys.inspect(error));
+				    	}
+				    	var obj= JSON.parse(data);
+				    	res.render('twitter/friends.jade', {
+				      	locals: { 
+									title: 'Twitter Friends Ids'
+									, currentUser: req.currentUser
+									, items: obj }
+				    	});
+						});
 
 				} // end logged in block
 	else { //Not logged in block
