@@ -18,11 +18,7 @@ html
 			if ('standalone' in navigator && !navigator.standalone && (/iphone|ipod|ipad/gi).test(navigator.platform) && (/Safari/i).test(navigator.appVersion)) {
 				document.write('<link rel="stylesheet" href="../../style/add2home.css">');
 				document.write('<script type="application/javascript" src="../../src/add2home.js"><\/s' + 'cript>');
-			}
-		-if( everyauth.loggedIn )	
-			script(type='text/javascript')
-				$().ready( populateFriends() );
-			
+			}			
 		link(rel='stylesheet', href='/stylesheets/style.css'), media="screen, mobile"
 		link(rel='stylesheet, href='/stylesheets/add2home.css'), media="mobile"
 	body(onload='load()')!= body
