@@ -48,34 +48,23 @@ var Schema = mongoose.Schema
   , ObjectId = Schema.ObjectId;
 	
 var userSchema = new Schema({
+
+}), User;
+
+/*
+var userSchema = new Schema({
 	userID: ObjectId
-  , twitterid : { type: String, required: true, index: { unique:true, sparse:true } }
-  , name      : {
+	, twitterid : { type: String, required: true, index: { unique:true, sparse:true } }
+	, name      : {
 			first: String
 			, last: String
 			}
 	, online: Boolean	
-  , joined    : Date
-	, Friends		: {}
-}), User;
-		// userSchema.plugin(mongooseAuth, {
-		//       facebook: true,
-		// 		twitter: true
-		//     	});
+	, joined    : Date
+	, Friends		: {}}
+), User;
+*/
 
-var colourSchema = new Schema({
-    user    : ObjectId
-	, shared	: ObjectId
-  , timestamp : Date
-  , red       : Number
-  , green     : Number
-  , blue      : Number
-});
-
-//https://github.com/bnoguchi/mongoose-auth/blob/master/example/server.js
-// var UserSchema = new Schema({
-//   role  : String
-// }), User;
 userSchema.plugin(mongooseAuth, {
   everymodule: {
     everyauth: {
@@ -104,15 +93,26 @@ userSchema.plugin(mongooseAuth, {
   }
 });
 
+mongoose.model('User', userSchema);
 
-var colorObject = mongoose.model('Colour', colourSchema);
-var userObject = mongoose.model('User', userSchema);
+var colourSchema = new Schema({
+    user    : ObjectId
+	, shared	: ObjectId
+  , timestamp : Date
+  , red       : Number
+  , green     : Number
+  , blue      : Number
+});
+
+
+//var colorObject = mongoose.model('Colour', colourSchema);
+//var userObject = mongoose.model('User', userSchema);
 
 //Oauth config
 
 function makeOAuth() {
 	//twitter oAuth.
-	
+		/*
 	var oa = new OAuth('https://api.twitter.com/oauth/request_token',
 	'https://api.twitter.com/oauth/access_token',
 	conf.twit.consumerKey,
@@ -121,6 +121,8 @@ function makeOAuth() {
 	null,
 	'HMAC-SHA1');
 	return oa;
+ */
+return new oa;
 }
 
 // Configuration
@@ -147,8 +149,6 @@ app.configure('development', function(){
 app.configure('production', function(){
   app.use(express.errorHandler()); 
 });
-
-mongooseAuth.helpExpress(app);
 
 // Routes
 
