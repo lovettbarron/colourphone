@@ -245,7 +245,7 @@ app.get('/getFriends', function(req, res) {
 });
 
 app.get('/friends', function(req, res) {
-	var oa = new  oauth.OAuth('https://api.twitter.com/oauth/request_token'
+	var oa = new OAuth('https://api.twitter.com/oauth/request_token'
 								, 'https://api.twitter.com/oauth/access_token'
 								, conf.twit.consumerKey
 								, conf.twit.consumerSecret
