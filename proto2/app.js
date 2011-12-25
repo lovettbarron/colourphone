@@ -253,7 +253,7 @@ app.get('/getFriends', function(req, res) {
 });
 
 app.get('/friends', everyauth.twitter, function(req, res) {
-  consumer().getProtectedResource("http://api.twitter.com/1/friends/ids.json", "GET", everyauth.twitter.accessToken, everyauth.twitter.accessTokenSecret,  function (error, data) {
+  makeOAuth().getProtectedResource("http://api.twitter.com/1/friends/ids.json", "GET", everyauth.twitter.accessToken, everyauth.twitter.accessTokenSecret,  function (error, data) {
     if (error) {
       console.log("[ERROR] Could not query followers: " + sys.inspect(error));
     }
