@@ -41,7 +41,15 @@ var app = module.exports = express.createServer();
 var Schema = mongoose.Schema
   , ObjectId = Schema.ObjectId;
 	
-var userSchema = new Schema({}), User;
+var userSchema = new Schema({
+	name					: {
+		first	: String
+		, last: String
+	}		
+	, twtFriends	: {}
+	, joined			: Date
+	, online			: Boolean
+}), User;
 
 /*
 var userSchema = new Schema({
@@ -126,7 +134,7 @@ app.configure(function(){
 app.use(express.session({
     secret: '024493',
     store: new MongoStore({
-      db: "colour"
+      db: "colour-sessions"
     })
   }));
 
@@ -243,7 +251,12 @@ app.get('/getFriends', function(req, res) {
 				    	if (error) {
 				      	console.log("[ERROR] Could not query followers: " + sys.inspect(error));
 				    	}
-				    	var obj= JSON.parse(data);
+							var obj= JSON.parse(data);
+							
+							var userDoc = db.users.find({'login': everyauth.user.id });
+							userDoc.twtFriends = data;
+							userDoc.twtFriends.save();
+							
 				    	res.render('twitter/friends.jade', {
 				      	locals: { 
 									title: 'Twitter Friends Ids'
