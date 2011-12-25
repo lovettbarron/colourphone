@@ -255,6 +255,9 @@ app.get('/friends', function(req, res) {
   oa.getProtectedResource("http://api.twitter.com/1/friends/ids.json", "GET", req.session.oauthAccessToken, req.session.oauthAccessTokenSecret, function (error, data) {
     if (error) {
       console.log("Prob getting followers: " + JSON.stringify(error) );
+			console.log("accessToken: " +  req.session.oauthAccessTokenSecret );
+			console.log("accessSecret: " + req.session.oauthAccessTokenSecret );
+			console.log("User data: " + JSON.stringify(everyauth.user) );
     }
     var obj= JSON.parse(data);
 		console.log( "Recieved object:" + obj );
