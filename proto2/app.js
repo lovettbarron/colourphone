@@ -244,7 +244,7 @@ app.get('/getFriends', function(req, res) {
 	}
 });
 
-app.get('/friends', everyauth.twitter, function(req, res) {
+app.get('/friends', function(req, res) {
 	var oa = new  oauth.OAuth('https://api.twitter.com/oauth/request_token'
 								, 'https://api.twitter.com/oauth/access_token'
 								, conf.twit.consumerKey
@@ -252,7 +252,7 @@ app.get('/friends', everyauth.twitter, function(req, res) {
 								, '1.0'
 								, null
 								, 'HMAC-SHA1');
-  oa.getProtectedResource("http://api.twitter.com/1/friends/ids.json", "GET", everyauth.twitter.accessToken, everyauth.twitter.accessTokenSecret, function (error, data) {
+  oa.getProtectedResource("http://api.twitter.com/1/friends/ids.json", "GET", req.user.everyauth.twitter.accessToken, req.user.everyauth.twitter.accessTokenSecret, function (error, data) {
     if (error) {
       console.log("Prob getting followers: " + sys.inspect(error));
     }
