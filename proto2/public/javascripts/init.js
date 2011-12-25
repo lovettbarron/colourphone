@@ -49,10 +49,15 @@ socket.on('colour', function(data) {
 
 		colourBG( data[0], data[0], data[1], data[2] );
 });
+
+socket.on('friends', function(data) {
+	console.log( data )
+});
 	
 socket.on('disconnect', function() {
 		console.log('disconnected');
 	});
+	
 	
 function onDocumentMouseMove(event) {
 	var h = (event.x/window.innerWidth);
@@ -111,7 +116,7 @@ function clearLast( x, y) {
 
 function populateFriends() {
 	$.get('/getFriends', function(res) {
-		console.log( res )
+		console.log('sent/recieved')
 	});
 }
 

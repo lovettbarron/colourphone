@@ -205,27 +205,30 @@ app.get('/getFriends', function(req, res) {
 		res.write('{"arr":' + arg + '}');
 		res.end();
 	}
-	if (everyauth.loggedIn) {
+	
+	if ( everyauth.loggedIn ) {
 		//Set it up.
 		
 		http.get({
 			host: 'https://api.twitter.com/'
 			, port: 80
 			, path: '1/friends/ids.json?cursor=-1&user_id=' + everyauth.twitter.user.id
-		}, function(res) {
-			console.log("Resp: " + res.statusCode);
-/*			db.users.find({
+			}, function(res) {
+				console.log("Resp: " + res.statusCode);
+				/*			db.users.find({
 				
-			})*/
-			console.log( res );
-//			socket.emit( res );
-		}).on('error', function(e) {
+				})*/
+				console.log( res );
+				socket.emit( 'friends', res );
+			}).on('error', function(e) {
 			  console.log("err: " + e.message);
-			});
+				});
 
-	} // end logged in block
+				} // end logged in block
 	else { //Not logged in block
-  res.redirect('/');
+		console.log('No login')
+  	res.redirect('/');
+	
 //	writeRes('you are not logged in... handle on front end');
 	}
 });
