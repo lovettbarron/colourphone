@@ -109,6 +109,11 @@ function clearLast( x, y) {
 }
 
 
+function populateFriends() {
+	.get('/getFriends', function(res) {
+		console.log( res )
+	});
+}
 
 //http://mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript
 function hsvToRgb(h, s, v) {

@@ -182,12 +182,24 @@ io.sockets.on('connection', function (socket) {
 	
 /*****
 * app.post('/getFriends', function(req, res) {..
-*
-* The Web Service 'POST' Call called from Lungo Event
 * ****/
 
 app.get('/getFriends', function(req, res) {
-	//Function to Write the JSON
+	
+	function makeOAuth() {
+		//twitter oAuth.
+
+		var oa = new OAuth('https://api.twitter.com/oauth/request_token',
+		'https://api.twitter.com/oauth/access_token',
+		conf.twit.consumerKey,
+		conf.twit.consumerSecret,
+		'1.0',
+		null,
+		'HMAC-SHA1');
+		return oa;
+	}
+	
+ 	//Function to Write the JSON
 	function writeRes(arg) {
 		res.writeHead(200, 'OK', {'content-type': 'text/json'});
 		res.write('{"arr":' + arg + '}');
@@ -195,42 +207,22 @@ app.get('/getFriends', function(req, res) {
 	}
 	if (everyauth.loggedIn) {
 		//Set it up.
-		var oa = makeOAuth();
 		
-		//Two Steps. 1. Get the IDs and then 2 use the IDs to get the details.
-		// 1. Get the IDs of a user is following.
-		res.write('http://api.twitter.com/1/friends/ids.json', 'GET', req.session.oAuthVars.oauth_access_token, req.session.oAuthVars.oauth_access_token_secret,
-		function(error, data, response) {
-			var arrData;
-			if (error) {
-				console.log('error', error);
-				writeRes('');
-			}
-			else {
-				//2. Get their IDs to their Details.... this can be pretty big.. Here we'll just take what we need...
-				arrData = JSON.parse(data);
-				oa.getProtectedResource('http://api.twitter.com/1/users/lookup.json?user_id=' + arrData.ids, 'GET', req.session.oAuthVars.oauth_access_token, req.session.oAuthVars.oauth_access_token_secret,
-				function(error, udata, response) {
-					var arr = [], obj, parsedData;
-					if (error) {
-						console.log('error', error);
-						writeRes('');
-					}
-					else {
-						//There is alot of data on all the users you follow so you'd never want to return it all, you'd filter through it
-						//and you see in the template in Lungo we just use the screen_name and id
-						parsedData = JSON.parse(udata);
-						for (var i = 0; i < parsedData.length; i++) {
-							obj = {};
-							obj.id = parsedData[i].id;
-							obj.screen_name = parsedData[i].screen_name;
-							arr.push(obj);
-						}
-						writeRes(JSON.stringify(arr));
-					}
-				});
-			}
-		});
+		http.get({
+			host: 'https://api.twitter.com/'
+			, port: 80
+			, path: '1/friends/ids.json?cursor=-1&user_id=' + everyauth.twitter.user.id
+		}, function(res) {
+			console.log("Resp: " + res.statusCode);
+/*			db.users.find({
+				
+			})*/
+			console.log( res );
+//			socket.emit( res );
+		}).on('error', function(e) {
+			  console.log("err: " + e.message);
+			});
+
 	} // end logged in block
 	else { //Not logged in block
   res.redirect('/');
