@@ -206,9 +206,7 @@ app.get('/getFriends', function(req, res) {
 		res.end();
 	}
 	
-	if ( everyauth.loggedIn ) {
-		//Set it up.
-		
+	if ( everyauth.loggedIn ) {		
 		http.get({
 			host: 'https://api.twitter.com/'
 			, port: 80
@@ -226,10 +224,8 @@ app.get('/getFriends', function(req, res) {
 
 				} // end logged in block
 	else { //Not logged in block
-		console.log('No login')
-  	res.redirect('/');
-	
-//	writeRes('you are not logged in... handle on front end');
+		console.log('Not loggedin	')	
+		socket.emit('friends','you are not logged in... handle on front end');
 	}
 });
 
