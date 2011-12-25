@@ -96,10 +96,6 @@ var colourSchema = new Schema({
 //var colorObject = mongoose.model('Colour', colourSchema);
 //var userObject = mongoose.model('User', userSchema);
 
-//Oauth config
-
-
-// Configuration
 /************************
  * Server config        *
 *************************/
@@ -134,8 +130,13 @@ app.configure('production', function(){
   app.use(express.errorHandler()); 
 });
 
-// Routes
 
+/************************
+/************************
+/************************
+/************************
+ *  Routing and app      *
+*************************/
 app.get('/', function(req, res){
 	res.cookie('colourphone', 'yes', { 
 			expires: new Date(Date.now() + 900000)
@@ -160,7 +161,9 @@ app.get('/login', function(req, res) {
 app.listen(8000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 
-//SOCKET LISTENING
+/*************************
+ * Websockets and returns *
+*************************/
 var io = io.listen(app);
 var userCount = 0;
 var colordata = {};
@@ -181,7 +184,54 @@ io.sockets.on('connection', function (socket) {
 				});
 
 	});
-		
+	
+
+
+/***********************************************
+ * Session wrangling														*
+ * http://www.danielbaulig.de/socket-ioexpress/ *    
+************************************************/
+var Session = express.session.Session;
+io.set('authorization', function (data, accept) {
+    if (data.headers.cookie) {
+        data.cookie = parseCookie(data.headers.cookie);
+        data.sessionID = data.cookie['express.sid'];
+        // save the session store to the data object 
+        // (as required by the Session constructor)
+        data.sessionStore = sessionStore;
+        sessionStore.get(data.sessionID, function (err, session) {
+            if (err || !session) {
+                accept('Error', false);
+            } else {
+                // create a session object, passing data as request and our
+                // just acquired session data
+                data.session = new Session(data, session);
+                accept(null, true);
+            }
+        });
+    } else {
+       return accept('No cookie transmitted.', false);
+    }
+});
+	
+	
+//Socket.io Session handling		
+io.sockets.on('connection', function (socket) {
+    var hs = socket.handshake;
+    console.log('A socket with sessionID ' + hs.sessionID 
+        + ' connected!');
+    var intervalID = setInterval(function () {
+        hs.session.reload( function () { 
+            hs.session.touch().save();
+        });
+    }, 60 * 1000);
+    socket.on('disconnect', function () {
+        console.log('A socket with sessionID ' + hs.sessionID 
+            + ' disconnected!');
+        clearInterval(intervalID);
+    });
+
+});
 	
 	io.sockets.on('disconnect', function() {
 		clearInterval(interval);
@@ -252,10 +302,10 @@ app.get('/friends', function(req, res) {
 								, '1.0'
 								, null
 								, 'HMAC-SHA1');
-  oa.getProtectedResource("http://api.twitter.com/1/friends/ids.json", "GET", req.session.oauthAccessToken, req.session.oauthAccessTokenSecret, function (error, data) {
+  oa.getProtectedResource("http://api.twitter.com/1/friends/ids.json", "GET", everyauth.twitter.AccessToken, everyauth.twitter.AccessTokenSecret, function (error, data) {
     if (error) {
       console.log("Prob getting followers: " + JSON.stringify(error) );
-			console.log("accessToken: " +  req.session.oauthAccessTokenSecret );
+			console.log("accessToken: " +  everyauth.twitter.AccessToken );
 			console.log("accessSecret: " + req.session.oauthAccessTokenSecret );
 			console.log("User data: " + JSON.stringify(everyauth.user) );
     }
