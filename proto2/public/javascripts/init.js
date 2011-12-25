@@ -115,7 +115,7 @@ function clearLast( x, y) {
 
 
 function populateFriends() {
-	$.get('/getFriends', function(res) {
+	$.get('/friends', function(res) {
 		console.log('sent/recieved')
 	});
 }
