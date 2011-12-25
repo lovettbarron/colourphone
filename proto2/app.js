@@ -47,9 +47,7 @@ var app = module.exports = express.createServer();
 var Schema = mongoose.Schema
   , ObjectId = Schema.ObjectId;
 	
-var userSchema = new Schema({
-
-}), User;
+var userSchema = new Schema({}), User;
 
 /*
 var userSchema = new Schema({
@@ -110,20 +108,6 @@ var colourSchema = new Schema({
 
 //Oauth config
 
-function makeOAuth() {
-	//twitter oAuth.
-		/*
-	var oa = new OAuth('https://api.twitter.com/oauth/request_token',
-	'https://api.twitter.com/oauth/access_token',
-	conf.twit.consumerKey,
-	conf.twit.consumerSecret,
-	'1.0',
-	null,
-	'HMAC-SHA1');
-	return oa;
- */
-return new oa;
-}
 
 // Configuration
 
@@ -139,7 +123,7 @@ app.configure(function(){
   app.use(express.static(__dirname + '/public'));
   app.use(mongooseAuth.middleware());
 });
-//http://tesoriere.com/2011/10/10/node.js-getting-oauth-up-and-working-using-express.js-and-railway.js/
+
 mongooseAuth.helpExpress(app);
 
 app.configure('development', function(){
