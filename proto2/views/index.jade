@@ -10,7 +10,7 @@ script(type='text/javascript', src='/javascripts/init.js')
 			a(href='/auth/' + item)
 				span Connect with <span style="text-transform: capitalize">!{item}</span><br />
 -else
-	div#twitter!= partial('user', { users: collection })
+	div#twitter!= partial('user', { friends: friends })
 
 div#canvas
 	canvas(id="draw", width='100%', height='100%')

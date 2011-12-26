@@ -300,7 +300,7 @@ app.get('/friends', function(req, res) {
 				});
 				
 			res.partial('user', {
-				collection: response
+				friends: response
 				});
 	});
 
