@@ -327,7 +327,7 @@ app.get('/friends', function(req, res) {
 								friendIds[docs[key]._id] = docs[key].twit.id;
 							}
 						}
-					 console.log( "Friends list to be saved: " JSON.stringify(friendIds) );
+					 console.log( "Friends list to be saved: " + JSON.stringify(friendIds) );
 						User.friends.save(friendIds, function(err) {
 							if(err) { console.log("Error updating friends list: " + err); }
 							else { console.log("Friends list Saved to " + User._id); }
