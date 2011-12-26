@@ -297,13 +297,13 @@ app.get('/friends', function(req, res) {
 		    var obj = JSON.parse(data);
 				console.log( "Recieved object:" + JSON.stringify(obj) );
 		
-				User.find({ 'twit' : { 'id' : { $in: obj.id } } }, function(err, docs) {
+				User.find({ 'twit.id' : { $in : obj.id } }, function(err, docs) {
 					console.log("Error retrieving friends: " + err);
-					console.log( JSON.stringify(docs));
-					response = JSON.parse(docs, function(err) {
-						console.log('Parse error: ' + err );
+					console.log( JSON.stringify( docs ) );
+					response = docs.id;
 					});
 				});
+				
 			res.send(response.id);
 	  }); // end oauth attempt
 	});
