@@ -269,11 +269,11 @@ function makeOAuth() {
 
 app.get('/friends', function(req, res) {
 	var response = {};
-	var theUser = new User();
+//	var theUser = new User();
 
 	//User.find({ 'twit' : { 'id' : req.session.auth.twitter.id } }, function(err, docs) {
-		console.log('User set up' +  err);
-	});
+		//console.log('User set up' +  err);
+	//});
 	
 	var oa = new OAuth('https://api.twitter.com/oauth/request_token'
 								, 'https://api.twitter.com/oauth/access_token'
@@ -303,7 +303,7 @@ app.get('/friends', function(req, res) {
 					response = JSON.parse(docs).id;
 				});
 			res.send(response);
-	  });
+	  }); // end oauth attempt
 	});
 
 app.get('/logout', function (req, res) {
