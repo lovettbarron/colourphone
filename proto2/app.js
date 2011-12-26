@@ -216,7 +216,7 @@ io.sockets.on('connection', function (socket) {
         console.log('A socket with sessionID ' + hs.sessionID 
             + ' disconnected!');
         clearInterval(intervalID);
-				clearInterval(interval);
+		//		clearInterval(interval);
     });
 	});
 
