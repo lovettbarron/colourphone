@@ -213,8 +213,7 @@ io.sockets.on('connection', function (socket) {
         console.log('A socket with sessionID ' + hs.sessionID 
             + ' disconnected!');
 						if( sessionStore ) {
-							User.online = false;
-							User.save( function(err) {
+							User.update( {},{}, function(err) {
 								if(err) console.log(err);
 								console.log('Offline:' + JSON.stringify(everyauth.user));
 							});
@@ -234,6 +233,8 @@ io.sockets.on('connection', function (socket) {
 app.get('/', function(req, res){
 	io.sockets.in(req.sessionID).send('Man, good to see you back!');
 	if( req.loggedIn ) {
+		req.session.id = req.user._id;
+		req.session.twitter.id = req.user.twitter.id;
 		User.update( { 'twit.id' : req.user.twitter.id }, { online: true }, function(err) {
 			if(err) console.log(err);
 			console.log('Online:' + JSON.stringify(everyauth.user));
