@@ -185,24 +185,6 @@ console.log("Express server listening on port %d in %s mode", app.address().port
 var io = io.listen(app);
 var userCount = 0;
 var colordata = {};
-io.sockets.on('connection', function (socket) {
-		socket.emit('colour', colordata);
-		socket.on('set nickname', function (name) {
-	    socket.set('nickname', name, function () {
-	      socket.emit('ready');
-			  winston.log('info', 'User Logged in');
-				});
-			});
-
-		socket.on('msg', function (data) {	
-				colordata = data;
-				//console.log("recieved:" + data );
-					socket.broadcast.emit('colour', data );
-			  	winston.log('info', data 	);
-				});
-		});
-	
-
 
 /***********************************************
  * Session wrangling														*
@@ -232,22 +214,56 @@ io.set('authorization', function (data, accept) {
 });
 	
 	
-//Socket.io Session handling		
+//Socket.io handling		
 io.sockets.on('connection', function (socket) {
     var hs = socket.handshake;
     console.log('A socket with sessionID ' + hs.sessionID 
         + ' connected!');
+    socket.emit('ready');
+		socket.emit('colour', colordata, function() {
+			console.log('Current colour sent.')
+		});
+
     var intervalID = setInterval(function () {
         hs.session.reload( function () { 
             hs.session.touch().save();
         });
     }, 60 * 1000);
+
+		socket.on('msg', function (data) {	
+				colordata = data;
+				//console.log("recieved:" + data );
+					socket.broadcast.emit('colour', data );
+//			  	winston.log('info', data 	);
+				});
+
     socket.on('disconnect', function () {
         console.log('A socket with sessionID ' + hs.sessionID 
             + ' disconnected!');
         clearInterval(intervalID);
     });
 	});
+	
+	/*
+io.sockets.on('connection', function (socket) {
+		socket.emit('colour', colordata);
+		socket.on('set nickname', function (name) {
+	    socket.set('nickname', name, function () {
+	      socket.emit('ready');
+			  winston.log('info', 'User Logged in');
+				});
+			});
+
+		socket.on('msg', function (data) {	
+				colordata = data;
+				//console.log("recieved:" + data );
+					socket.broadcast.emit('colour', data );
+			  	winston.log('info', data 	);
+				});
+		});
+*/
+
+	
 	
 io.sockets.on('disconnect', function() {
 		clearInterval(interval);
