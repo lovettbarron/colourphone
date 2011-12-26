@@ -114,7 +114,7 @@ app.configure(function(){
 	app.use(express.session({ 
 		secret: '024493'
 		, key: 'express.sid'
-		, store  : new MongoStore({ db: 'colour' } }));
+		, store  : new MongoStore({ db: 'colour' }) });
   app.use(express.static(__dirname + '/public'));
   app.use(mongooseAuth.middleware());
 });
