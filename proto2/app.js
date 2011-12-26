@@ -210,13 +210,8 @@ var Session = express.session.Session;
 
 io.set('authorization', function (data, accept) {
     if (data.headers.cookie) {
-//				console.log( JSON.stringify(data.headers.cookie) );
-//        data.cookie = parseCookie(data.headers.cookie);
-//        data.sessionID = data.cookie['express.sid'];
 					data.sessionID = JSON.stringify(data.headers.cookie).split('=')[1];
 					console.log("Session ID is " + data.sessionID );
-        // save the session store to the data object 
-        // (as required by the Session constructor)
         data.sessionStore = sessionStore;
         sessionStore.get(data.sessionID, function (err, session) {
             if (err || !session) {
@@ -286,7 +281,7 @@ app.get('/friends', function(req, res) {
 			console.log("User data: " + JSON.stringify(everyauth.user) );
     }
     var obj= JSON.parse(data);
-		console.log( "Recieved object:" + obj );
+		console.log( "Recieved object:" + JSON.stringify(obj) );
 		res.send(obj);
   });
 });
