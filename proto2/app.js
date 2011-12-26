@@ -225,7 +225,9 @@ io.sockets.on('connection', function (socket) {
 
 	  var intervalID = setInterval(function () {
 	    socket.handshake.session.reload( function () {
+				try{
 	        socket.handshake.session.touch().save();
+					} catch(err) { console.log(err); }
 	    }); }, 60 * 1000);
 
 		socket.on('msg', function (data) {	
