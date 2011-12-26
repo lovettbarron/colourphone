@@ -324,24 +324,16 @@ app.get('/friends', function(req, res) {
 					response = docs;
 					for(var key in docs) {
 						if(docs.hasOwnProperty(key)){
-								console.log( JSON.stringify(docs[key]));
 								friendIds[docs[key]._id] = docs[key].twit.id;
 							}
 						}
-					 console.log( JSON.stringify(friendIds) );
+					 console.log( "Friends list to be saved: " JSON.stringify(friendIds) );
+						User.friends.save(friendIds, function(err) {
+							if(err) { console.log("Error updating friends list: " + err); }
+							else { console.log("Friends list Saved to " + User._id); }
+						});
 					});
 				});
-
-				//Transmit
-	/*			io.sockets.on('friends', function() {
-						socket.emit( 'friends', response );
-					});*/
-					
-				User.friends.save(friendIds, function(err) {
-					if(err) { console.log("Error updating friends list: " + err); }
-					else { console.log("Friends list Saved to " + req.session.auth.twitter.name); }
-				});
-					
 		});
 
 app.get('/logout', function (req, res) {
