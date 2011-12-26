@@ -149,42 +149,13 @@ app.configure('production', function(){
 /************************
 /************************
 /************************
-/************************
- *  Routing and app      *
-*************************/
-//var theUser = new User({});
-
-app.get('/', function(req, res){
-	res.cookie('colourphone', 'yes', { 
-			expires: new Date(Date.now() + 900000)
-			, httpOnly: true
-			, secure: true 
-		});
-  res.render('index', {
-    title: 'Colour Phone v0.2'
-		, auth: everyauth.loggedIn
-		, twitter: everyauth.twitter.user
-		, facebook: everyauth.facebook.user
-		, response: ''
-  });
-});
-
-app.get('/login', function(req, res) {
-	res.render('login', {
-		title: 'Login',
-		
-	});
-});
-
-app.listen(8000);
-console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
-
 /*************************
  * Websockets and returns *
 *************************/
 var io = io.listen(app);
 var userCount = 0;
 var colordata = {};
+
 
 /***********************************************
  * Session wrangling														*
@@ -193,29 +164,33 @@ var colordata = {};
 var Session = express.session.Session;
 //var parseCookie = express.utils.parseCookie;
 
-io.set('authorization', function (data, accept) {
-    if (data.headers.cookie) {
+/*io.set('authorization', function (data, accept) {
+ if (data.headers.cookie) {
 					data.sessionID = JSON.stringify(data.headers.cookie).split('=')[1];
 					console.log("Session ID is " + data.sessionID );
-        data.sessionStore = sessionStore;
-        sessionStore.get(data.sessionID, function (err, session) {
+ 					
+        	data.sessionStore = sessionStore;
+        	sessionStore.get(data.sessionID, function (err, session) {
             if (err || !session) {
                 accept('Error', false);
             } else {
                 // create a session object, passing data as request and our
                 // just acquired session data
-                data.session = new Session(data, session);
+//                data.session = new Session(data, session);
+								socket.join(socket.handshake.sessionID);
                 accept(null, true);
             }
         });
     } else {
        return accept('No cookie transmitted.', false);
     }
-});
+
+});*/
 	
 	
 //Socket.io handling		
 io.sockets.on('connection', function (socket) {
+  	socket.join(socket.handshake.sessionID);
     var hs = socket.handshake;
     console.log('A socket with sessionID ' + hs.sessionID 
         + ' connected!');
@@ -241,38 +216,45 @@ io.sockets.on('connection', function (socket) {
         console.log('A socket with sessionID ' + hs.sessionID 
             + ' disconnected!');
         clearInterval(intervalID);
+				clearInterval(interval);
     });
 	});
-	
-	/*
-io.sockets.on('connection', function (socket) {
-		socket.emit('colour', colordata);
-		socket.on('set nickname', function (name) {
-	    socket.set('nickname', name, function () {
-	      socket.emit('ready');
-			  winston.log('info', 'User Logged in');
-				});
-			});
 
-		socket.on('msg', function (data) {	
-				colordata = data;
-				//console.log("recieved:" + data );
-					socket.broadcast.emit('colour', data );
-			  	winston.log('info', data 	);
-				});
+
+/************************
+ *  Routing and app      *
+*************************/
+//var theUser = new User({});
+
+app.get('/', function(req, res){
+	io.sockets.in(req.sessionID).send('Man, good to see you back!');
+	res.cookie('colourphone', 'yes', { 
+			expires: new Date(Date.now() + 900000)
+			, httpOnly: true
+			, secure: true 
 		});
-*/
+  res.render('index', {
+    title: 'Colour Phone v0.2'
+		, auth: everyauth.loggedIn
+		, twitter: everyauth.twitter.user
+		, facebook: everyauth.facebook.user
+		, response: ''
+  });
+});
 
-	
-	
-io.sockets.on('disconnect', function() {
-		clearInterval(interval);
-		console.log('Disconnect');
+app.get('/login', function(req, res) {
+	res.render('login', {
+		title: 'Login',
+		
 	});
+});
+
+app.listen(8000);
+console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 	
-/*****
-* app.post('/getFriends', function(req, res) {..
-* ****/
+/************************
+ *  Get Twitter friends *
+*************************/
 function makeOAuth() {
 	return new oauth.OAuth('https://api.twitter.com/oauth/request_token',
 	'https://api.twitter.com/oauth/access_token',
