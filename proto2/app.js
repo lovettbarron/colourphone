@@ -9,8 +9,7 @@ var express = require('express'),
  		util = require('util');
 
 //Session stores
-var MemoryStore  = express.session.MemoryStore;
-var sessionStore = new MemoryStore();
+var sessionStore = new express.session.MemoryStore();
 
 var MongoStore = require('connect-mongo');
 
@@ -162,8 +161,8 @@ var colordata = {};
  * http://www.danielbaulig.de/socket-ioexpress/ *    
 ************************************************/
 var Session = express.session.Session;
-//var parseCookie = express.utils.parseCookie;
-
+//var parseCookie = require('connect').utils.parseCookie;
+/*
 io.set('authorization', function (data, accept) {
  if (data.headers.cookie) {
 					data.sessionID = JSON.stringify(data.headers.cookie).split('=')[1];
@@ -174,10 +173,8 @@ io.set('authorization', function (data, accept) {
             if (err || !session) {
                 accept('Error', false);
             } else {
-                // create a session object, passing data as request and our
-                // just acquired session data
 //                data.session = new Session(data, session);
-								socket.join(socket.handshake.sessionID);
+								socket.join( socket.handshake.sessionID);
                 accept(null, true);
             }
         });
@@ -185,7 +182,35 @@ io.set('authorization', function (data, accept) {
        return accept('No cookie transmitted.', false);
     }
 
+});*/
+
+
+io.set('authorization', function (data, accept) {
+  
+  console.log( data.headers )
+ 
+  if (data.headers.cookie) {
+    data.cookie = parseCookie(data.headers.cookie);
+    data.sessionID = data.cookie['express.sid'];
+    data.sessionStore = sessionStore;
+    
+    sessionStore.get(data.sessionID, function (err, session) {
+      if (err) {
+        accept(err.message.toString()+'. u mad?', false);
+      } else {
+        data.session = new Session(data, session);
+        console.log('User authorized!')
+        accept(null, true);
+      }
+    
+    });
+    console.log('cookie: ', data.cookie)
+  } else {
+   // if there isn't, turn down the connection with a message
+   accept('No cookie transmitted, no connection', false);
+  }
 });
+
 	
 //Socket.io handling		
 io.sockets.on('connection', function (socket) {
@@ -198,10 +223,10 @@ io.sockets.on('connection', function (socket) {
 			console.log('Current colour sent.')
 		});
 
-    var intervalID = setInterval(function () {
-        hs.session.reload( function () { 
-            hs.session.touch().save();
-        	});  }, 60 * 1000);
+	  var intervalID = setInterval(function () {
+	    socket.handshake.session.reload( function () {
+	        socket.handshake.session.touch().save();
+	    }); }, 60 * 1000);
 
 		socket.on('msg', function (data) {	
 				colordata = data;
