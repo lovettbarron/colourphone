@@ -206,6 +206,7 @@ io.sockets.on('connection', function (socket) {
  * http://www.danielbaulig.de/socket-ioexpress/ *    
 ************************************************/
 var Session = express.session.Session;
+var theUser = new User();
 //var parseCookie = express.utils.parseCookie;
 
 io.set('authorization', function (data, accept) {
@@ -285,10 +286,10 @@ app.get('/friends', User , function(req, res) {
     var obj = JSON.parse(data);
 		console.log( "Recieved object:" + JSON.stringify(obj) );
 		
-		User.find({ 'twit.id' : { $in: obj.id } }, function(err, docs) {
+		theUser.find({ 'twit.id' : { $in: obj.id } }, function(err, docs) {
 			console.log("Error retrieving friends: " + err);
 			console.log( JSON.stringify(docs));
-			response = docs;
+			response = JSON.parse(docs).id;
 		});
 		res.send(response);
   });
