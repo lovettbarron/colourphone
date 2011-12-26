@@ -324,7 +324,7 @@ app.get('/friends', function(req, res) {
 
 				//Transmit
 				io.sockets.on('friends', function() {
-					res.partial('user', response, function(err,output) {
+					res.partial('friends', response, function(err, output) {
 						if( err ) console.log(err);
 							socket.emit( output );
 						});
