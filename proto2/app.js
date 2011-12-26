@@ -324,12 +324,13 @@ app.get('/friends', function(req, res) {
 
 				//Transmit
 				io.sockets.on('friends', function() {
-					res.partial('friends', response, function(err, output) {
+/*					res.partial('friends', response, function(err, output) {
 						if( err ) console.log(err);
-							socket.emit( output );
-						});
+							socket.emit( response );
+						});*/
+						socket.emit( response );
 					});
-	});
+		});
 
 app.get('/logout', function (req, res) {
     req.logout();
