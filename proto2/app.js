@@ -321,7 +321,7 @@ app.get('/friends', function(req, res) {
 					console.log( "Returned db matches: " + JSON.stringify( docs ) );
 					response = docs;
 					for( entry in docs){
-							friendIds.push(entry._id)
+							friendIds.push(entry._id);
 						}
 					});
 				});
