@@ -152,6 +152,8 @@ app.configure('production', function(){
 /************************
  *  Routing and app      *
 *************************/
+var theUser = new User({});
+
 app.get('/', function(req, res){
 	res.cookie('colourphone', 'yes', { 
 			expires: new Date(Date.now() + 900000)
@@ -206,7 +208,6 @@ io.sockets.on('connection', function (socket) {
  * http://www.danielbaulig.de/socket-ioexpress/ *    
 ************************************************/
 var Session = express.session.Session;
-var theUser = new User();
 //var parseCookie = express.utils.parseCookie;
 
 io.set('authorization', function (data, accept) {
@@ -266,7 +267,7 @@ function makeOAuth() {
 	'HMAC-SHA1');
 }
 
-app.get('/friends', User , function(req, res) {
+app.get('/friends', theUser, function(req, res) {
 	var response = {};
 	
 	var oa = new OAuth('https://api.twitter.com/oauth/request_token'
