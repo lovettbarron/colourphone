@@ -317,7 +317,7 @@ app.get('/friends', function(req, res) {
 				//Grab and compare from mongodb
 				User.find({ 'twit.id' : { $in : obj.ids } }, function(err, docs) {
 					if (err) { console.log("Error retrieving friends: " + err); }
-					console.log( "Returned db matches: "JSON.stringify( docs ) );
+					console.log( "Returned db matches: " + JSON.stringify( docs ) );
 					response = docs;
 					});
 				});
