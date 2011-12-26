@@ -158,7 +158,7 @@ var colordata = {};
 var Session = express.session.Session;
 
 io.set('authorization', function (data, accept) {
-  
+	
   console.log( data.headers )
  
   if (data.headers.cookie) {
@@ -173,14 +173,6 @@ io.set('authorization', function (data, accept) {
         data.session = new Session(data, session);
         console.log('User authorized: ' + JSON.stringify(data.session) );
         accept(null, true);
-      }
-    
-			if( sessionStore ) {
-				User.online = true;
-				User.save( function(err) {
-					if(err) console.log(err);
-					console.log('Online:' + JSON.stringify(everyauth.user));
-				});
 			}
 
     });
@@ -241,6 +233,13 @@ io.sockets.on('connection', function (socket) {
 
 app.get('/', function(req, res){
 	io.sockets.in(req.sessionID).send('Man, good to see you back!');
+	if( req.session.auth.loggedIn ) {
+		User.online = true;
+		User.save( function(err) {
+			if(err) console.log(err);
+			console.log('Online:' + JSON.stringify(everyauth.user));
+			} );
+		}
 	res.cookie('colourphone', 'yes', { 
 			expires: new Date(Date.now() + 900000)
 			, httpOnly: true
