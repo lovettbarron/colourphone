@@ -328,7 +328,7 @@ app.get('/friends', function(req, res) {
 						if( err ) console.log(err);
 							socket.emit( response );
 						});*/
-						socket.emit( response );
+						socket.emit( 'friends', response );
 					});
 		});
 
