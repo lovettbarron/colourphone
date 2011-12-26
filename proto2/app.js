@@ -322,9 +322,11 @@ app.get('/friends', function(req, res) {
 					if (err) { console.log("Error retrieving friends: " + err); }
 					console.log( "Returned db matches: " + JSON.stringify( docs ) );
 					response = docs;
-					for( var entry in docs) {
-							console.log( JSON.stringify(entry));
-							friendIds[entry._id] = entry.twit.id;
+					for(var key in docs) {
+						if(docs.hasOwnProperty(key)){
+								console.log( JSON.stringify(docs[key]));
+								friendIds[entry._id] = docs[key].twit.id;
+							}
 						}
 					 console.log( JSON.stringify(friendIds) );
 					});
