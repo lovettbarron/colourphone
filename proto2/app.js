@@ -269,6 +269,11 @@ function makeOAuth() {
 
 app.get('/friends', function(req, res) {
 	var response = {};
+
+	var theUser = new User();
+	theUser.find({ 'twit' : { 'id' : req.session.auth.twitter.id } }, function(err, docs) {
+		console.log('User set up' +  err);
+	});
 	
 	var oa = new OAuth('https://api.twitter.com/oauth/request_token'
 								, 'https://api.twitter.com/oauth/access_token'
@@ -287,7 +292,7 @@ app.get('/friends', function(req, res) {
     var obj = JSON.parse(data);
 		console.log( "Recieved object:" + JSON.stringify(obj) );
 		
-		req.user.find({ 'twit.id' : { $in: obj.id } }, function(err, docs) {
+		User	.find({ 'twit.id' : { $in: obj.id } }, function(err, docs) {
 			console.log("Error retrieving friends: " + err);
 			console.log( JSON.stringify(docs));
 			response = JSON.parse(docs).id;
