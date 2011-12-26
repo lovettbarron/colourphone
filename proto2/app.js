@@ -292,7 +292,7 @@ function makeOAuth() {
 
 app.get('/friends', function(req, res) {
 	var response = '';
-	var friendIds = [];
+	var friendIds = {};
 
 	var oa = new OAuth('https://api.twitter.com/oauth/request_token'
 								, 'https://api.twitter.com/oauth/access_token'
@@ -323,7 +323,7 @@ app.get('/friends', function(req, res) {
 					console.log( "Returned db matches: " + JSON.stringify( docs ) );
 					response = docs;
 					for( entry in docs) {
-							friendIds.push(entry._id);
+							friendIds[entry._id] = entry.twit.id;
 						}
 					 console.log( JSON.stringify(friendIds) );
 					});
