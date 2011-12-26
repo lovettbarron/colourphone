@@ -283,7 +283,7 @@ app.get('/friends' , function(req, res) {
     var obj = JSON.parse(data);
 		console.log( "Recieved object:" + JSON.stringify(obj) );
 		
-		var matchedUsers = db.users.find({ twit.id : { $in: obj.id } });
+		var matchedUsers = User.find({ twit.id : { $in: obj.id } });
 		console.log( JSON.stringify(matchedUsers));
 		res.send(matchedUsers);
   });
