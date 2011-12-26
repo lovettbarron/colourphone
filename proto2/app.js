@@ -280,9 +280,12 @@ app.get('/friends' , function(req, res) {
 			console.log("accessSecret: " + req.session.auth.twitter.accessTokenSecret );
 			console.log("User data: " + JSON.stringify(req.session.auth) );
     }
-    var obj= JSON.parse(data);
+    var obj = JSON.parse(data);
 		console.log( "Recieved object:" + JSON.stringify(obj) );
-		res.send(obj);
+		
+		var matchedUsers = db.users.find({ twit.id : { $in: obj.id } });
+		console.log( JSON.stringify(matchedUsers));
+		res.send(matchedUsers);
   });
 });
 
