@@ -273,11 +273,11 @@ app.get('/friends' , function(req, res) {
 								, '1.0'
 								, null
 								, 'HMAC-SHA1');
-  oa.getProtectedResource("http://api.twitter.com/1/friends/ids.json", "GET", req.session.auth.twitter.user.accessToken, req.session.auth.twitter.user.accessTokenSecret, function (error, data) {
+  oa.getProtectedResource("http://api.twitter.com/1/friends/ids.json", "GET", req.session.auth.twitter.accessToken, req.session.auth.twitter.accessTokenSecret, function (error, data) {
     if (error) {
       console.log("Prob getting followers: " + JSON.stringify(error) );
-			console.log("accessToken: " +  req.session.auth.twitter.user.accessToken );
-			console.log("accessSecret: " + req.session.auth.twitter.user.accessTokenSecret );
+			console.log("accessToken: " +  req.session.auth.twitter.accessToken );
+			console.log("accessSecret: " + req.session.auth.twitter.accessTokenSecret );
 			console.log("User data: " + JSON.stringify(req.session.auth) );
     }
     var obj= JSON.parse(data);
