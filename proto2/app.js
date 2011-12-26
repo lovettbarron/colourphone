@@ -161,29 +161,6 @@ var colordata = {};
  * http://www.danielbaulig.de/socket-ioexpress/ *    
 ************************************************/
 var Session = express.session.Session;
-//var parseCookie = require('connect').utils.parseCookie;
-/*
-io.set('authorization', function (data, accept) {
- if (data.headers.cookie) {
-					data.sessionID = JSON.stringify(data.headers.cookie).split('=')[1];
-					console.log("Session ID is " + data.sessionID );
- 					
-        	data.sessionStore = sessionStore;
-        	sessionStore.get(data.sessionID, function (err, session) {
-            if (err || !session) {
-                accept('Error', false);
-            } else {
-//                data.session = new Session(data, session);
-								socket.join( socket.handshake.sessionID);
-                accept(null, true);
-            }
-        });
-    } else {
-       return accept('No cookie transmitted.', false);
-    }
-
-});*/
-
 
 io.set('authorization', function (data, accept) {
   
@@ -203,6 +180,14 @@ io.set('authorization', function (data, accept) {
         accept(null, true);
       }
     
+			if( everyauth.loggedIn ) {
+				User.online = true;
+				User.online.save( function(err) {
+					if(err) console.log(err);
+					console.log('Online:' + JSON.stringify(everyauth.user));
+				});
+			}
+
     });
     console.log('cookie: ', data.cookie)
   } else {
@@ -240,6 +225,14 @@ io.sockets.on('connection', function (socket) {
     socket.on('disconnect', function () {
         console.log('A socket with sessionID ' + hs.sessionID 
             + ' disconnected!');
+						if( everyauth.loggedIn ) {
+							User.online = false;
+							User.online.save( function(err) {
+								if(err) console.log(err);
+								console.log('Offline:' + JSON.stringify(everyauth.user));
+							});
+						}
+
         clearInterval(intervalID);
 		//		clearInterval(interval);
     });
