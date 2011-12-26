@@ -8,8 +8,13 @@ var express = require('express'),
 		winston = require('winston'),
  		util = require('util');
 
+//Session stores
+var MemoryStore  = express.session.MemoryStore;
+var sessionStore = new MemoryStore();
+
 var MongoStore = require('connect-mongo');
 
+//Mongo stores
 var	mongoose = require('mongoose'), 
 		mongooseAuth = require('mongoose-auth'),
 		conf = require('./config.js');
@@ -107,10 +112,20 @@ app.configure(function(){
   app.use(express.bodyParser());
   app.use(express.methodOverride());
 	app.use(express.cookieParser());
-	app.use(express.session({ secret: '024493' }));
+	app.use(express.session({ secret: '024493', key: 'express.sid' }));
   app.use(express.static(__dirname + '/public'));
   app.use(mongooseAuth.middleware());
 });
+
+//Socket.io and express joiner
+app.use(express.session({store: sessionStore
+    , secret: 'secret'
+    , key: 'express.sid'}));
+
+/* // Tests the session function/get ID
+app.use(function (req, res) {
+    res.end('<h2>Hello, your session id is ' + req.sessionID + '</h2>');
+	}); */
 
 //Connect-mongo session support
 app.use(express.session({
@@ -182,8 +197,7 @@ io.sockets.on('connection', function (socket) {
 					socket.broadcast.emit('colour', data );
 			  	winston.log('info', data 	);
 				});
-
-	});
+		});
 	
 
 
@@ -192,9 +206,11 @@ io.sockets.on('connection', function (socket) {
  * http://www.danielbaulig.de/socket-ioexpress/ *    
 ************************************************/
 var Session = express.session.Session;
+//var parseCookie = express.utils.parseCookie;
+
 io.set('authorization', function (data, accept) {
     if (data.headers.cookie) {
-        data.cookie = parseCookie(data.headers.cookie);
+        data.cookie = JSON.parse(data.headers.cookie);
         data.sessionID = data.cookie['express.sid'];
         // save the session store to the data object 
         // (as required by the Session constructor)
@@ -250,49 +266,6 @@ function makeOAuth() {
 	null,
 	'HMAC-SHA1');
 }
-
-
-app.get('/getFriends', function(req, res) {
-	if ( everyauth.loggedIn ) {		
-/*		http.get({
-			host: 'https://api.twitter.com/'
-			, port: 80
-			, path: '1/friends/ids.json?cursor=-1&user_id=' + everyauth.twitter.user.id
-			}, function(res) {
-				console.log("Resp: " + res.statusCode);
-				/*			db.users.find({
-				
-				})
-				console.log( res );
-				socket.emit( 'friends', res );
-			}).on('error', function(e) {
-			  console.log("err: " + e.message);
-				});
-				*/
-				
-				makeOAuth().getProtectedResource(
-						"http://api.twitter.com/1/friends/ids.json"
-						, "GET"
-						, req.session.oauthAccessToken
-						, req.session.oauthAccessTokenSecret
-						,  function (error, data) {
-				    	if (error) {
-				      	console.log("[ERROR] Could not query followers: " + sys.inspect(error));
-				    	}
-							var obj = JSON.parse(data);
-							
-							var userDoc = db.users.find({'login': everyauth.user.id });
-							userDoc.twtFriends = data;
-							userDoc.twtFriends.save();
-							
-				    	res.send(obj);
-						});
-
-				} // end logged in block
-	else { //Not logged in block
-		console.log('Not loggedin	');
-	}
-});
 
 app.get('/friends', function(req, res) {
 	var oa = new OAuth('https://api.twitter.com/oauth/request_token'
