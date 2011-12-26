@@ -50,7 +50,7 @@ var userSchema = new Schema({
 		first	: String
 		, last: String
 	}		
-	, twtFriends	: {}
+	, friends	: {}
 	, joined			: Date
 	, online			: Boolean
 }), User;
@@ -290,6 +290,7 @@ function makeOAuth() {
 
 app.get('/friends', function(req, res) {
 	var response = {};
+	var friendIds = {};
 
 	var oa = new OAuth('https://api.twitter.com/oauth/request_token'
 								, 'https://api.twitter.com/oauth/access_token'
@@ -319,17 +320,19 @@ app.get('/friends', function(req, res) {
 					if (err) { console.log("Error retrieving friends: " + err); }
 					console.log( "Returned db matches: " + JSON.stringify( docs ) );
 					response = docs;
+					for( entry in docs){
+							friendIds.push(entry._id)
+						}
 					});
 				});
 
 				//Transmit
-				io.sockets.on('friends', function() {
-/*					res.partial('friends', response, function(err, output) {
-						if( err ) console.log(err);
-							socket.emit( response );
-						});*/
+	/*			io.sockets.on('friends', function() {
 						socket.emit( 'friends', response );
-					});
+					});*/
+					
+				User.friends.save(friendIds);
+					
 		});
 
 app.get('/logout', function (req, res) {
