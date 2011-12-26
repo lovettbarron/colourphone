@@ -190,7 +190,7 @@ io.set('authorization', function (data, accept) {
   console.log( data.headers )
  
   if (data.headers.cookie) {
-    data.cookie = parseCookie(data.headers.cookie);
+    data.cookie = JSON.stringify(data.headers.cookie).split('=')[1];
     data.sessionID = data.cookie['express.sid'];
     data.sessionStore = sessionStore;
     
