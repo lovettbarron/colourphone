@@ -111,7 +111,10 @@ app.configure(function(){
   app.use(express.bodyParser());
   app.use(express.methodOverride());
 	app.use(express.cookieParser());
-	app.use(express.session({ secret: '024493', key: 'express.sid' }));
+	app.use(express.session({ 
+		secret: '024493'
+		, key: 'express.sid'
+		, store  : new MongoStore({ db: 'colour' } }));
   app.use(express.static(__dirname + '/public'));
   app.use(mongooseAuth.middleware());
 });
@@ -125,14 +128,6 @@ app.use(express.session({store: sessionStore
 app.use(function (req, res) {
     res.end('<h2>Hello, your session id is ' + req.sessionID + '</h2>');
 	}); */
-
-//Connect-mongo session support
-app.use(express.session({
-    secret: '024493',
-    store: new MongoStore({
-      db: "colour-sessions"
-    })
-  }));
 
 mongooseAuth.helpExpress(app);
 
