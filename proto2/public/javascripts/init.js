@@ -52,7 +52,7 @@ socket.on('colour', function(data) {
 
 socket.on('friends', function(data) {
 	$("#twitter").html(data);
-	console.log( data )
+	console.log( "Got friends: " + data );
 });
 	
 socket.on('disconnect', function() {
