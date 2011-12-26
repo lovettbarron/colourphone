@@ -152,7 +152,7 @@ app.configure('production', function(){
 /************************
  *  Routing and app      *
 *************************/
-var theUser = new User({});
+//var theUser = new User({});
 
 app.get('/', function(req, res){
 	res.cookie('colourphone', 'yes', { 
@@ -267,7 +267,7 @@ function makeOAuth() {
 	'HMAC-SHA1');
 }
 
-app.get('/friends', theUser, function(req, res) {
+app.get('/friends', function(req, res) {
 	var response = {};
 	
 	var oa = new OAuth('https://api.twitter.com/oauth/request_token'
@@ -283,11 +283,11 @@ app.get('/friends', theUser, function(req, res) {
 			console.log("accessToken: " +  req.session.auth.twitter.accessToken );
 			console.log("accessSecret: " + req.session.auth.twitter.accessTokenSecret );
 			console.log("User data: " + JSON.stringify(req.session.auth) );
-    }
+    	}
     var obj = JSON.parse(data);
 		console.log( "Recieved object:" + JSON.stringify(obj) );
 		
-		theUser.find({ 'twit.id' : { $in: obj.id } }, function(err, docs) {
+		req.user.find({ 'twit.id' : { $in: obj.id } }, function(err, docs) {
 			console.log("Error retrieving friends: " + err);
 			console.log( JSON.stringify(docs));
 			response = JSON.parse(docs).id;
