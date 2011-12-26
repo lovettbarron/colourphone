@@ -304,8 +304,7 @@ app.get('/friends', function(req, res) {
 					});
 				});
 				
-			res.send(response.id);
-	  }); // end oauth attempt
+			res.send(response.id); // end oauth attempt
 	});
 
 app.get('/logout', function (req, res) {
