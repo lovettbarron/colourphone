@@ -235,9 +235,9 @@ app.get('/', function(req, res){
 	if( req.loggedIn ) {
 		req.session.id = req.user._id;
 		req.session.twitter = req.user.twit.id;
-		User.update( { 'twit.id' : req.user.twitter.id }, { online: true }, function(err) {
+		User.update( { 'twit.id' : req.user.twit.id }, { online: true }, function(err) {
 			if(err) console.log(err);
-			console.log('Online:' + JSON.stringify(everyauth.user));
+			console.log('Online:' + JSON.stringify(req.user));
 			} );
 		}
 	res.cookie('colourphone', 'yes', { 
