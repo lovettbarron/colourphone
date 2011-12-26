@@ -199,7 +199,7 @@ io.set('authorization', function (data, accept) {
         accept(err.message.toString()+'. u mad?', false);
       } else {
         data.session = new Session(data, session);
-        console.log('User authorized: ' + everyauth.twitter.user.name );
+        console.log('User authorized: ' + JSON.stringify(data.session) );
         accept(null, true);
       }
     
