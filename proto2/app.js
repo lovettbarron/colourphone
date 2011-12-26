@@ -164,7 +164,7 @@ var colordata = {};
 var Session = express.session.Session;
 //var parseCookie = express.utils.parseCookie;
 
-/*io.set('authorization', function (data, accept) {
+io.set('authorization', function (data, accept) {
  if (data.headers.cookie) {
 					data.sessionID = JSON.stringify(data.headers.cookie).split('=')[1];
 					console.log("Session ID is " + data.sessionID );
@@ -185,8 +185,7 @@ var Session = express.session.Session;
        return accept('No cookie transmitted.', false);
     }
 
-});*/
-	
+});
 	
 //Socket.io handling		
 io.sockets.on('connection', function (socket) {
@@ -202,8 +201,7 @@ io.sockets.on('connection', function (socket) {
     var intervalID = setInterval(function () {
         hs.session.reload( function () { 
             hs.session.touch().save();
-        });
-    }, 60 * 1000);
+        	});  }, 60 * 1000);
 
 		socket.on('msg', function (data) {	
 				colordata = data;
