@@ -320,9 +320,10 @@ app.get('/friends', function(req, res) {
 					if (err) { console.log("Error retrieving friends: " + err); }
 					console.log( "Returned db matches: " + JSON.stringify( docs ) );
 					response = docs;
-					for( entry in docs){
+					for( entry in docs) {
 							friendIds.push(entry._id);
 						}
+					 console.log( JSON.stringify(friendIds) );
 					});
 				});
 
