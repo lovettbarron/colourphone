@@ -234,7 +234,7 @@ app.get('/', function(req, res){
 	io.sockets.in(req.sessionID).send('Man, good to see you back!');
 	if( req.loggedIn ) {
 		req.session.id = req.user._id;
-		req.session.twitter.id = req.user.twit.id;
+		req.session.twitter = req.user.twit.id;
 		User.update( { 'twit.id' : req.user.twitter.id }, { online: true }, function(err) {
 			if(err) console.log(err);
 			console.log('Online:' + JSON.stringify(everyauth.user));
