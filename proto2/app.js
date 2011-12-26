@@ -269,12 +269,7 @@ function makeOAuth() {
 
 app.get('/friends', function(req, res) {
 	var response = {};
-//	var theUser = new User();
 
-	//User.find({ 'twit' : { 'id' : req.session.auth.twitter.id } }, function(err, docs) {
-		//console.log('User set up' +  err);
-	//});
-	
 	var oa = new OAuth('https://api.twitter.com/oauth/request_token'
 								, 'https://api.twitter.com/oauth/access_token'
 								, conf.twit.consumerKey
@@ -305,7 +300,7 @@ app.get('/friends', function(req, res) {
 				});
 				
 			res.partial('user', {
-				collection: response.id
+				collection: response
 				});
 	});
 
