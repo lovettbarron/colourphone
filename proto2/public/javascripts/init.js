@@ -51,7 +51,16 @@ socket.on('colour', function(data) {
 });
 
 socket.on('friends', function(data) {
-	$("#twitter").html(data);
+	var friendList = $().parseJSON(data);
+
+	var userList = $("#twitter");
+	for ( login in friendList ) {
+		var curUser = $("<div/>").addClass('user').addClass(friendList.twit.id).appendTo(userList);
+		$("<div/>").addClass('userImg').addClass(friendList.twit.id)
+				.html("<img src='" + friendList.twit.profileImageUrl + "' />" ).appendTo(curUser);
+		$("<div/>").addClass('userName').addClass(friendList.twit.id)
+				.html(friendList.twit.profileImageUrl + "' />" ).appendTo(curUser);
+		}
 	console.log( "Got friends: " + data );
 });
 	
