@@ -265,7 +265,9 @@ function makeOAuth() {
 	'HMAC-SHA1');
 }
 
-app.get('/friends' , function(req, res) {
+app.get('/friends', User , function(req, res) {
+	var response = {};
+	
 	var oa = new OAuth('https://api.twitter.com/oauth/request_token'
 								, 'https://api.twitter.com/oauth/access_token'
 								, conf.twit.consumerKey
@@ -283,9 +285,12 @@ app.get('/friends' , function(req, res) {
     var obj = JSON.parse(data);
 		console.log( "Recieved object:" + JSON.stringify(obj) );
 		
-		var matchedUsers = User.find({ twit.id : { $in: obj.id } });
-		console.log( JSON.stringify(matchedUsers));
-		res.send(matchedUsers);
+		User.find({ 'twit.id' : { $in: obj.id } }, function(err, docs) {
+			console.log("Error retrieving friends: " + err);
+			console.log( JSON.stringify(docs));
+			response = docs;
+		});
+		res.send(response);
   });
 });
 
