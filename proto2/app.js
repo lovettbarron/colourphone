@@ -265,7 +265,7 @@ function makeOAuth() {
 	'HMAC-SHA1');
 }
 
-app.get('/friends', user, function(req, res) {
+app.get('/friends' , function(req, res) {
 	var oa = new OAuth('https://api.twitter.com/oauth/request_token'
 								, 'https://api.twitter.com/oauth/access_token'
 								, conf.twit.consumerKey
@@ -273,12 +273,12 @@ app.get('/friends', user, function(req, res) {
 								, '1.0'
 								, null
 								, 'HMAC-SHA1');
-  oa.getProtectedResource("http://api.twitter.com/1/friends/ids.json", "GET", everyauth.twitter.AccessToken, everyauth.twitter.AccessTokenSecret, function (error, data) {
+  oa.getProtectedResource("http://api.twitter.com/1/friends/ids.json", "GET", req.session.auth.twitter.AccessToken, req.session.auth.twitter.AccessTokenSecret, function (error, data) {
     if (error) {
       console.log("Prob getting followers: " + JSON.stringify(error) );
-			console.log("accessToken: " +  req.user.twitter.AccessToken );
-			console.log("accessSecret: " + req.session.AccessTokenSecret );
-			console.log("User data: " + JSON.stringify(everyauth.user) );
+			console.log("accessToken: " +  req.session.auth.twitter.AccessToken );
+			console.log("accessSecret: " + req.session.auth.AccessTokenSecret );
+			console.log("User data: " + JSON.stringify(req.session.auth) );
     }
     var obj= JSON.parse(data);
 		console.log( "Recieved object:" + JSON.stringify(obj) );
