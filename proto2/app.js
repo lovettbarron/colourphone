@@ -328,7 +328,7 @@ app.get('/friends', function(req, res) {
 							}
 						}
 					 console.log( "Friends list to be saved: " + JSON.stringify(friendIds) );
-						User.friends = friendsIds;
+						User.friends = friendIds;
 						User.friends.save( function(err) {
 							if(err) { console.log("Error updating friends list: " + err); }
 							else { console.log("Friends list Saved to " + User._id); }
