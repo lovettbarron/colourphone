@@ -211,7 +211,7 @@ var Session = express.session.Session;
 io.set('authorization', function (data, accept) {
     if (data.headers.cookie) {
 //				console.log( JSON.stringify(data.headers.cookie) );
-        data.cookie = parseCookie(data.headers.cookie);
+//        data.cookie = parseCookie(data.headers.cookie);
 //        data.sessionID = data.cookie['express.sid'];
 					data.sessionID = JSON.stringify(data.headers.cookie).split('=')[1];
 					console.log("Session ID is " + data.sessionID );
