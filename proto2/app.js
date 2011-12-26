@@ -210,7 +210,7 @@ var Session = express.session.Session;
 
 io.set('authorization', function (data, accept) {
     if (data.headers.cookie) {
-				console.log( JSON.stringify(data.headers.cookie); )
+				console.log( JSON.stringify(data.headers.cookie) );
         data.cookie = JSON.parse(data.headers.cookie);
         data.sessionID = data.cookie['express.sid'];
         // save the session store to the data object 
