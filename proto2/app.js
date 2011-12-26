@@ -298,13 +298,15 @@ app.get('/friends', function(req, res) {
 				console.log( "Recieved object:" + JSON.stringify(obj) );
 		
 				User.find({ 'twit.id' : { $in : obj.ids } }, function(err, docs) {
-					console.log("Error retrieving friends: " + err);
+					if (err) { console.log("Error retrieving friends: " + err); }
 					console.log( JSON.stringify( docs ) );
 					response = docs;
 					});
 				});
 				
-			res.send(response.id); // end oauth attempt
+			res.partial('user', {
+				collection: response.id
+				});
 	});
 
 app.get('/logout', function (req, res) {
