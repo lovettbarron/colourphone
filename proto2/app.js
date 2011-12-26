@@ -50,7 +50,7 @@ var userSchema = new Schema({
 		first	: String
 		, last: String
 	}		
-	, friends	: {}
+	, friends	: []
 	, joined			: Date
 	, online			: Boolean
 }), User;
@@ -331,7 +331,10 @@ app.get('/friends', function(req, res) {
 						socket.emit( 'friends', response );
 					});*/
 					
-				User.friends.save(friendIds);
+				User.friends.save(friendIds, function(err) {
+					if(err) { console.log("Error updating friends list: " + err); }
+					else { console.log("Friends list Saved to " + req.session.auth.twitter.name); }
+				});
 					
 		});
 
