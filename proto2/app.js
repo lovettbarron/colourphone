@@ -322,7 +322,8 @@ app.get('/friends', function(req, res) {
 					if (err) { console.log("Error retrieving friends: " + err); }
 					console.log( "Returned db matches: " + JSON.stringify( docs ) );
 					response = docs;
-					for( entry in docs) {
+					for( var entry in docs) {
+							console.log( JSON.stringify(entry));
 							friendIds[entry._id] = entry.twit.id;
 						}
 					 console.log( JSON.stringify(friendIds) );
