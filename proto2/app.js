@@ -300,9 +300,11 @@ app.get('/friends', function(req, res) {
 				User.find({ 'twit' : { 'id' : { $in: obj.id } } }, function(err, docs) {
 					console.log("Error retrieving friends: " + err);
 					console.log( JSON.stringify(docs));
-					response = JSON.parse(docs).id;
+					response = JSON.parse(docs, function(err) {
+						console.log('Parse error: ' + err );
+					});
 				});
-			res.send(response);
+			res.send(response.id);
 	  }); // end oauth attempt
 	});
 
