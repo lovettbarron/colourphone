@@ -299,6 +299,7 @@ app.get('/friends', function(req, res) {
 								, null
 								, 'HMAC-SHA1');
 
+	//Grab twitter friends list
   oa.getProtectedResource("http://api.twitter.com/1/friends/ids.json"
 		, "GET"
 		, req.session.auth.twitter.accessToken
@@ -312,17 +313,20 @@ app.get('/friends', function(req, res) {
 		    	}
 		    var obj = JSON.parse(data);
 				console.log( "Recieved object:" + JSON.stringify(obj) );
-		
+
+				//Grab and compare from mongodb
 				User.find({ 'twit.id' : { $in : obj.ids } }, function(err, docs) {
 					if (err) { console.log("Error retrieving friends: " + err); }
-					console.log( JSON.stringify( docs ) );
+					console.log( "Returned db matches: "JSON.stringify( docs ) );
 					response = docs;
 					});
 				});
+
+				//Transmit
 				io.sockets.on('friends', function() {
 					res.partial('user', response, function(err,output) {
 						if( err ) console.log(err);
-						socket.emit( output );
+							socket.emit( output );
 						});
 					});
 	});
