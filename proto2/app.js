@@ -289,8 +289,8 @@ function makeOAuth() {
 }
 
 app.get('/friends', function(req, res) {
-	var response = {};
-	var friendIds = {};
+	var response = '';
+	var friendIds = [];
 
 	var oa = new OAuth('https://api.twitter.com/oauth/request_token'
 								, 'https://api.twitter.com/oauth/access_token'
