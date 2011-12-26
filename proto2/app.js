@@ -50,7 +50,7 @@ var userSchema = new Schema({
 		first	: String
 		, last: String
 	}		
-	, friends	: {}
+	, friends	: [String]
 	, joined			: Date
 	, online			: Boolean
 }), User;
@@ -225,7 +225,7 @@ io.sockets.on('connection', function (socket) {
     socket.on('disconnect', function () {
         console.log('A socket with sessionID ' + hs.sessionID 
             + ' disconnected!');
-						if( everyauth.loggedIn ) {
+						if( sessionStore ) {
 							User.online = false;
 							User.online.save( function(err) {
 								if(err) console.log(err);
