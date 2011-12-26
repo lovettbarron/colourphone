@@ -299,9 +299,7 @@ app.get('/friends', function(req, res) {
 					});
 				});
 				
-			res.partial('user', {
-				friends: response
-				});
+			res.partial('user', response);
 	});
 
 app.get('/logout', function (req, res) {
