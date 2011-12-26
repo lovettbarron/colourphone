@@ -315,7 +315,10 @@ app.get('/friends', function(req, res) {
 					});
 				});
 				io.sockets.on('friends', function() {
-						socket.emit( res.partial('user', response) );
+					res.partial('user', response, function(err,output)) {
+						if( err ) console.log(err);
+						socket.emit( output );
+						}
 					});
 	});
 
