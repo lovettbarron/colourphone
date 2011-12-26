@@ -51,6 +51,7 @@ socket.on('colour', function(data) {
 });
 
 socket.on('friends', function(data) {
+	$("#twitter").html(data);
 	console.log( data )
 });
 	

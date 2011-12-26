@@ -161,10 +161,11 @@ app.get('/', function(req, res){
 			, secure: true 
 		});
   res.render('index', {
-    title: 'Colour Phone v0.2',
-		auth: everyauth.loggedIn,
-		twitter: everyauth.twitter.user,
-		facebook: everyauth.facebook.user,
+    title: 'Colour Phone v0.2'
+		, auth: everyauth.loggedIn
+		, twitter: everyauth.twitter.user
+		, facebook: everyauth.facebook.user
+		, response: ''
   });
 });
 
@@ -246,10 +247,9 @@ io.sockets.on('connection', function (socket) {
             + ' disconnected!');
         clearInterval(intervalID);
     });
-
-});
+	});
 	
-	io.sockets.on('disconnect', function() {
+io.sockets.on('disconnect', function() {
 		clearInterval(interval);
 		console.log('Disconnect');
 	});
@@ -298,8 +298,9 @@ app.get('/friends', function(req, res) {
 					response = docs;
 					});
 				});
-				
-			res.partial('user', response);
+				io.sockets.on('friends', function() {
+						socket.emit( res.partial('user', response) );
+					});
 	});
 
 app.get('/logout', function (req, res) {
