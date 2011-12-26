@@ -321,6 +321,7 @@ app.get('/friends', function(req, res) {
 							if(err) { console.log("Error updating friends list: " + err); }
 							else { console.log("Friends list Saved to " + req.user.twit.id); }
 						});
+						User.save();
 					});
 				});
 		});
