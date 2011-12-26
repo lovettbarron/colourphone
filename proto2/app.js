@@ -213,7 +213,7 @@ io.sockets.on('connection', function (socket) {
         console.log('A socket with sessionID ' + hs.sessionID 
             + ' disconnected!');
 						if( sessionStore ) {
-							User.update( {},{}, function(err) {
+							User.update( { },{}, function(err) {
 								if(err) console.log(err);
 								console.log('Offline:' + JSON.stringify(everyauth.user));
 							});
@@ -317,7 +317,7 @@ app.get('/friends', function(req, res) {
 					 console.log( "Friends list to be saved: " + JSON.stringify(friendIds) );
 						User.update( { 'twit.id' : req.user.twit.id }, { 'friends' : friendIds }, function(err) {
 							if(err) { console.log("Error updating friends list: " + err); }
-							else { console.log("Friends list Saved to " + User._id); }
+							else { console.log("Friends list Saved to " + req.user.twit.id); }
 						});
 					});
 				});
