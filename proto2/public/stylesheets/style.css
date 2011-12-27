@@ -51,6 +51,8 @@ a {
 
 .colourPreview canvas {
 	position: relative;
+	float: left;
+	clear: none;
 	top: 0;
 	left: 0;
 	float: left;
@@ -70,7 +72,11 @@ a {
 }
 
 .previewName {
+	position: relative;
+	float: left;
+	clear: none;
 	z-index: 1;
 	font-size: 1.3em;
 	color: #fff;
+	float: lef;
 }
