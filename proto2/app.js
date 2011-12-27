@@ -185,7 +185,7 @@ io.set('authorization', function (data, accept) {
       if (err) {
         accept(err.message.toString()+'. u mad?', false);
       } else {
-        data.session = new Session(data, session);
+        data.session = new Session(data, JSON.parse(session));
         console.log('User authorized: ' + JSON.stringify(data.session) );
         accept(null, true);
 			}
@@ -238,36 +238,35 @@ io.sockets.on('connection', function (socket) {
 		//		clearInterval(interval);
     });
 	});
-	
+/*	
 	var cc = io
 		.of('/colour')
 		.on('authorization', function(accept, err) {
 			console.log( data.headers )
-
-		  if (data.headers.cookie) {
-		    data.cookie = JSON.stringify(data.headers.cookie).split('=')[1];
-		    data.sessionID = data.cookie['express.sid'];
-		    data.sessionStore = sessionStore;
-		    sessionStore.get(data.sessionID, function (err, session) {
-		      if (err) {
-		        accept(err.message.toString()+'. u mad?', false);
-		      } else {
-		        data.session = new Session(data, session);
-		        console.log('colourchat authorized: ' + JSON.stringify(data.session) );
-		        accept(null, true);
-					}
-		    });
-		    console.log('cookie: ', data.cookie)
-		  } else {
-		   accept('No cookie transmitted, no connection', false);
-		  }
 		})
 		.on('connection', function(socket) {
+			 if (data.headers.cookie) {
+			    data.cookie = JSON.stringify(data.headers.cookie).split('=')[1];
+			    data.sessionID = data.cookie['express.sid'];
+			    data.sessionStore = sessionStore;
+			    sessionStore.get(data.sessionID, function (err, session) {
+			      if (err) {
+			        accept(err.message.toString()+'. u mad?', false);
+			      } else {
+			        data.session = new Session(data, session);
+			        console.log('colourchat authorized: ' + JSON.stringify(data.session) );
+			        accept(null, true);
+						}
+			    });
+			    console.log('cookie: ', data.cookie)
+			  } else {
+			   accept('No cookie transmitted, no connection', false);
+			  }		  
 				console.log('CC session' + socket.request.headers.cookie );
 //				User.find('_id',data.session.)
 				socket.emit('colour', {});
 			});
-
+*////
 
 /************************
  *  Routing and app      *
@@ -315,8 +314,16 @@ app.get('to/:id', function(req,res) {
 			, secure: true 
 		});
 		
-		
-		
+	var cc = io
+		.of('/colour')
+		.on('authorization', function(accept, err) {
+			console.log( data.headers )
+		})
+		.on('connection', function(socket) {
+				var friend = User.find('_id': req.sessionID )
+//				User.find('_id',data.session.)
+			 	socket.emit('colour', {});
+			});
 		
   res.render('friend', {
     title: 'Colour Phone v0.2 to ' +  req.params.id
