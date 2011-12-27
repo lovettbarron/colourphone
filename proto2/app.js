@@ -315,7 +315,7 @@ app.get('/friends', function(req, res) {
 							}
 						}
 					 console.log( "Friends list to be saved: " + JSON.stringify(friendIds) );
-						var friends = JSON.parse(friendIds, function() {
+						var friends = JSON.parse( JSON.stringify(friendIds), function() {
 							console.log(friends);
 						});
 						User.update( { 'twit.id' : req.user.twit.id }
