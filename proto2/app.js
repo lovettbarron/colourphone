@@ -50,7 +50,12 @@ var userSchema = new Schema({
 		first	: String
 		, last: String
 	}		
-	, friends	: [String]
+	, friends			: {
+			friend: {
+				id: String
+				, name: String
+			},
+	}
 	, joined			: Date
 	, online			: Boolean
 }), User;
