@@ -13,7 +13,7 @@ SCREEN_H = window.innerHeight;
 window.addEventListener( 'resize', onWindowResize, function(event){
 	console.log("Window resized:",event);
 });
-document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+//document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 
 document.body.addEventListener('touchmove', function(e) {
     e.preventDefault();
@@ -96,7 +96,9 @@ $('canvas','div.colourPreview').mousemove(function(e){
 		, 'val3' : colour[2]
 		, 'timestamp' : new Date()
 		 } )
-	socket.emit( "msg", msg);
+	socket.emit( "msg", msg, function(err, msg) {
+		console.log("sent: " + msg + " ? err: " + err)
+	});
 	colourBG( canvasId , color[0], color[1], color[2] );
 	
 });
