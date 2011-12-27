@@ -50,15 +50,26 @@ var userSchema = new Schema({
 		first	: String
 		, last: String
 	}		
-	, friends			: [
-			friend: {
-				id: String
-				, name: String }
-			],
-	}
+	, friends			: [friendSchema],
 	, joined			: Date
 	, online			: Boolean
 }), User;
+
+var friendSchema = new Schema({
+	id: String
+	, name: String
+	, colour: [colourSchema]
+}), friend;
+
+var colourSchema = new Schema({
+	model: { type: String, default: 'RGB' }
+	, val1: Number
+	, val2: Number
+	, val3: Number
+	, sent: Date
+	, recieved: Boolean
+	, replied : Boolean
+});
 
 userSchema.plugin(mongooseAuth, {
   everymodule: {
