@@ -419,11 +419,11 @@ app.get('/friends', function(req, res) {
 				});
 			  if (req.xhr) {
 			    res.partial('user', { 
-						users : friendIds
+						friends : friendIds
 						});
 			  }
 				else {
-					res.render('users', { users: friendIds });
+					res.render('users', { friends : friendIds });
 				}
 		});
 
