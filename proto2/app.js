@@ -60,6 +60,7 @@ var friendSchema = new Schema({
 }), friend;
 
 var colourSchema = new Schema({
+	
 	model: { type: String, default: 'RGB' }
 	, val1: Number
 	, val2: Number
@@ -261,8 +262,8 @@ io.sockets.on('connection', function (socket) {
 		   accept('No cookie transmitted, no connection', false);
 		  }
 		})
-		.on('connection', function(socket, client) {
-				console.log('CC session' + client.request.headers.cookie );
+		.on('connection', function(socket) {
+				console.log('CC session' + socket.request.headers.cookie );
 //				User.find('_id',data.session.)
 				socket.emit('colour', {});
 			});
