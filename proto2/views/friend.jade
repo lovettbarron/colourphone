@@ -1,5 +1,24 @@
 -var items = [ "twitter" ]
 script(type='text/javascript', src='/javascripts/init.js')
+
+script
+   var socket = io.connect();
+
+   socket.on('connect', function () {
+     $('#irc').addClass('connected');
+   });
+
+   socket.on('announcement', function (msg) {
+     $('#messages').append($('<p>').append($('<em>').text(msg)));
+     $('#messages').get(0).scrollTop = 10000000;
+   });
+
+   socket.on('irc message', function (user, msg) {
+     $('#messages').append($('<p>').append($('<b>').text(user), msg));
+     $('#messages').get(0).scrollTop = 10000000;
+   });
+
+
 -if( everyauth.loggedIn )	
 	script(type='text/javascript')
 		$().ready( populateFriends() );
