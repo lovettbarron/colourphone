@@ -420,6 +420,8 @@ app.get('/friends', function(req, res) {
 			  if (req.xhr) {
 			    res.partial('user', { 
 						friends : friendIds
+						}, function(err) {
+							console.log("Sent friend list, err? " + err);
 						});
 			  }
 				else {
