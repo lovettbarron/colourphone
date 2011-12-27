@@ -44,11 +44,12 @@ socket.on('colour', function(data) {
 //	console.log( data );
 //	while( position != data.length ) {
 		console.log( 
-			", r:" + data[0] + 
-			", g:" + data[1] + 
-			", b:" + data[2] );
+			"id: " + data[0] +
+			", r:" + data[1] + 
+			", g:" + data[2] + 
+			", b:" + data[3] );
 
-		colourBG( data[0], data[0], data[1], data[2] );
+		colourBG( data[0], data[1], data[2], data[3] );
 });
 
 socket.on('friends', function(data) {
@@ -93,13 +94,14 @@ function sendSocket(message) {
 };
 
 function colourBG( id, r, g, b ) {
-	$("#canvas").css('background-color','rgb(' + r + ',' + g + ',' + b + ')');
-};
+	$('div.' + id + ' > div.colourPreview')
+		.css('background-color','rgb(' + r + ',' + g + ',' + b + ')');
+	};
 
 function clearLast( x, y) {
 	context.fillStyle = "#ffffff";
 	context.fillRect( x, y, 10, 10);
-}
+	}
 
 
 function populateFriends() {
@@ -108,9 +110,9 @@ function populateFriends() {
 		$("#twitter").html(data, function(res, err) {
 			if( err ) console.log("Render err: " + err);
 			console.log( "Rendered resp: " + res);
+			});
 		});
-	});
-}
+	}
 
 
 //Colour communication

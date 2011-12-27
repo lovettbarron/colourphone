@@ -45,12 +45,15 @@ z-index: 3;
 }
 
 .colourPreview {
+	float: left;
+	clear: right;
 	width: 100%;
 	height: 100%;
-	z-index: -1;
 }
 
 .userImage {
+	float: left;
+	clear: none;
 	width: 100px;
 	height: 100px;
 }
