@@ -71,7 +71,7 @@ socket.on('disconnect', function() {
 	});
 	
 	
-function onDocumentMouseMove(event) {
+/*function onDocumentMouseMove(event) {
 	var h = (event.x/window.innerWidth);
 	var s = (event.y/window.innerHeight);
 	var l = 1.0; 
@@ -80,7 +80,7 @@ function onDocumentMouseMove(event) {
 	socket.emit( "msg", color );
 	colourBG( color[0], color[0], color[1], color[2] );
 //	console.log('Mouse moving',event);
-}	
+}	*/
 
 $('canvas','div.colourPreview').mousemove(function(e){
 	var canvasId = $(this).attr('id')
