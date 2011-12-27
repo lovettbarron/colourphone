@@ -299,6 +299,7 @@ app.get('/', function(req, res){
 
 
 app.get('to/:id', function(req,res) {
+	var hasAccess = false;
 	io.sockets.in(req.sessionID).send('Man, good to see you back!');
 	if( req.loggedIn ) {
 		req.session.id = req.user._id;
@@ -320,8 +321,17 @@ app.get('to/:id', function(req,res) {
 			console.log( data.headers )
 		})
 		.on('connection', function(socket) {
-				var friend = User.find('_id': req.sessionID )
-//				User.find('_id',data.session.)
+				var friend = User.find( {'_id': req.session._id, }, function(err, docs) {
+					for( friends in docs.friends ){
+						if( friends.id == req.params.id ) {
+							hasAccess = true;
+						}
+					
+					if( hasAccess ) {
+						User.find( { '_id' : req.sessionID } )
+						}
+					}
+				});
 			 	socket.emit('colour', {});
 			});
 		
