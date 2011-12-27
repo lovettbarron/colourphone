@@ -311,7 +311,7 @@ app.get('/friends', function(req, res) {
 					response = docs;
 					for(var key in docs) {
 						if(docs.hasOwnProperty(key)){
-								friendIds[docs._id] = { "id" : docs[key].twit.id, "name" : docs[key].twit.name };
+								friendIds[docs[key]._id] = { "id" : docs[key].twit.id, "name" : docs[key].twit.name };
 							}
 						}
 					 console.log( "Friends list to be saved: " + JSON.stringify(friendIds) );
