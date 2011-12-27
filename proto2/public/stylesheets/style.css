@@ -49,6 +49,7 @@ z-index: 3;
 	clear: right;
 	width: 80%;
 	height: 100%;
+	background-color: #eeff11;
 }
 
 .userImage {
@@ -56,6 +57,7 @@ z-index: 3;
 	clear: none;
 	width: 20%;
 	height: 100%;
+	background-color: #eeeeee;
 }
 
 .previewName {
