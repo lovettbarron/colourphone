@@ -421,8 +421,10 @@ app.get('/friends', function(req, res) {
 			    res.partial('user', { 
 						users : friendIds
 						});
-			    res.render('users', { users: friendIds });
 			  }
+				else {
+					res.render('users', { users: friendIds });
+				}
 		});
 
 app.get('/logout', function (req, res) {
