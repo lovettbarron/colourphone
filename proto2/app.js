@@ -418,8 +418,8 @@ app.get('/friends', function(req, res) {
 						  if (req.xhr) {
 						    res.partial('user', { 
 									friends : friendIds
-									}, function(err) {
-										console.log("Sent friend list, err? " + err);
+									}, function(err, ret) {
+										console.log("Sent friend list" + ret + ", err? " + err);
 									});
 						  }
 							else {
