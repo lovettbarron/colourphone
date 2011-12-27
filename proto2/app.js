@@ -414,19 +414,20 @@ app.get('/friends', function(req, res) {
 							, function(err) {
 							if(err) { console.log("Error updating friends list: " + err); }
 							else { console.log("Friends list Saved to " + req.user.twit.id); }
+							//If update successful, then serve documents.
+						  if (req.xhr) {
+						    res.partial('user', { 
+									friends : friendIds
+									}, function(err) {
+										console.log("Sent friend list, err? " + err);
+									});
+						  }
+							else {
+								res.render('users', { friends : friendIds });
+							}							
 						});
 					});
 				});
-			  if (req.xhr) {
-			    res.partial('user', { 
-						friends : friendIds
-						}, function(err) {
-							console.log("Sent friend list, err? " + err);
-						});
-			  }
-				else {
-					res.render('users', { friends : friendIds });
-				}
 		});
 
 app.get('/logout', function (req, res) {
