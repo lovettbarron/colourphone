@@ -311,12 +311,12 @@ app.get('/friends', function(req, res) {
 					response = docs;
 					for(var key in docs) {
 						if(docs.hasOwnProperty(key)){
-								friendIds[docs[key]._id] = JSON.parse(docs[key].twit.id);
+								friendIds.push({ "id" : JSON.parse(docs[key].twit.id) });
 							}
 						}
 					 console.log( "Friends list to be saved: " + JSON.stringify(friendIds) );
 						User.update( { 'twit.id' : req.user.twit.id }
-							, { 'friends' : friendIds }
+							, { 'friends' : friendIds	 }
 							, function(err) {
 							if(err) { console.log("Error updating friends list: " + err); }
 							else { console.log("Friends list Saved to " + req.user.twit.id); }
