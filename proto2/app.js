@@ -261,8 +261,8 @@ io.sockets.on('connection', function (socket) {
 		   accept('No cookie transmitted, no connection', false);
 		  }
 		})
-		.on('connection', function(socket) {
-				console.log('CC session' + JSON.stringify(data.session) );
+		.on('connection', function(socket, client) {
+				console.log('CC session' + client.request.headers.cookie );
 //				User.find('_id',data.session.)
 				socket.emit('colour', {});
 			});
