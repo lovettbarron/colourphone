@@ -87,9 +87,16 @@ $('canvas','div.colourPreview').mousemove(function(e){
 	var h = (e.x/this.width);
 	var s = (e.y/this.height);
 	var l = 1.0; 
-	var color = hsvToRgb(h*360,s*100,l*100);
+	var colour = hsvToRgb(h*360,s*100,l*100);
 	console.log( h, s, l, color );
-	socket.emit( "msg", { canvasId , color[0], color[1], color[2] });
+	var msg = JSON.parse( { 
+		'id': canvasId
+		, 'val1' : colour[0]
+		, 'val2' : colour[1]
+		, 'val3' : colour[2]
+		, 'timestamp' : new Date()
+		 } )
+	socket.emit( "msg", msg);
 	colourBG( canvasId , color[0], color[1], color[2] );
 	
 });

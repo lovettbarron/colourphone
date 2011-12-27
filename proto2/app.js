@@ -102,16 +102,6 @@ mongoose.model('User', userSchema);
 
 User = mongoose.model('User');	
 
-var colourSchema = new Schema({
-    user    : ObjectId
-	, shared	: ObjectId
-  , timestamp : Date
-  , red       : Number
-  , green     : Number
-  , blue      : Number
-});
-
-
 //var colorObject = mongoose.model('Colour', colourSchema);
 //var userObject = mongoose.model('User', userSchema);
 
@@ -185,7 +175,7 @@ io.set('authorization', function (data, accept) {
       if (err) {
         accept(err.message.toString()+'. u mad?', false);
       } else {
-        data.session = new Session(data, session);
+        data.session = new Session(data, JSON.stringify(session) );
         console.log('User authorized: ' + JSON.stringify(data.session) );
         accept(null, true);
 			}
@@ -218,7 +208,7 @@ io.sockets.on('connection', function (socket) {
 	    }); }, 60 * 1000);
 
 		socket.on('msg', function (data) {	
-			
+				hs.
 				colordata = data;
 				socket.broadcast.emit('colour', data );
 
