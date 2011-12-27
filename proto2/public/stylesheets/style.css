@@ -45,10 +45,14 @@ a {
 	clear: right;
 	width: 80%;
 	height: 100%;
+	z-index: 0;
 	background-color: #eeff11;
 }
 
 .colourPreview canvas {
+	position: absolute;
+	top: 0;
+	left: 0;
 	float: left;
 	clear: none;
 	z-index: 10;
@@ -66,6 +70,7 @@ a {
 }
 
 .previewName {
+	z-index: 1;
 	font-size: 1.3em;
 	color: #fff;
 }

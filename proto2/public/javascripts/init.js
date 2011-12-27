@@ -82,6 +82,25 @@ function onDocumentMouseMove(event) {
 //	console.log('Mouse moving',event);
 }	
 
+$('canvas').mousemove(function(e){
+  if(paint){
+    addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop, true);
+    redraw();
+  }
+	var h = (e.x/this.width);
+	var s = (e.y/this.height);
+	var l = 1.0; 
+	var color = hsvToRgb(h*360,s*100,l*100);
+	console.log( h, s, l, color );
+	socket.emit( "msg", { $(this).attr('id') , color[0], color[1], color[2] });
+	colourBG( $(this).attr('id') , color[0], color[1], color[2] );
+	
+});
+
+$('canvas').mouseleave( function(e) {
+	
+})
+
 function onWindowResize( event ) {
 	SCREEN_H = window.innerHeight;
 	SCREEN_W = window.innerWidth;
