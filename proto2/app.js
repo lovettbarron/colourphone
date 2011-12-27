@@ -185,7 +185,7 @@ io.set('authorization', function (data, accept) {
       if (err) {
         accept(err.message.toString()+'. u mad?', false);
       } else {
-        data.session = new Session(data, JSON.parse(session));
+        data.session = new Session(data, session);
         console.log('User authorized: ' + JSON.stringify(data.session) );
         accept(null, true);
 			}
@@ -417,6 +417,12 @@ app.get('/friends', function(req, res) {
 						});
 					});
 				});
+			  if (req.xhr) {
+			    res.partial('user', { 
+						users : friendIds
+						});
+			    res.render('users', { users: friendIds });
+			  }
 		});
 
 app.get('/logout', function (req, res) {
