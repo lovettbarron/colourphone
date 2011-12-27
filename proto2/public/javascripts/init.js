@@ -89,8 +89,8 @@ $('canvas','div.colourPreview').mousemove(function(e){
 		x: $(this).width()
 		, y: $(this).height()
 	}
-	var h = ( (e.x - canvasPos.x) /  );
-	var s = (e.y/this.height);
+	var h = ( (e.x - canvasPos.x) / canvasSize.x );
+	var s = ( (e.y - canvasPos.y) / canvasSize.y );
 	var l = 1.0; 
 	var colour = hsvToRgb(h*360,s*100,l*100);
 	console.log( h, s, l, color );
