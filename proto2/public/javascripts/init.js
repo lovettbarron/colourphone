@@ -83,6 +83,7 @@ socket.on('disconnect', function() {
 }	*/
 
 $('canvas','div.colourPreview').mousemove(function(e){
+	$(this).css('background-color', 'black');
 	var canvasId = $(this).attr('id')
 	var canvasPos = findPos( this );
 	var canvasSize = {
