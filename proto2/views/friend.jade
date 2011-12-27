@@ -1,0 +1,16 @@
+-var items = [ "twitter" ]
+script(type='text/javascript', src='/javascripts/init.js')
+-if( everyauth.loggedIn )	
+	script(type='text/javascript')
+		$().ready( populateFriends() );
+		
+- if (!everyauth.loggedIn)
+	div#twitter
+		each item in items
+			a(href='/auth/' + item)
+				span Connect with <span style="text-transform: capitalize">!{item}</span><br />
+-else
+	if ( response )
+		div#twitter!= partial('user', response)
+		div#canvas
+			canvas(id="draw", width='100%', height='100%')
