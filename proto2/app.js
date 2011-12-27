@@ -295,7 +295,7 @@ function makeOAuth() {
 
 app.get('/friends', function(req, res) {
 	var response = '';
-	var friendIds = [];
+	var friendIds = [{}];
 
 	var oa = new OAuth('https://api.twitter.com/oauth/request_token'
 								, 'https://api.twitter.com/oauth/access_token'
@@ -338,7 +338,7 @@ app.get('/friends', function(req, res) {
 							console.log(friends);
 						});
 						User.update( { 'twit.id' : req.user.twit.id }
-							, { 'friends' : friends	}
+							, { 'friends' : friendIds	}
 							, function(err) {
 							if(err) { console.log("Error updating friends list: " + err); }
 							else { console.log("Friends list Saved to " + req.user.twit.id); }
