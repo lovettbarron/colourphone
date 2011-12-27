@@ -315,8 +315,11 @@ app.get('/friends', function(req, res) {
 							}
 						}
 					 console.log( "Friends list to be saved: " + JSON.stringify(friendIds) );
+						var friends = JSON.parse(friendIds, function() {
+							console.log(friends);
+						});
 						User.update( { 'twit.id' : req.user.twit.id }
-							, { 'friends' : JSON.parse(friendIds)	}
+							, { 'friends' : friends	}
 							, function(err) {
 							if(err) { console.log("Error updating friends list: " + err); }
 							else { console.log("Friends list Saved to " + req.user.twit.id); }
