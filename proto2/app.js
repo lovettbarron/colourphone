@@ -327,10 +327,10 @@ app.get('/friends', function(req, res) {
 					response = docs;
 					for(var key in docs) {
 						if(docs.hasOwnProperty(key)){
-								friendIds.push( 
+								friendIds.push({ 
 										"id" : docs[key].twit.id
 										, "name" : docs[key].twit.name 
-									);
+									});
 							}
 						}
 					 console.log( "Friends list to be saved: " + JSON.stringify(friendIds) );
