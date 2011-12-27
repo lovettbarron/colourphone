@@ -104,7 +104,7 @@ function clearLast( x, y) {
 
 function populateFriends() {
 	$.get('/friends', function(res) {
-		console.log('sent/recieved')
+		console.log('sent/recieved:' + JSON.stringify(res));
 		$('#twitter').html(res, function(res, err) {
 			console.log( "Rendered resp: " + res);
 		});
