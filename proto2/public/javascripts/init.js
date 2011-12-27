@@ -106,6 +106,7 @@ function populateFriends() {
 	$.get('/friends', function(data) {
 		console.log('sent/recieved:' + JSON.stringify(data));
 		$("#twitter").html(data, function(res, err) {
+			if( err ) console.log("Render err: " + err);
 			console.log( "Rendered resp: " + res);
 		});
 	});
