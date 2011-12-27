@@ -84,24 +84,42 @@ socket.on('disconnect', function() {
 
 $('canvas','div.colourPreview').mousemove(function(e){
 	var canvasId = $(this).attr('id')
-	var h = (e.x/this.width);
+	var canvasPos = findPos( this );
+	var canvasSize = {
+		x: $(this).width()
+		, y: $(this).height()
+	}
+	var h = ( (e.x - canvasPos.x) /  );
 	var s = (e.y/this.height);
 	var l = 1.0; 
 	var colour = hsvToRgb(h*360,s*100,l*100);
 	console.log( h, s, l, color );
-	var msg = JSON.parse( { 
-		'id': canvasId
-		, 'val1' : colour[0]
-		, 'val2' : colour[1]
-		, 'val3' : colour[2]
-		, 'timestamp' : new Date()
-		 } )
+	var msg = { 
+		id: canvasId
+		, val1 : colour[0]
+		, val2 : colour[1]
+		, val3 : colour[2]
+		, timestamp : new Date()
+		 };
 	socket.emit( "msg", msg, function(err, msg) {
 		console.log("sent: " + msg + " ? err: " + err)
 	});
 	colourBG( canvasId , color[0], color[1], color[2] );
 	
 });
+
+//http://stackoverflow.com/questions/5085689/tracking-mouse-position-in-canvas
+function findPos(obj) {
+    var curleft = 0, curtop = 0;
+    if (obj.offsetParent) {
+        do {
+            curleft += obj.offsetLeft;
+            curtop += obj.offsetTop;
+        } while (obj = obj.offsetParent);
+        return { x: curleft, y: curtop };
+    }
+    return undefined;
+}
 
 $('canvas').mouseleave( function(e) {
 	
