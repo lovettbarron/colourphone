@@ -1,7 +1,8 @@
-div.user	
-	div.userImage
-		p Test
-	div.colour
-		p Test
-	div.username
-		p Test name
+- each friend in friends
+	div.user	
+		div.userImage
+			p Test
+		div.colour
+			p Test
+		div.username
+			p= friend.name
