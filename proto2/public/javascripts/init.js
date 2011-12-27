@@ -82,9 +82,10 @@ socket.on('disconnect', function() {
 //	console.log('Mouse moving',event);
 }	*/
 
-$('canvas','div.colourPreview').mousemove(function(e){
+$('div.user').mousemove(function(e){
 	$(this).css('background-color', 'black');
-	var canvasId = $(this).attr('id')
+	var userId = $(this).attr('class')[1]
+	console.log( 'interacting with ' + userId );
 	var canvasPos = findPos( this );
 	var canvasSize = {
 		x: $(this).width()
