@@ -279,7 +279,7 @@ function makeOAuth() {
 
 app.get('/friends', function(req, res) {
 	var response = '';
-	var friendIds = { };
+	var friendIds = {};
 
 	var oa = new OAuth('https://api.twitter.com/oauth/request_token'
 								, 'https://api.twitter.com/oauth/access_token'
@@ -311,7 +311,7 @@ app.get('/friends', function(req, res) {
 					response = docs;
 					for(var key in docs) {
 						if(docs.hasOwnProperty(key)){
-								friendIds.push({ "id" : JSON.parse(docs[key].twit.id) });
+								friendIds[docs._id] = { "id" : docs[key].twit.id, "name" : docs[key].twit.name };
 							}
 						}
 					 console.log( "Friends list to be saved: " + JSON.stringify(friendIds) );
