@@ -32,6 +32,7 @@ document.body.addEventListener('touchmove', function(e) {
 
 //Initial connection
 var socket = new io.connect('http://emote.me:8000');
+var colour = new io.connect('http://emote.me:8000/colour')
 //socket.connect();
 
 socket.on('connect', function() {
@@ -80,29 +81,6 @@ function onDocumentMouseMove(event) {
 //	console.log('Mouse moving',event);
 }	
 
-
-//http://www.devinrolsen.com/basic-jquery-touchmove-event-setup/
-/*$('#canvas').bind('touchmove',function(e){
-      e.preventDefault();
-      var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
-      var elm = $(this).offset();
-      var x = touch.pageX - elm.left;
-      var y = touch.pageY - elm.top;
-      if(x < $(this).width() && x > 0){
-	      if(y < $(this).height() && y > 0){
-       
-									var h = (touch.pageX/window.innerWidth);
-									var s = (touch.pageY/window.innerHeight);
-									var l = 1.0; 
-									var color = hsvToRgb(h*360,s*100,l*100);
-									console.log( h, s, l, color );
-									socket.emit( "msg", color );
-
-                  console.log(touch.pageY+' '+touch.pageX);
-	      }
-      }
-}); */
-
 function onWindowResize( event ) {
 	SCREEN_H = window.innerHeight;
 	SCREEN_W = window.innerWidth;
@@ -129,6 +107,32 @@ function populateFriends() {
 		console.log('sent/recieved')
 	});
 }
+
+
+//Colour communication
+
+colour.on('connect', function () {
+  colour.emit('hi!');
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //http://mjijackson.com/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript
 function hsvToRgb(h, s, v) {

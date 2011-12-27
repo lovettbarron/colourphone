@@ -10,7 +10,6 @@ var express = require('express'),
 
 //Session stores
 var sessionStore = new express.session.MemoryStore();
-
 var MongoStore = require('connect-mongo');
 
 //Mongo stores
@@ -23,7 +22,6 @@ var everyauth = require('everyauth')
 
 /// Everyauth stuff and mongoose
 everyauth.debug = true;
-
 everyauth.everymodule.moduleErrback( function (err) {
   console.log ( err );
 });
@@ -219,11 +217,11 @@ io.sockets.on('connection', function (socket) {
 	    }); }, 60 * 1000);
 
 		socket.on('msg', function (data) {	
+			
 				colordata = data;
-				//console.log("recieved:" + data );
-					socket.broadcast.emit('colour', data );
-//			  	winston.log('info', data 	);
-				});
+				socket.broadcast.emit('colour', data );
+
+			}); 
 
     socket.on('disconnect', function () {
         console.log('A socket with sessionID ' + hs.sessionID 
@@ -239,6 +237,35 @@ io.sockets.on('connection', function (socket) {
 		//		clearInterval(interval);
     });
 	});
+	
+	var cc = io
+		.of('/colour')
+		.on('authorization', function(accept, err) {
+			console.log( data.headers )
+
+		  if (data.headers.cookie) {
+		    data.cookie = JSON.stringify(data.headers.cookie).split('=')[1];
+		    data.sessionID = data.cookie['express.sid'];
+		    data.sessionStore = sessionStore;
+		    sessionStore.get(data.sessionID, function (err, session) {
+		      if (err) {
+		        accept(err.message.toString()+'. u mad?', false);
+		      } else {
+		        data.session = new Session(data, session);
+		        console.log('colourchat authorized: ' + JSON.stringify(data.session) );
+		        accept(null, true);
+					}
+		    });
+		    console.log('cookie: ', data.cookie)
+		  } else {
+		   accept('No cookie transmitted, no connection', false);
+		  }
+		})
+		.on('connection', function(socket) {
+				console.log('CC session' + JSON.stringify(data.session) );
+//				User.find('_id',data.session.)
+				socket.emit('colour', {});
+			});
 
 
 /************************
@@ -270,6 +297,32 @@ app.get('/', function(req, res){
   });
 });
 
+
+app.get('to/:id', function(req,res) {
+	io.sockets.in(req.sessionID).send('Man, good to see you back!');
+	if( req.loggedIn ) {
+		req.session.id = req.user._id;
+		req.session.twitter = req.user.twit.id;
+		User.update( { 'twit.id' : req.user.twit.id }, { online: true }, function(err) {
+			if(err) console.log(err);
+			console.log('Online:' + JSON.stringify(req.user));
+			} );
+		}
+	res.cookie('colourphone', 'yes', { 
+			expires: new Date(Date.now() + 900000)
+			, httpOnly: true
+			, secure: true 
+		});
+		
+		
+		
+		
+  res.render('friend', {
+    title: 'Colour Phone v0.2 to ' +  req.params.id
+		, response: ''
+  });
+});
+
 app.get('/login', function(req, res) {
 	res.render('login', {
 		title: 'Login',
@@ -293,9 +346,10 @@ function makeOAuth() {
 	'HMAC-SHA1');
 }
 
+
 app.get('/friends', function(req, res) {
 	var response = '';
-	var friendIds = [{}];
+	var friendIds = [];
 
 	var oa = new OAuth('https://api.twitter.com/oauth/request_token'
 								, 'https://api.twitter.com/oauth/access_token'
