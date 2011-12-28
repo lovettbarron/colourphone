@@ -210,7 +210,7 @@ $.extend(userObject.prototype, {
 			});
 		}
 		, updateColour: function() {
-			$('div.user.' + id + ).children('div.colourPreview')
+			$('div.user.' + this.id ).children('div.colourPreview')
 				.css('background-color','rgb(' + r + ',' + g + ',' + b + ')');
 		}
 		
