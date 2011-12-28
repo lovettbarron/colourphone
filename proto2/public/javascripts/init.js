@@ -30,9 +30,10 @@ document.body.addEventListener('touchmove', function(e) {
 
 $().ready( function() {
 
-	$('div.user').mousemove(function(e){
+	$('div.colourPreview').mousemove(function(e){
+		console.log('This is triggering:' + e);
 		$(this).css('background-color', 'black');
-		var userId = $(this).attr('class')[1]
+		var userId = $(this).parent().attr('class')[1]
 		console.log( 'interacting with ' + userId );
 		var canvasPos = findPos( this );
 		var canvasSize = {
