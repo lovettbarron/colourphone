@@ -184,10 +184,10 @@ $.extend(userObject.prototype, {
 				this.responded = $responded;
 				console.log("user id" + this.id + " instantiated.");
 				$( 'div.user.' + this.id ).live( 'mousemove', (function(e){
-					this.sendColour(e);
+					sendColour(e);
 				}));
 		}
-		, sendColour: function( $e ) {
+		, $.fn.sendColour: function( $e ) {
 					console.log( 'interacting with ' + this.id );
 					var canvasPos = findPos( this );
 					var canvasSize = {
@@ -214,7 +214,7 @@ $.extend(userObject.prototype, {
 						this.updateColour(msg)
 						});
 		}
-		, updateColour: function() {
+		, $.fn.updateColour: function() {
 			$('div.user.' + this.id ).children('div.colourPreview')
 				.css('background-color','rgb(' + r + ',' + g + ',' + b + ')');
 		}
