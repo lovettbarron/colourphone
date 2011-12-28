@@ -182,7 +182,7 @@ $.extend(userObject.prototype, {
 				this.responded = $responded;
 				console.log("user id" + this.id + " instantiated.");
 				$( 'div.user.' + this.id ).live( 'mousemove', (function(e){
-					this.sendColour(e);
+					sendColour(e);
 				}));
 		}
 		
