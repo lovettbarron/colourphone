@@ -29,7 +29,7 @@ document.body.addEventListener('touchmove', function(e) {
 		colourBG( color[0], color[0], color[1], color[2] );
 });
 
-
+/*
 $('div.colourPreview').mousemove(function(e){
 	var userId = $(this).parent().attr('class')[1]
 	console.log( 'interacting with ' + userId );
@@ -54,7 +54,7 @@ $('div.colourPreview').mousemove(function(e){
 		console.log("sent: " + msg + " ? err: " + err)
 	});
 	colourBG( canvasId , color[0], color[1], color[2] );
-});
+}); */
 
 //Initial connection
 var socket = new io.connect('http://emote.me:8000');
@@ -153,7 +153,8 @@ function populateFriends() {
 			console.log( "Rendered resp: " + res);
 			});
 			console.log( JSON.stringify(data.friends) );
-	//	 friends.push( new userObject(  ) );
+			for( friend in data.friends )
+		 	friends.push( new userObject( friend.id, friend.name, friend.colour, friend.updated  ) );
 		});
 	}
 
@@ -183,10 +184,34 @@ $.extend(userObject.prototype, {
 		}
 		
 		, sendColour: function() {
-
+			$('div.' + this.id).mousemove(function(e){
+				console.log( 'interacting with ' + this.id );
+				var canvasPos = findPos( this );
+				var canvasSize = {
+					x: $(this).width()
+					, y: $(this).height()
+				}
+				var h = ( (e.x - canvasPos.x) / canvasSize.x );
+				var s = ( (e.y - canvasPos.y) / canvasSize.y );
+				var l = 1.0; 
+				var colour = hsvToRgb(h*360,s*100,l*100);
+				console.log( h, s, l, color );
+				var msg = { 
+					id: this.id
+					, val1 : colour[0]
+					, val2 : colour[1]
+					, val3 : colour[2]
+					, timestamp : new Date()
+					 };
+				socket.emit( "msg", msg, function(err, msg) {
+					console.log("sent: " + msg + " ? err: " + err)
+					this.updateColour(msg)
+				});
+			}); */
 		}
 		, updateColour: function() {
-			
+			$('div.user.' + id + ).children('div.colourPreview')
+				.css('background-color','rgb(' + r + ',' + g + ',' + b + ')');
 		}
 		
 	});
