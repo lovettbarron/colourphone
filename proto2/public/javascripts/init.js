@@ -148,11 +148,11 @@ function clearLast( x, y) {
 function populateFriends() {
 	$.get('/friends', function(data) {
 		 console.log('sent/recieved:' + JSON.stringify(data));
-		$("#twitter").html(data[1], function(res, err) {
+		$("#twitter").html(data.html, function(res, err) {
 			if( err ) console.log("Render err: " + err);
 			console.log( "Rendered resp: " + res);
 			});
-			console.log( data[0] );
+			console.log( JSON.stringify(data.friends) );
 	//	 friends.push( new userObject(  ) );
 		});
 	}
