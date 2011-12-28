@@ -413,7 +413,7 @@ app.get('/friends', function(req, res) {
 									friends : friendIds
 									}, function(err, ret) {
 										
-										res.send(friendIds + ret);
+										res.send({ friends: friendIds, html : ret});
 										console.log("Sent friend list" + ret + ", err? " + err);
 									});
 						  }
