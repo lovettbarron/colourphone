@@ -166,7 +166,7 @@ colour.on('connect', function () {
 });
 
 //User object for pop and interaction
-var userObject = function( $index, $keyword) {
+var userObject = function( $id, $name, $colour, $updated, $responded ) {
 	this.initialize.apply( this, arguments);
 }
 
