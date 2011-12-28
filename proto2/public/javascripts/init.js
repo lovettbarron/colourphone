@@ -174,7 +174,7 @@ $.extend(userObject.prototype, {
 		id: null
 		, name: null
 		, updated: null
-		, initialize: function ( $id, $name, $colour, $updated ) {
+		, initialize: function ( $id, $name, $colour, $updated, $responded ) {
 				this.id = $id;
 				this.name = $name;
 				this.colour = $colour;
