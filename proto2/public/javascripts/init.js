@@ -184,19 +184,18 @@ $.extend(userObject.prototype, {
 				this.responded = $responded;
 				console.log("user id" + this.id + " instantiated.");
 				$( 'div.user.' + this.id ).live( 'mousemove', (function(e){
-					sendColour(e);
+					this.sendColour(e);
 				}));
 		}
-		
-		, sendColour: function( e ) {
+		, sendColour: function( $e ) {
 					console.log( 'interacting with ' + this.id );
 					var canvasPos = findPos( this );
 					var canvasSize = {
 						x: $(this).width()
 						, y: $(this).height()
 					}
-					var h = ( (e.x - canvasPos.x) / canvasSize.x );
-					var s = ( (e.y - canvasPos.y) / canvasSize.y );
+					var h = ( ($e.x - canvasPos.x) / canvasSize.x );
+					var s = ( ($e.y - canvasPos.y) / canvasSize.y );
 					var l = 1.0; 
 					var colour = hsvToRgb(h*360,s*100,l*100);
 					
