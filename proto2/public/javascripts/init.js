@@ -153,8 +153,8 @@ function populateFriends() {
 			console.log( "Rendered resp: " + res);
 			});
 			console.log( JSON.stringify(data.friends) );
-			for( friend in data.friends )
-		 	friends.push( new userObject( friend.id, friend.name, friend.colour, friend.updated  ) );
+			for( key in data.friends )
+		 	friends.push( new userObject( data.friends[key].id, data.friends[key].name, friend.colour, friend.updated  ) );
 		});
 	}
 
@@ -181,7 +181,7 @@ $.extend(userObject.prototype, {
 				this.updated = $updated;
 				this.responded = $responded;
 				console.log("user id" + this.id + " instantiated.");
-				$( 'div.user.' + this.id ).on( 'mousemove', (function(e){
+				$( 'div.user.' + this.id ).live( 'mousemove', (function(e){
 					this.sendColour(e);
 				}));
 		}
