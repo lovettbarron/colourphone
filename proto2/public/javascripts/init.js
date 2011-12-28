@@ -180,11 +180,12 @@ $.extend(userObject.prototype, {
 				this.colour = $colour;
 				this.updated = $updated;
 				this.responded = $responded;
-
+				$( 'div.' + this.id ).bind( 'mousemove', (function(e){
+					this.sendColour(e)
+				}));
 		}
 		
-		, sendColour: function() {
-			$( 'div.' + this.id ).bind( 'mousemove', (function(e){
+		, sendColour: function( e ) {
 					console.log( 'interacting with ' + this.id );
 					var canvasPos = findPos( this );
 					var canvasSize = {
@@ -210,7 +211,6 @@ $.extend(userObject.prototype, {
 						console.log("sent: " + msg + " ? err: " + err)
 						this.updateColour(msg)
 						});
-			}) );
 		}
 		, updateColour: function() {
 			$('div.user.' + this.id ).children('div.colourPreview')
