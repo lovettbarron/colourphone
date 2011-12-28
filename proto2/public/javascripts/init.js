@@ -28,7 +28,37 @@ document.body.addEventListener('touchmove', function(e) {
 		colourBG( color[0], color[0], color[1], color[2] );
 });
 
+$().ready( function() {
 
+	$('div.user').mousemove(function(e){
+		$(this).css('background-color', 'black');
+		var userId = $(this).attr('class')[1]
+		console.log( 'interacting with ' + userId );
+		var canvasPos = findPos( this );
+		var canvasSize = {
+			x: $(this).width()
+			, y: $(this).height()
+		}
+		var h = ( (e.x - canvasPos.x) / canvasSize.x );
+		var s = ( (e.y - canvasPos.y) / canvasSize.y );
+		var l = 1.0; 
+		var colour = hsvToRgb(h*360,s*100,l*100);
+		console.log( h, s, l, color );
+		var msg = { 
+			id: canvasId
+			, val1 : colour[0]
+			, val2 : colour[1]
+			, val3 : colour[2]
+			, timestamp : new Date()
+			 };
+		socket.emit( "msg", msg, function(err, msg) {
+			console.log("sent: " + msg + " ? err: " + err)
+		});
+		colourBG( canvasId , color[0], color[1], color[2] );
+	});
+	
+	
+})
 
 //Initial connection
 var socket = new io.connect('http://emote.me:8000');
@@ -82,33 +112,6 @@ socket.on('disconnect', function() {
 //	console.log('Mouse moving',event);
 }	*/
 
-$('div.user').mousemove(function(e){
-	$(this).css('background-color', 'black');
-	var userId = $(this).attr('class')[1]
-	console.log( 'interacting with ' + userId );
-	var canvasPos = findPos( this );
-	var canvasSize = {
-		x: $(this).width()
-		, y: $(this).height()
-	}
-	var h = ( (e.x - canvasPos.x) / canvasSize.x );
-	var s = ( (e.y - canvasPos.y) / canvasSize.y );
-	var l = 1.0; 
-	var colour = hsvToRgb(h*360,s*100,l*100);
-	console.log( h, s, l, color );
-	var msg = { 
-		id: canvasId
-		, val1 : colour[0]
-		, val2 : colour[1]
-		, val3 : colour[2]
-		, timestamp : new Date()
-		 };
-	socket.emit( "msg", msg, function(err, msg) {
-		console.log("sent: " + msg + " ? err: " + err)
-	});
-	colourBG( canvasId , color[0], color[1], color[2] );
-	
-});
 
 //http://stackoverflow.com/questions/5085689/tracking-mouse-position-in-canvas
 function findPos(obj) {
