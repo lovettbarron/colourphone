@@ -207,7 +207,7 @@ $.extend(userObject.prototype, {
 					console.log("sent: " + msg + " ? err: " + err)
 					this.updateColour(msg)
 				});
-			}); */
+			});
 		}
 		, updateColour: function() {
 			$('div.user.' + id + ).children('div.colourPreview')
