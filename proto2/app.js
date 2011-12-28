@@ -412,7 +412,8 @@ app.get('/friends', function(req, res) {
 						    res.partial('user', { 
 									friends : friendIds
 									}, function(err, ret) {
-										res.send(ret);
+										
+										res.send(friendIds + ret);
 										console.log("Sent friend list" + ret + ", err? " + err);
 									});
 						  }

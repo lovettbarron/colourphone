@@ -1,6 +1,7 @@
 var connections = {}, mouseX = 0, mouseY = 0, 
 	prevMouseX = 0, prevMouseY = 0, userid = 0;
 var user = 0;
+var friends = new Array();
 var context, canvas;
 /*
 function load() {
@@ -28,34 +29,31 @@ document.body.addEventListener('touchmove', function(e) {
 		colourBG( color[0], color[0], color[1], color[2] );
 });
 
-$(document).ready( function() {
-	$('div.colourPreview').each().mousemove(function(e){
-		console.log('This is triggering:' + e);
-		$(this).css('background-color', 'black');
-		var userId = $(this).parent().attr('class')[1]
-		console.log( 'interacting with ' + userId );
-		var canvasPos = findPos( this );
-		var canvasSize = {
-			x: $(this).width()
-			, y: $(this).height()
-		}
-		var h = ( (e.x - canvasPos.x) / canvasSize.x );
-		var s = ( (e.y - canvasPos.y) / canvasSize.y );
-		var l = 1.0; 
-		var colour = hsvToRgb(h*360,s*100,l*100);
-		console.log( h, s, l, color );
-		var msg = { 
-			id: canvasId
-			, val1 : colour[0]
-			, val2 : colour[1]
-			, val3 : colour[2]
-			, timestamp : new Date()
-			 };
-		socket.emit( "msg", msg, function(err, msg) {
-			console.log("sent: " + msg + " ? err: " + err)
-		});
-		colourBG( canvasId , color[0], color[1], color[2] );
+
+$('div.colourPreview').mousemove(function(e){
+	var userId = $(this).parent().attr('class')[1]
+	console.log( 'interacting with ' + userId );
+	var canvasPos = findPos( this );
+	var canvasSize = {
+		x: $(this).width()
+		, y: $(this).height()
+	}
+	var h = ( (e.x - canvasPos.x) / canvasSize.x );
+	var s = ( (e.y - canvasPos.y) / canvasSize.y );
+	var l = 1.0; 
+	var colour = hsvToRgb(h*360,s*100,l*100);
+	console.log( h, s, l, color );
+	var msg = { 
+		id: canvasId
+		, val1 : colour[0]
+		, val2 : colour[1]
+		, val3 : colour[2]
+		, timestamp : new Date()
+		 };
+	socket.emit( "msg", msg, function(err, msg) {
+		console.log("sent: " + msg + " ? err: " + err)
 	});
+	colourBG( canvasId , color[0], color[1], color[2] );
 });
 
 //Initial connection
@@ -99,16 +97,17 @@ socket.on('disconnect', function() {
 	});
 	
 	
-/*function onDocumentMouseMove(event) {
-	var h = (event.x/window.innerWidth);
+function onDocumentMouseMove(event) {
+/*	var h = (event.x/window.innerWidth);
 	var s = (event.y/window.innerHeight);
 	var l = 1.0; 
 	var color = hsvToRgb(h*360,s*100,l*100);
 	console.log( h, s, l, color );
 	socket.emit( "msg", color );
-	colourBG( color[0], color[0], color[1], color[2] );
+	colourBG( color[0], color[0], color[1], color[2] );*/
 //	console.log('Mouse moving',event);
-}	*/
+	return event;
+}	
 
 
 //http://stackoverflow.com/questions/5085689/tracking-mouse-position-in-canvas
@@ -148,11 +147,13 @@ function clearLast( x, y) {
 
 function populateFriends() {
 	$.get('/friends', function(data) {
-		console.log('sent/recieved:' + JSON.stringify(data));
-		$("#twitter").html(data, function(res, err) {
+		 console.log('sent/recieved:' + JSON.stringify(data));
+		$("#twitter").html(data[1], function(res, err) {
 			if( err ) console.log("Render err: " + err);
 			console.log( "Rendered resp: " + res);
 			});
+			console.log( data[0] );
+	//	 friends.push( new userObject(  ) );
 		});
 	}
 
@@ -163,12 +164,32 @@ colour.on('connect', function () {
   colour.emit('hi!');
 });
 
+//User object for pop and interaction
+var userObject = function( $index, $keyword) {
+	this.initialize.apply( this, arguments);
+}
 
+$.extend(userObject.prototype, {
+		id: null
+		, name: null
+		, updated: null
+		, initialize: function ( $id, $name, $colour, $updated ) {
+				this.id = $id;
+				this.name = $name;
+				this.colour = $colour;
+				this.updated = $updated;
+				this.responded = $responded;
 
+		}
+		
+		, sendColour: function() {
 
-
-
-
+		}
+		, updateColour: function() {
+			
+		}
+		
+	});
 
 
 
