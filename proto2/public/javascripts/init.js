@@ -13,7 +13,7 @@ SCREEN_H = window.innerHeight;
 window.addEventListener( 'resize', onWindowResize, function(event){
 	console.log("Window resized:",event);
 });
-//document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 
 document.body.addEventListener('touchmove', function(e) {
     e.preventDefault();
