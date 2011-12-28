@@ -2,11 +2,11 @@ var connections = {}, mouseX = 0, mouseY = 0,
 	prevMouseX = 0, prevMouseY = 0, userid = 0;
 var user = 0;
 var context, canvas;
-
+/*
 function load() {
 	canvas = document.getElementById("draw");
 	context = canvas.getContext("2d");
-};
+}; */
 
 SCREEN_W = window.innerWidth;
 SCREEN_H = window.innerHeight;
@@ -28,9 +28,8 @@ document.body.addEventListener('touchmove', function(e) {
 		colourBG( color[0], color[0], color[1], color[2] );
 });
 
-$().ready( function() {
-
-	$('div.colourPreview').mousemove(function(e){
+$(document).ready( function() {
+	$('div.colourPreview').each().mousemove(function(e){
 		console.log('This is triggering:' + e);
 		$(this).css('background-color', 'black');
 		var userId = $(this).parent().attr('class')[1]
@@ -57,9 +56,7 @@ $().ready( function() {
 		});
 		colourBG( canvasId , color[0], color[1], color[2] );
 	});
-	
-	
-})
+});
 
 //Initial connection
 var socket = new io.connect('http://emote.me:8000');
@@ -126,10 +123,6 @@ function findPos(obj) {
     }
     return undefined;
 }
-
-$('canvas').mouseleave( function(e) {
-	
-})
 
 function onWindowResize( event ) {
 	SCREEN_H = window.innerHeight;
