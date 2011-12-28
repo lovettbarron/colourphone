@@ -184,30 +184,33 @@ $.extend(userObject.prototype, {
 		}
 		
 		, sendColour: function() {
-			$('div.' + this.id).mousemove(function(e){
-				console.log( 'interacting with ' + this.id );
-				var canvasPos = findPos( this );
-				var canvasSize = {
-					x: $(this).width()
-					, y: $(this).height()
-				}
-				var h = ( (e.x - canvasPos.x) / canvasSize.x );
-				var s = ( (e.y - canvasPos.y) / canvasSize.y );
-				var l = 1.0; 
-				var colour = hsvToRgb(h*360,s*100,l*100);
-				console.log( h, s, l, color );
-				var msg = { 
-					id: this.id
-					, val1 : colour[0]
-					, val2 : colour[1]
-					, val3 : colour[2]
-					, timestamp : new Date()
-					 };
-				socket.emit( "msg", msg, function(err, msg) {
-					console.log("sent: " + msg + " ? err: " + err)
-					this.updateColour(msg)
-				});
-			});
+			$( 'div.' + this.id ).bind( 'mousemove', (function(e){
+					console.log( 'interacting with ' + this.id );
+					var canvasPos = findPos( this );
+					var canvasSize = {
+						x: $(this).width()
+						, y: $(this).height()
+					}
+					var h = ( (e.x - canvasPos.x) / canvasSize.x );
+					var s = ( (e.y - canvasPos.y) / canvasSize.y );
+					var l = 1.0; 
+					var colour = hsvToRgb(h*360,s*100,l*100);
+					
+					console.log( h, s, l, color );
+					
+					var msg = { 
+						id: this.id
+						, val1 : colour[0]
+						, val2 : colour[1]
+						, val3 : colour[2]
+						, timestamp : new Date()
+						 };
+
+					socket.emit( "msg", msg, function(err, msg) {
+						console.log("sent: " + msg + " ? err: " + err)
+						this.updateColour(msg)
+						});
+			}) );
 		}
 		, updateColour: function() {
 			$('div.user.' + this.id ).children('div.colourPreview')
