@@ -180,8 +180,9 @@ $.extend(userObject.prototype, {
 				this.colour = $colour;
 				this.updated = $updated;
 				this.responded = $responded;
-				$( 'div.' + this.id ).bind( 'mousemove', (function(e){
-					this.sendColour(e)
+				console.log("user id" + this.id + " instantiated.");
+				$( 'div.user.' + this.id ).on( 'mousemove', (function(e){
+					this.sendColour(e);
 				}));
 		}
 		
