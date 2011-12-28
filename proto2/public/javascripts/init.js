@@ -154,7 +154,7 @@ function populateFriends() {
 			});
 			console.log( JSON.stringify(data.friends) );
 			for( key in data.friends )
-		 	friends.push( new userObject( data.friends[key].id, data.friends[key].name, friend.colour, friend.updated  ) );
+		 	friends.push( new userObject( data.friends[key].id, data.friends[key].name, data.friends[key].colour, data.friends[key].updated  ) );
 		});
 	}
 
