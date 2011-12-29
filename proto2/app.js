@@ -210,13 +210,17 @@ io.sockets.on('connection', function (socket) {
 				console.log('Current session: ' + JSON.stringify(hs.session) );
 				try {
 					var userID = hs.session.twitId;
-			/*		var userToInsert = User.find(
-						{ 'twit.id' : hs.session.twitId, 'friends.id' : data.id },
+/*					var userToInsert = User.find(
+						{ 'friends.id': data.id, 'twit.id' : hs.session.twitId },
 						function(err) {
-							console.log('No permission for ' + hs.session.twitId + 
+							if(err) console.log('No permission for ' + hs.session.twitId + 
 							' to contact ' + data.id );
-						} );*/
+						} );
 					console.log('About to update with ' + data);
+					
+					userToInsert.friends.push({})
+*/					
+
 					User.update( { 'friends.id': data.id, 'twit.id' : hs.session.twitId }
 							, { $set : {
 								  'friends.$.colour'  : {
@@ -237,7 +241,10 @@ io.sockets.on('connection', function (socket) {
 									+ hs.session.twitId );
 						} );
 					} catch(err) { console.log('Unable to update ' + err)}
-				
+					User.save( function(err) {
+						if(err) console.log('Problem saving: ' + err)
+					});
+		
 			//	socket.broadcast.emit('colour', data );
 
 			}); 
