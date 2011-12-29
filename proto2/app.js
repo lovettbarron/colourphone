@@ -216,7 +216,7 @@ io.sockets.on('connection', function (socket) {
 							console.log('No permission for ' + hs.session.twitId + 
 							' to contact ' + data.id );
 						} );
-					User.update( { 'twit.id' : hs.session.twitId, 'friends.id': data.id }
+					User.update( { 'friends.id': data.id, 'twit.id' : hs.session.twitId }
 							, { $set : {
 								  'friends.$.colour'  : {
 										'model'  : data.type
@@ -228,7 +228,7 @@ io.sockets.on('connection', function (socket) {
 										, 'replied'  : false
 										}
 									}
-								 }, true, false, 
+								 }, false, true, 
 								function(err) {
 									if(err) console.log(err);
 									console.log( 'Recieved colour from ' 
