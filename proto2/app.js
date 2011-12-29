@@ -66,7 +66,7 @@ var colourSchema = new Schema({
 	, val2: Number
 	, val3: Number
 	, sent: Date
-	, recieved: Boolean
+	, received: Boolean
 	, replied : Boolean
 });
 
@@ -210,8 +210,27 @@ io.sockets.on('connection', function (socket) {
 				console.log('Current session: ' + JSON.stringify(hs.session) );
 				try {
 					var userID = hs.session.twitId;
-					} catch(err) { console.log('No twitter session: ' + err)}
-				colordata = data;
+					User.update( { 'twit.id' : hs.session.twitId }
+							, {  
+								 friends.id: data.id
+									,colour: {
+										model: data.type
+										, val1: data.val1
+										, val2: data.val2
+										, val3: data.val3
+										, sent: data.timestamp
+										, received: false
+										, replied: false
+									}
+								 }, 
+								function(err) {
+									if(err) console.log(err);
+									console.log( 'Recieved colour from ' 
+									+ data.id + ' and saved to ' 
+									+ hs.session.twitId );
+						} );
+					}
+					} catch(err) { console.log('Unable to update ' + err)}
 				
 			//	socket.broadcast.emit('colour', data );
 

@@ -126,6 +126,7 @@ $.extend( userObject.prototype, {
 					
 					var colourMsg = { 
 						id: id
+						, model: 'RGB'
 						, val1 : colour[0]
 						, val2 : colour[1]
 						, val3 : colour[2]
@@ -139,7 +140,7 @@ $.extend( userObject.prototype, {
 						,'rgb(' + colourMsg.val1 + ',' + colourMsg.val2 + ',' + colourMsg.val3 + ')'
 					 );
 
-					socket.emit( "msg", msg, function(err) {
+					socket.emit( "msg", colourMsg, function(err) {
 							console.log("sent: " + msg + " ? err: " + err);
 						});
 				}));
