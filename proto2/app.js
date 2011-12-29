@@ -221,7 +221,7 @@ io.sockets.on('connection', function (socket) {
 							for( var key in p.friends) {
 						  if( p.friends[key].id == data.id){
 							p.friends[key].colour = {
-										'model'  : data.type
+										'model'  : 'RGB'
 										, 'val1' : data.val1
 										, 'val2' : data.val2
 										, 'val3' : data.val3
@@ -229,7 +229,7 @@ io.sockets.on('connection', function (socket) {
 										, 'received' : false
 										, 'replied'  : false
 										};
-										console.log("Found friend and adding colour");
+										console.log("Found friend and adding colour" + 							p.friends[key].colour );
 									}
 								}
 
