@@ -192,7 +192,7 @@ io.set('authorization', function (data, accept) {
 io.sockets.on('connection', function (socket) {
   	socket.join(socket.handshake.sessionID);
     var hs = socket.handshake;
-		var sesColours = [];
+//		var sesColours = new Array();
     console.log('A socket with sessionID ' + hs.sessionID 
         + ' connected!');
     socket.emit('ready');
@@ -247,7 +247,7 @@ io.sockets.on('connection', function (socket) {
 					});*/
 		
 			//	socket.broadcast.emit('colour', data );
-					if( sesColours.id[data.id] === undefined) {
+/*					if( sesColours.id[data.id] === undefined) {
 					sesColours.push = {
 						id: data.id
 						, friend: hs.session.twitId
@@ -278,7 +278,7 @@ io.sockets.on('connection', function (socket) {
 									}
 								}
 							
-			}); 
+			}); */
 
 		socket.on('you', function(data) {
 			hs.session.twitId = data;
@@ -286,12 +286,14 @@ io.sockets.on('connection', function (socket) {
 		});
 
 		socket.on('isUpdate', function(data) {
-			if( sesColours.id[hs.session.twitId] ) {
-				socket.emit(sesColour.id[hs.session.twitId], function() {
-					sesColour.id[hs.session.twitId] = null;
-					console.log("send and deleted update for " + hs.session.twitId );
-				})
+			var reply = [];
+			var response = User.friends.find('twit.id' : hs.session.twitId);
+			for( var key in response) {
+				if( response[key].colour.recieved == false ) {
+					reply.push(response[key].colour);
+				}	
 			}
+			socket.emit('update', reply);
 		});
 
     socket.on('disconnect', function () {
@@ -308,35 +310,7 @@ io.sockets.on('connection', function (socket) {
 		//		clearInterval(interval);
     });
 	});
-/*	
-	var cc = io
-		.of('/colour')
-		.on('authorization', function(accept, err) {
-			console.log( data.headers )
-		})
-		.on('connection', function(socket) {
-			 if (data.headers.cookie) {
-			    data.cookie = JSON.stringify(data.headers.cookie).split('=')[1];
-			    data.sessionID = data.cookie['express.sid'];
-			    data.sessionStore = sessionStore;
-			    sessionStore.get(data.sessionID, function (err, session) {
-			      if (err) {
-			        accept(err.message.toString()+'. u mad?', false);
-			      } else {
-			        data.session = new Session(data, session);
-			        console.log('colourchat authorized: ' + JSON.stringify(data.session) );
-			        accept(null, true);
-						}
-			    });
-			    console.log('cookie: ', data.cookie)
-			  } else {
-			   accept('No cookie transmitted, no connection', false);
-			  }		  
-				console.log('CC session' + socket.request.headers.cookie );
-//				User.find('_id',data.session.)
-				socket.emit('colour', {});
-			});
-*////
+
 
 /************************
  *  Routing and app      *
