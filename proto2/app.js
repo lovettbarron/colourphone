@@ -290,7 +290,7 @@ io.sockets.on('connection', function (socket) {
 				socket.emit.(sesColour.id[hs.session.twitId], function() {
 					sesColour.id[hs.session.twitId] = null;
 					console.log("send and deleted update for " + hs.session.twitId );
-				}
+				})
 			}
 		});
 
