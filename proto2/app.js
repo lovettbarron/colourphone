@@ -211,18 +211,34 @@ io.sockets.on('connection', function (socket) {
 				console.log('Current session: ' + JSON.stringify(hs.session) );
 				try {
 					var userID = hs.session.twitId;
-/*					var userToInsert = User.find(
-						{ 'friends.id': data.id, 'twit.id' : hs.session.twitId },
-						function(err) {
-							if(err) console.log('No permission for ' + hs.session.twitId + 
+					User.findOne(
+						{ 'twit.id' : hs.session.twitId },
+						function(err, p) {
+							if(err) {
+								console.log('No permission for ' + hs.session.twitId + 
 							' to contact ' + data.id );
+						} else {
+							p.friends.id[data.id].colour = {
+										'model'  : data.type
+										, 'val1' : data.val1
+										, 'val2' : data.val2
+										, 'val3' : data.val3
+										, 'sent' : data.timestamp
+										, 'received' : false
+										, 'replied'  : false
+							};
+
+							p.save( function(err) {
+								if(err) console.log('Problem saving: ' + err)
+							});
+						}
 						} );
 					console.log('About to update with ' + data);
 					
-					userToInsert.friends.push({})
-*/					
+			//		userToInsert.friends.push({})
+					
 
-					User.update( { 'friends.id': data.id, 'twit.id' : hs.session.twitId }
+			/*		userToInsert.update( { 'friends.id': data.id, 'twit.id' : hs.session.twitId }
 							, { $set : {
 								  'friends.$.colour'  : {
 										'model'  : data.type
@@ -241,10 +257,21 @@ io.sockets.on('connection', function (socket) {
 									+ data.id + ' and saved to ' 
 									+ hs.session.twitId );
 						} );
-					} catch(err) { console.log('Unable to update ' + err)}
-					/*User.save( function(err) {
+					} catch(err) { console.log('Unable to update ' + err)} */
+					
+					userToInsert.friends.id[data.id].colour = {
+								'model'  : data.type
+								, 'val1' : data.val1
+								, 'val2' : data.val2
+								, 'val3' : data.val3
+								, 'sent' : data.timestamp
+								, 'received' : false
+								, 'replied'  : false
+					};
+					
+					userToInsert.save( function(err) {
 						if(err) console.log('Problem saving: ' + err)
-					});*/
+					});
 		
 			//	socket.broadcast.emit('colour', data );
 /*					if( sesColours.id[data.id] === undefined) {
