@@ -217,7 +217,7 @@ io.sockets.on('connection', function (socket) {
 							' to contact ' + data.id );
 						} );
 					User.update( { 'twit.id' : hs.session.twitId, 'friends.id': data.id }
-							, { $set : 
+							, { $set : {
 								  'friends.$.colour'  : {
 										'model'  : data.type
 										, 'val1' : data.val1
@@ -226,6 +226,7 @@ io.sockets.on('connection', function (socket) {
 										, 'sent' : data.timestamp
 										, 'received' : false
 										, 'replied'  : false
+										}
 									}
 								 }, true, false, 
 								function(err) {
