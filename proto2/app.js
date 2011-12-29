@@ -32,10 +32,6 @@ var db = mongoose.connect('mongodb://localhost/colour', function(err) {
 	else { console.log("Successful connection"); }
 });
 
-db.on("error", function(err){
-  console.log("Mongoose error: " +  err);
-});
-
 var app = module.exports = express.createServer();
 
 
