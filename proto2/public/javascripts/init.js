@@ -195,7 +195,7 @@ $.extend( userObject.prototype, {
 					var l = 1.0; 
 					var colour = hsvToRgb(h*360,s*100,l*100);
 					
-					console.log( h, s, l, color );
+					console.log( h, s, l, colour );
 					
 					var msg = { 
 						id: this.id
