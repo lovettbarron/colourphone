@@ -233,7 +233,7 @@ io.sockets.on('connection', function (socket) {
 								}
 
 							p.save( function(err) {
-								if(err) console.log('Problem saving: ' + err)
+								console.log('Saved, or err?' + err)
 								});
 							}
 						} );
