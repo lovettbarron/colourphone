@@ -29,33 +29,6 @@ document.body.addEventListener('touchmove', function(e) {
 		colourBG( color[0], color[0], color[1], color[2] );
 });
 
-/*
-$('div.colourPreview').mousemove(function(e){
-	var userId = $(this).parent().attr('class')[1]
-	console.log( 'interacting with ' + userId );
-	var canvasPos = findPos( this );
-	var canvasSize = {
-		x: $(this).width()
-		, y: $(this).height()
-	}
-	var h = ( (e.x - canvasPos.x) / canvasSize.x );
-	var s = ( (e.y - canvasPos.y) / canvasSize.y );
-	var l = 1.0; 
-	var colour = hsvToRgb(h*360,s*100,l*100);
-	console.log( h, s, l, color );
-	var msg = { 
-		id: canvasId
-		, val1 : colour[0]
-		, val2 : colour[1]
-		, val3 : colour[2]
-		, timestamp : new Date()
-		 };
-	socket.emit( "msg", msg, function(err, msg) {
-		console.log("sent: " + msg + " ? err: " + err)
-	});
-	colourBG( canvasId , color[0], color[1], color[2] );
-}); */
-
 //Initial connection
 var socket = new io.connect('http://emote.me:8000');
 //var colour = new io.connect('http://emote.me:8000/colour')
@@ -94,33 +67,7 @@ socket.on('friends', function(data) {
 socket.on('disconnect', function() {
 		console.log('disconnected');
 	});
-	
-	
-function onDocumentMouseMove(event) {
-/*	var h = (event.x/window.innerWidth);
-	var s = (event.y/window.innerHeight);
-	var l = 1.0; 
-	var color = hsvToRgb(h*360,s*100,l*100);
-	console.log( h, s, l, color );
-	socket.emit( "msg", color );
-	colourBG( color[0], color[0], color[1], color[2] );*/
-//	console.log('Mouse moving',event);
-	return event;
-}	
 
-
-//http://stackoverflow.com/questions/5085689/tracking-mouse-position-in-canvas
-/*function findPos(obj) {
-    var curleft = 0, curtop = 0;
-    if (obj.offsetParent) {
-        do {
-            curleft += obj.offsetLeft;
-            curtop += obj.offsetTop;
-        } while (obj = obj.offsetParent);
-        return { x: curleft, y: curtop };
-    }
-    return undefined;
-} */
 
 function onWindowResize( event ) {
 	SCREEN_H = window.innerHeight;
@@ -199,68 +146,34 @@ $.extend( userObject.prototype, {
 				}));
 		}
 		, sendColour: function( $e ) {
-			/*		console.log( 'interacting with ' + this.id );
-					var canvasPos = findPos( this );
-					var canvasSize = {
-						x: $(this).width()
-						, y: $(this).height()
-					}
-					var h = ( ($e.x - canvasPos.x) / canvasSize.x );
-					var s = ( ($e.y - canvasPos.y) / canvasSize.y );
-					var l = 1.0; 
-					var colour = hsvToRgb(h*360,s*100,l*100);
-					
-					console.log( h, s, l, color );
-					
-					var msg = { 
-						id: this.id
-						, val1 : colour[0]
-						, val2 : colour[1]
-						, val3 : colour[2]
-						, timestamp : new Date()
-						 };
-
-					socket.emit( "msg", msg, function(err, msg) {
-						console.log("sent: " + msg + " ? err: " + err)
-						this.updateColour(msg)
-						});*/
 		}
 		, updateColour: function() {
-		/*	$('div.user.' + this.id ).children('div.colourPreview')
-				.css('background-color','rgb(' + r + ',' + g + ',' + b + ')');*/
 		}
 		
 	});
 
 
+function populateFriends() {
+	$.get('/friends', function(data) {
+		 console.log('sent/recieved:' + JSON.stringify(data));
+		 socket.emit('you',data.you); // I know this is absolutely the wrong way to do this.
 
-
-
-
-
-
-
-
-	function populateFriends() {
-		$.get('/friends', function(data) {
-			 console.log('sent/recieved:' + JSON.stringify(data));
-			 socket.emit('you',data.you); // I know this is absolutely the wrong way to do this.
-			$("#twitter").html(data.html, function(res, err) {
-				if( err ) console.log("Render err: " + err);
-				console.log( "Rendered resp: " + res);
-				});
-				console.log( JSON.stringify(data.friends) );
-				for( key in data.friends )
-			 	friends.push( 
-						new userObject( 
-								data.friends[key].id
-								, data.friends[key].name
-								, data.friends[key].colour
-								, data.friends[key].updated
-								, data.friends[key].responded  ) 
-						);
+		$("#twitter").html(data.html, function(res, err) {
+			if( err ) console.log("Render err: " + err);
+			console.log( "Rendered resp: " + res);
 			});
-		}
+			console.log( JSON.stringify(data.friends) );
+			for( key in data.friends )
+		 	friends.push( 
+					new userObject( 
+							data.friends[key].id
+							, data.friends[key].name
+							, data.friends[key].colour
+							, data.friends[key].updated
+							, data.friends[key].responded  ) 
+					);
+		});
+}
 
 
 
