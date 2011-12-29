@@ -3,11 +3,6 @@ var connections = {}, mouseX = 0, mouseY = 0,
 var user = 0;
 var friends = new Array();
 var context, canvas;
-/*
-function load() {
-	canvas = document.getElementById("draw");
-	context = canvas.getContext("2d");
-}; */
 
 SCREEN_W = window.innerWidth;
 SCREEN_H = window.innerHeight;
@@ -167,7 +162,7 @@ function populateFriends() {
 			console.log( "Rendered resp: " + res);
 			});
 			console.log( JSON.stringify(data.friends) );
-			for( key in data.friends )
+			for( var key in data.friends )
 		 	friends.push( 
 					new userObject( 
 							data.friends[key].id
