@@ -93,13 +93,13 @@ function clearLast( x, y) {
 //Colour communication
 
 colour.on('connect', function () {
-  colour.emit('hi!');
+//  colour.emit('hi!');
 });
 
 //User object for pop and interaction
 var userObject = function( _id, _name, _colour, _updated, _responded ) {
 	this.initialize.apply( this, arguments );
-}
+};
 
 $.extend( userObject.prototype, {
 		id: null
@@ -129,7 +129,7 @@ $.extend( userObject.prototype, {
 					
 				//	console.log( JSON.stringify(event.pageX), JSON.stringify(event.pageY), colour, JSON.stringify(canvasSize), JSON.stringify(canvasPos) );
 					
-					var msg = { 
+					var colourMsg = { 
 						id: id
 						, val1 : colour[0]
 						, val2 : colour[1]
@@ -137,8 +137,12 @@ $.extend( userObject.prototype, {
 						, timestamp : new Date()
 						 };
 
-				$('div.user.' + id ).children('div.colourPreview')
-					.css('background-color','rgb(' + msg.val1 + ',' + msg.val2 + ',' + msg.val3 + ')');
+				$('div.user.' + id )
+					.children('div.colourPreview')
+					.css(
+						'background-color'
+						,'rgb(' + colourMsg.val1 + ',' + colourMsg.val2 + ',' + colourMsg.val3 + ')'
+					 );
 
 					socket.emit( "msg", msg, function(err) {
 							console.log("sent: " + msg + " ? err: " + err);
