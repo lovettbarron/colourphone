@@ -148,6 +148,7 @@ function clearLast( x, y) {
 function populateFriends() {
 	$.get('/friends', function(data) {
 		 console.log('sent/recieved:' + JSON.stringify(data));
+		 socket.emit('you',data.you); // I know this is absolutely the wrong way to do this.
 		$("#twitter").html(data.html, function(res, err) {
 			if( err ) console.log("Render err: " + err);
 			console.log( "Rendered resp: " + res);

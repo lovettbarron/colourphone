@@ -187,7 +187,6 @@ io.set('authorization', function (data, accept) {
    accept('No cookie transmitted, no connection', false);
   }
 });
-
 	
 //Socket.io handling		
 io.sockets.on('connection', function (socket) {
@@ -210,12 +209,17 @@ io.sockets.on('connection', function (socket) {
 		socket.on('msg', function (data) {	
 				console.log('Current session: ' + JSON.stringify(hs.session) );
 				try {
-					var userID = hs.session.twit.id;
+					var userID = hs.session.twitId;
 					} catch(err) { console.log('No twitter session: ' + err)}
 				colordata = data;
 				socket.broadcast.emit('colour', data );
 
 			}); 
+
+		socket.on('you', function(data) {
+			hs.session.twitId = data;
+			console.log("WE GOTS THE ID! See: " + hs.session.twitID );
+		});
 
     socket.on('disconnect', function () {
         console.log('A socket with sessionID ' + hs.sessionID 
@@ -413,7 +417,7 @@ app.get('/friends', function(req, res) {
 									friends : friendIds
 									}, function(err, ret) {
 										
-										res.send({ friends: friendIds, html : ret});
+										res.send({ friends: friendIds, you: req.user.twit.id, html : ret});
 										console.log("Sent friend list" + ret + ", err? " + err);
 									});
 						  }
