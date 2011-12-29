@@ -182,7 +182,7 @@ $.extend( userObject.prototype, {
 				, updated = _updated
 				, responded = _responded;
 				console.log("user id" + id + " instantiated.");
-				$( 'div.user.' + this.id ).live( 'mousemove', (function(e){
+				$( 'div.user.' + id ).live( 'mousemove', (function(e){
 					console.log( 'interacting with ' + id );
 					var canvasPos = {
 						x : $(this).offset().left
