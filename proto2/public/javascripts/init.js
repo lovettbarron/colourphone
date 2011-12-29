@@ -207,9 +207,9 @@ $.extend( userObject.prototype, {
 						, timestamp : new Date()
 						 };
 
-					socket.emit( "msg", msg, function(err, msg) {
+					socket.emit( "msg", msg, function(err) {
 						console.log("sent: " + msg + " ? err: " + err)
-							$('div.user.' + id ).children('div.colourPreview')
+						$('div.user.' + id ).children('div.colourPreview')
 								.css('background-color','rgb(' + msg.val1 + ',' + msg.val2 + ',' + msg.val3 + ')');
 						});
 				}));
