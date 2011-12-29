@@ -210,10 +210,16 @@ io.sockets.on('connection', function (socket) {
 				console.log('Current session: ' + JSON.stringify(hs.session) );
 				try {
 					var userID = hs.session.twitId;
+				/*	var userToInsert = User.find(
+						{ 'twit.id' : hs.session.twitId, 'friends.id' : data.id },
+						function(err) {
+							console.log('No permission for ' + hs.session.twitId + 
+							' to contact ' + data.id );
+						} ); */
 					User.update( { 'twit.id' : hs.session.twitId }
 							, {  
 								 'friends.id': data.id
-									,colour  : {
+									, 'colour'  : {
 										'model'  : data.type
 										, 'val1' : data.val1
 										, 'val2' : data.val2
