@@ -230,10 +230,12 @@ io.sockets.on('connection', function (socket) {
 
 							p.save( function(err) {
 								if(err) console.log('Problem saving: ' + err)
-							});
-						}
+								});
+							}
 						} );
-					console.log('About to update with ' + data);
+					} catch(err) {
+						console.log('An error occured updating colour: ' + err);
+					}
 					
 			//		userToInsert.friends.push({})
 					
@@ -258,7 +260,7 @@ io.sockets.on('connection', function (socket) {
 									+ hs.session.twitId );
 						} );
 					} catch(err) { console.log('Unable to update ' + err)} */
-					
+					/*
 					userToInsert.friends.id[data.id].colour = {
 								'model'  : data.type
 								, 'val1' : data.val1
@@ -271,7 +273,7 @@ io.sockets.on('connection', function (socket) {
 					
 					userToInsert.save( function(err) {
 						if(err) console.log('Problem saving: ' + err)
-					});
+					});*/
 		
 			//	socket.broadcast.emit('colour', data );
 /*					if( sesColours.id[data.id] === undefined) {
