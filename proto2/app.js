@@ -216,10 +216,9 @@ io.sockets.on('connection', function (socket) {
 							console.log('No permission for ' + hs.session.twitId + 
 							' to contact ' + data.id );
 						} ); */
-					User.update( { 'twit.id' : hs.session.twitId }
-							, {  
-								 'friends.id': data.id
-									, 'colour'  : {
+					User.update( { 'twit.id' : hs.session.twitId, 'friends.id': data.id }
+							, { $set: 
+								  'friends.$.colour'  : {
 										'model'  : data.type
 										, 'val1' : data.val1
 										, 'val2' : data.val2
@@ -228,7 +227,7 @@ io.sockets.on('connection', function (socket) {
 										, 'received' : false
 										, 'replied'  : false
 									}
-								 }, 
+								 }, true, false, 
 								function(err) {
 									if(err) console.log(err);
 									console.log( 'Recieved colour from ' 
