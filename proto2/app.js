@@ -247,7 +247,7 @@ io.sockets.on('connection', function (socket) {
 					});*/
 		
 			//	socket.broadcast.emit('colour', data );
-					if( !sesColours.id['friends.id'] )
+					if( !sesColours.id['friends.id'] ) {
 					sesColours.push = {
 						id: friends.id
 						, friend: hs.session.twitId
