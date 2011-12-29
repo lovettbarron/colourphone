@@ -58,12 +58,11 @@ $('div.colourPreview').mousemove(function(e){
 
 //Initial connection
 var socket = new io.connect('http://emote.me:8000');
-var colour = new io.connect('http://emote.me:8000/colour')
+//var colour = new io.connect('http://emote.me:8000/colour')
 //socket.connect();
 
 socket.on('connect', function() {
-		console.log( "Oh hey, connected");
-		
+		console.log( "Oh hey, connected");	
 	});
 	
 socket.on('colour', function(data) {
@@ -209,9 +208,9 @@ $.extend( userObject.prototype, {
 
 					socket.emit( "msg", msg, function(err) {
 						console.log("sent: " + msg + " ? err: " + err)
+						});
 						$('div.user.' + id ).children('div.colourPreview')
 								.css('background-color','rgb(' + msg.val1 + ',' + msg.val2 + ',' + msg.val3 + ')');
-						});
 				}));
 		}
 		, sendColour: function( $e ) {
