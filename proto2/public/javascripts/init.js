@@ -192,12 +192,12 @@ $.extend( userObject.prototype, {
 						x: $(this).width()
 						, y: $(this).height()
 					};
-					var h = ( (event.x - canvasPos.x) / canvasSize.x );
-					var s = ( (event.y - canvasPos.y) / canvasSize.y );
+					var h = ( (event.data.x - canvasPos.x) / canvasSize.x );
+					var s = ( (event.data.y - canvasPos.y) / canvasSize.y );
 					var l = 1.0; 
 					var colour = hsvToRgb(h*360,s*100,l*100);
 					
-					console.log( JSON.stringify(event.x), JSON.stringify(event.y), colour, JSON.stringify(canvasSize), JSON.stringify(canvasPos) );
+					console.log( JSON.stringify(event.data.x), JSON.stringify(event.data.y), colour, JSON.stringify(canvasSize), JSON.stringify(canvasPos) );
 					
 					var msg = { 
 						id: id
