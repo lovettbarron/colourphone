@@ -287,7 +287,7 @@ io.sockets.on('connection', function (socket) {
 
 		socket.on('isUpdate', function(data) {
 			if( sesColours.id[hs.session.twitId] ) {
-				socket.emit.(sesColour.id[hs.session.twitId], function() {
+				socket.emit(sesColour.id[hs.session.twitId], function() {
 					sesColour.id[hs.session.twitId] = null;
 					console.log("send and deleted update for " + hs.session.twitId );
 				})
