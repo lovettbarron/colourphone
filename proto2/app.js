@@ -218,7 +218,9 @@ io.sockets.on('connection', function (socket) {
 								console.log('No permission for ' + hs.session.twitId + 
 							' to contact ' + data.id );
 						} else {
-							p.friends.id[data.id].colour = {
+							for( var key in friends) {
+						  if( p.friends[key].id == 'data.id'){
+							p.friends[key].colour = {
 										'model'  : data.type
 										, 'val1' : data.val1
 										, 'val2' : data.val2
@@ -226,7 +228,9 @@ io.sockets.on('connection', function (socket) {
 										, 'sent' : data.timestamp
 										, 'received' : false
 										, 'replied'  : false
-							};
+										};
+									}
+								}
 
 							p.save( function(err) {
 								if(err) console.log('Problem saving: ' + err)
