@@ -181,9 +181,9 @@ $.extend( userObject.prototype, {
 				, colour = _colour
 				, updated = _updated
 				, responded = _responded;
-				console.log("user id" + this.id + " instantiated.");
+				console.log("user id" + id + " instantiated.");
 				$( 'div.user.' + this.id ).live( 'mousemove', (function(e){
-					console.log( 'interacting with ' + this.id );
+					console.log( 'interacting with ' + id );
 					var canvasPos = {
 						x : $(this).offset().left
 						, y : $(this).offset().top
@@ -200,7 +200,7 @@ $.extend( userObject.prototype, {
 					console.log( h, s, l, colour );
 					
 					var msg = { 
-						id: this.id
+						id: id
 						, val1 : colour[0]
 						, val2 : colour[1]
 						, val3 : colour[2]
