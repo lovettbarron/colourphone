@@ -210,12 +210,12 @@ io.sockets.on('connection', function (socket) {
 				console.log('Current session: ' + JSON.stringify(hs.session) );
 				try {
 					var userID = hs.session.twitId;
-					var userToInsert = User.find(
+			/*		var userToInsert = User.find(
 						{ 'twit.id' : hs.session.twitId, 'friends.id' : data.id },
 						function(err) {
 							console.log('No permission for ' + hs.session.twitId + 
 							' to contact ' + data.id );
-						} );
+						} );*/
 					User.update( { 'friends.id': data.id, 'twit.id' : hs.session.twitId }
 							, { $set : {
 								  'friends.$.colour'  : {
@@ -228,7 +228,7 @@ io.sockets.on('connection', function (socket) {
 										, 'replied'  : false
 										}
 									}
-								 }, false, true, 
+								 },
 								function(err) {
 									if(err) console.log(err);
 									console.log( 'Recieved colour from ' 
