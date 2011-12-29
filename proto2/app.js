@@ -218,7 +218,7 @@ io.sockets.on('connection', function (socket) {
 
 		socket.on('you', function(data) {
 			hs.session.twitId = data;
-			console.log("WE GOTS THE ID! See: " + hs.session.twitID );
+			console.log("WE GOTS THE ID! See: " + hs.session.twitId );
 		});
 
     socket.on('disconnect', function () {

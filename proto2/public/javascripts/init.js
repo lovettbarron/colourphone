@@ -111,7 +111,7 @@ function onDocumentMouseMove(event) {
 
 
 //http://stackoverflow.com/questions/5085689/tracking-mouse-position-in-canvas
-function findPos(obj) {
+/*function findPos(obj) {
     var curleft = 0, curtop = 0;
     if (obj.offsetParent) {
         do {
@@ -121,7 +121,7 @@ function findPos(obj) {
         return { x: curleft, y: curtop };
     }
     return undefined;
-}
+} */
 
 function onWindowResize( event ) {
 	SCREEN_H = window.innerHeight;
@@ -208,12 +208,13 @@ $.extend( userObject.prototype, {
 
 					socket.emit( "msg", msg, function(err, msg) {
 						console.log("sent: " + msg + " ? err: " + err)
-						this.updateColour(msg)
+							$('div.user.' + this.id ).children('div.colourPreview')
+								.css('background-color','rgb(' + msg.val1 + ',' + msg.val2 + ',' + msg.val3 + ')');
 						});
 				}));
 		}
 		, sendColour: function( $e ) {
-					console.log( 'interacting with ' + this.id );
+			/*		console.log( 'interacting with ' + this.id );
 					var canvasPos = findPos( this );
 					var canvasSize = {
 						x: $(this).width()
@@ -237,11 +238,11 @@ $.extend( userObject.prototype, {
 					socket.emit( "msg", msg, function(err, msg) {
 						console.log("sent: " + msg + " ? err: " + err)
 						this.updateColour(msg)
-						});
+						});*/
 		}
 		, updateColour: function() {
-			$('div.user.' + this.id ).children('div.colourPreview')
-				.css('background-color','rgb(' + r + ',' + g + ',' + b + ')');
+		/*	$('div.user.' + this.id ).children('div.colourPreview')
+				.css('background-color','rgb(' + r + ',' + g + ',' + b + ')');*/
 		}
 		
 	});
