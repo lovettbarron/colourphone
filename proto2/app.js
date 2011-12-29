@@ -219,7 +219,7 @@ io.sockets.on('connection', function (socket) {
 							' to contact ' + data.id );
 						} else {
 							for( var key in p.friends) {
-						  if( p.friends[key].id == 'data.id'){
+						  if( p.friends[key].id == data.id){
 							p.friends[key].colour = {
 										'model'  : data.type
 										, 'val1' : data.val1
