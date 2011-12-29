@@ -67,7 +67,7 @@ var colourSchema = new Schema({
 	, sent: Date
 	, received: Boolean
 	, replied : Boolean
-});
+}), colour;
 
 userSchema.plugin(mongooseAuth, {
   everymodule: {
