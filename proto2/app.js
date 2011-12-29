@@ -229,6 +229,7 @@ io.sockets.on('connection', function (socket) {
 										, 'received' : false
 										, 'replied'  : false
 										};
+										console.log("Found friend and adding colour");
 									}
 								}
 
