@@ -167,22 +167,20 @@ colour.on('connect', function () {
 });
 
 //User object for pop and interaction
-var userObject = function( id, name, colour, updated, responded ) {
+var userObject = function( _id, _name, _colour, _updated, _responded ) {
 	this.initialize.apply( this, arguments );
-	this.sendColour.apply( this, arguments );
-	this.updateColour.apply( this, arguments );
 }
 
 $.extend( userObject.prototype, {
 		id: null
 		, name: null
 		, updated: null
-		, initialize: function ( id, name, colour, updated, responded ) {
-				var this.id = id
-				, this.name = name
-				, this.colour = colour
-				, this.updated = updated
-				, this.responded = responded;
+		, initialize: function ( _id, _name, _colour, _updated, _responded ) {
+				var id = _id
+				, name = _name
+				, colour = _colour
+				, updated = _updated
+				, responded = _responded;
 				console.log("user id" + this.id + " instantiated.");
 				$( 'div.user.' + this.id ).live( 'mousemove', (function(e){
 					console.log( 'interacting with ' + this.id );
