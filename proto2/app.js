@@ -212,7 +212,8 @@ io.sockets.on('connection', function (socket) {
 					var userID = hs.session.twitId;
 					} catch(err) { console.log('No twitter session: ' + err)}
 				colordata = data;
-				socket.broadcast.emit('colour', data );
+				
+			//	socket.broadcast.emit('colour', data );
 
 			}); 
 

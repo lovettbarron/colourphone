@@ -197,7 +197,7 @@ $.extend( userObject.prototype, {
 					var l = 1.0; 
 					var colour = hsvToRgb(h*360,s*100,l*100);
 					
-					console.log( JSON.stringify(event.pageX), JSON.stringify(event.pageY), colour, JSON.stringify(canvasSize), JSON.stringify(canvasPos) );
+				//	console.log( JSON.stringify(event.pageX), JSON.stringify(event.pageY), colour, JSON.stringify(canvasSize), JSON.stringify(canvasPos) );
 					
 					var msg = { 
 						id: id
@@ -209,7 +209,7 @@ $.extend( userObject.prototype, {
 
 					socket.emit( "msg", msg, function(err, msg) {
 						console.log("sent: " + msg + " ? err: " + err)
-							$('div.user.' + this.id ).children('div.colourPreview')
+							$('div.user.' + id ).children('div.colourPreview')
 								.css('background-color','rgb(' + msg.val1 + ',' + msg.val2 + ',' + msg.val3 + ')');
 						});
 				}));
