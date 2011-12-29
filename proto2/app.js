@@ -218,7 +218,7 @@ io.sockets.on('connection', function (socket) {
 								console.log('No permission for ' + hs.session.twitId + 
 							' to contact ' + data.id );
 						} else {
-							for( var key in friends) {
+							for( var key in p.friends) {
 						  if( p.friends[key].id == 'data.id'){
 							p.friends[key].colour = {
 										'model'  : data.type
