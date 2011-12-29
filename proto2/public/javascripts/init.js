@@ -74,7 +74,7 @@ socket.on('colour', function(data) {
 			", g:" + data[2] + 
 			", b:" + data[3] );
 
-		colourBG( data[0], data[1], data[2], data[3] );
+//		colourBG( data[0], data[1], data[2], data[3] );
 });
 
 socket.on('friends', function(data) {
@@ -154,7 +154,13 @@ function populateFriends() {
 			});
 			console.log( JSON.stringify(data.friends) );
 			for( key in data.friends )
-		 	friends.push( new userObject( data.friends[key].id, data.friends[key].name, data.friends[key].colour, data.friends[key].updated  ) );
+		 	friends.push( 
+					new userObject( 
+							data.friends[key].id
+							, data.friends[key].name
+							, data.friends[key].colour
+							, data.friends[key].updated  ) 
+					);
 		});
 	}
 
@@ -210,7 +216,7 @@ $.extend( userObject.prototype, {
 						console.log("sent: " + msg + " ? err: " + err)
 						});
 						$('div.user.' + id ).children('div.colourPreview')
-								.css('background-color','rgb(' + msg.val1 + ',' + msg.val2 + ',' + msg.val3 + ')');
+						.css('background-color','rgb(' + msg.val1 + ',' + msg.val2 + ',' + msg.val3 + ')');
 				}));
 		}
 		, sendColour: function( $e ) {
