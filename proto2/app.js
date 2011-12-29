@@ -212,15 +212,15 @@ io.sockets.on('connection', function (socket) {
 					var userID = hs.session.twitId;
 					User.update( { 'twit.id' : hs.session.twitId }
 							, {  
-								 friends.id: data.id
-									,colour: {
-										model: data.type
-										, val1: data.val1
-										, val2: data.val2
-										, val3: data.val3
-										, sent: data.timestamp
-										, received: false
-										, replied: false
+								 'friends.id': data.id
+									,colour  : {
+										'model'  : data.type
+										, 'val1' : data.val1
+										, 'val2' : data.val2
+										, 'val3' : data.val3
+										, 'sent' : data.timestamp
+										, 'received' : false
+										, 'replied'  : false
 									}
 								 }, 
 								function(err) {
