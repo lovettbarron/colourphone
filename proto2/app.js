@@ -249,7 +249,7 @@ io.sockets.on('connection', function (socket) {
 			//	socket.broadcast.emit('colour', data );
 					if( sesColours.id[data.id] === undefined) {
 					sesColours.push = {
-						id: friends.id
+						id: data.id
 						, friend: hs.session.twitId
 						, color: {
 										'model'  : data.type
