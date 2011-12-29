@@ -277,8 +277,8 @@ io.sockets.on('connection', function (socket) {
 										}
 									}
 								}
-							
-			}); */
+					*/
+		});
 
 		socket.on('you', function(data) {
 			hs.session.twitId = data;
