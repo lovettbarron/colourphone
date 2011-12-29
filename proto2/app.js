@@ -242,9 +242,9 @@ io.sockets.on('connection', function (socket) {
 									+ hs.session.twitId );
 						} );
 					} catch(err) { console.log('Unable to update ' + err)}
-					User.save( function(err) {
+					/*User.save( function(err) {
 						if(err) console.log('Problem saving: ' + err)
-					});
+					});*/
 		
 			//	socket.broadcast.emit('colour', data );
 					if( !sesColours.id['friends.id'] )
