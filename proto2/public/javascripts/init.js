@@ -86,10 +86,10 @@ function clearLast( x, y) {
 	}
 
 //Colour communication
-
+/*
 colour.on('connect', function () {
 //  colour.emit('hi!');
-});
+}); */
 
 //User object for pop and interaction
 var userObject = function( _id, _name, _colour, _updated, _responded ) {
