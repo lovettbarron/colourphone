@@ -208,9 +208,9 @@ io.sockets.on('connection', function (socket) {
 	    }); }, 60 * 1000);
 
 		socket.on('msg', function (data) {	
-				console.log('Current session: ' + hs.handshake.session );
+				console.log('Current session: ' + hs.session );
 				try {
-					var userID = hs.handshake.session.twit.id;
+					var userID = hs.session.twit.id;
 					} catch(err) { console.log('No twitter session: ' + err)}
 				colordata = data;
 				socket.broadcast.emit('colour', data );
