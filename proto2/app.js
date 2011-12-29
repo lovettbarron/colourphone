@@ -229,7 +229,6 @@ io.sockets.on('connection', function (socket) {
 									+ data.id + ' and saved to ' 
 									+ hs.session.twitId );
 						} );
-					}
 					} catch(err) { console.log('Unable to update ' + err)}
 				
 			//	socket.broadcast.emit('colour', data );
