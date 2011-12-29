@@ -216,6 +216,7 @@ io.sockets.on('connection', function (socket) {
 							console.log('No permission for ' + hs.session.twitId + 
 							' to contact ' + data.id );
 						} );*/
+					console.log('About to update with ' + data);
 					User.update( { 'friends.id': data.id, 'twit.id' : hs.session.twitId }
 							, { $set : {
 								  'friends.$.colour'  : {
