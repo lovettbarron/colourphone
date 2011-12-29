@@ -60,7 +60,6 @@ var friendSchema = new Schema({
 }), friend;
 
 var colourSchema = new Schema({
-	
 	model: { type: String, default: 'RGB' }
 	, val1: Number
 	, val2: Number
@@ -220,14 +219,15 @@ io.sockets.on('connection', function (socket) {
 						} else {
 							for( var key in p.friends) {
 						  if( p.friends[key].id == data.id){
-							p.friends[key].colour.push({
-										'model'  : 'RGB'
-										, 'val1' : data.val1
-										, 'val2' : data.val2
-										, 'val3' : data.val3
-										, 'sent' : data.timestamp
-										, 'received' : false
-										, 'replied'  : false
+							p.friends[key].push( colour : {
+												model  : 'RGB'
+												, val1 : data.val1
+												, val2 : data.val2
+												, val3 : data.val3
+												, sent : data.timestamp
+												, received : false
+												, replied  : false
+											}
 										});
 										console.log("Found friend and adding colour" + p);
 									}
