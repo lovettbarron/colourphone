@@ -197,7 +197,7 @@ $.extend( userObject.prototype, {
 					var l = 1.0; 
 					var colour = hsvToRgb(h*360,s*100,l*100);
 					
-					console.log( JSON.stringify(event), colour, JSON.stringify(canvasSize), JSON.stringify(canvasPos) );
+					console.log( event.y, event.y, colour, JSON.stringify(canvasSize), JSON.stringify(canvasPos) );
 					
 					var msg = { 
 						id: id
