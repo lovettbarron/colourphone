@@ -178,11 +178,11 @@ $.extend( userObject.prototype, {
 		, name: null
 		, updated: null
 		, initialize: function ( id, name, colour, updated, responded ) {
-				this.id = id;
-				this.name = name;
-				this.colour = colour;
-				this.updated = updated;
-				this.responded = responded;
+				var this.id = id
+				, this.name = name
+				, this.colour = colour
+				, this.updated = updated
+				, this.responded = responded;
 				console.log("user id" + this.id + " instantiated.");
 				$( 'div.user.' + this.id ).live( 'mousemove', (function(e){
 					console.log( 'interacting with ' + this.id );
