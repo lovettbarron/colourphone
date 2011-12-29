@@ -182,7 +182,7 @@ $.extend( userObject.prototype, {
 				, updated = _updated
 				, responded = _responded;
 				console.log("user id" + id + " instantiated.");
-				$( 'div.user.' + id ).on( 'mousemove', (function(e){
+				$( 'div.user.' + id ).on( 'mousemove', (function(event){
 					console.log( 'interacting with ' + id );
 					var canvasPos = {
 						x : $(this).offset().left
@@ -192,12 +192,12 @@ $.extend( userObject.prototype, {
 						x: $(this).width()
 						, y: $(this).height()
 					};
-					var h = ( (e.x - canvasPos.x) / canvasSize.x );
-					var s = ( (e.y - canvasPos.y) / canvasSize.y );
+					var h = ( (event.x - canvasPos.x) / canvasSize.x );
+					var s = ( (event.y - canvasPos.y) / canvasSize.y );
 					var l = 1.0; 
 					var colour = hsvToRgb(h*360,s*100,l*100);
 					
-					console.log( JSON.stringify(e), colour, JSON.stringify(canvasSize), JSON.stringify(canvasPos) );
+					console.log( JSON.stringify(event), colour, JSON.stringify(canvasSize), JSON.stringify(canvasPos) );
 					
 					var msg = { 
 						id: id
