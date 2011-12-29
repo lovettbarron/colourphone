@@ -192,6 +192,7 @@ io.set('authorization', function (data, accept) {
 io.sockets.on('connection', function (socket) {
   	socket.join(socket.handshake.sessionID);
     var hs = socket.handshake;
+		var sesColours = [];
     console.log('A socket with sessionID ' + hs.sessionID 
         + ' connected!');
     socket.emit('ready');
@@ -246,12 +247,51 @@ io.sockets.on('connection', function (socket) {
 					});
 		
 			//	socket.broadcast.emit('colour', data );
-
+					if( !sesColours.id['friends.id'] )
+					sesColours.push = {
+						id: friends.id
+						, friend: hs.session.twitId
+						, color: {
+										'model'  : data.type
+										, 'val1' : data.val1
+										, 'val2' : data.val2
+										, 'val3' : data.val3
+										, 'sent' : data.timestamp
+										, 'received' : false
+										, 'replied'  : false
+										}
+									}
+								} 
+				else {
+					sesColours.id['friends.id']= {
+						id: friends.id
+						, friend: hs.session.twitId
+						, color: {
+										'model'  : data.type
+										, 'val1' : data.val1
+										, 'val2' : data.val2
+										, 'val3' : data.val3
+										, 'sent' : data.timestamp
+										, 'received' : false
+										, 'replied'  : false
+										}
+									}
+								}
+							
 			}); 
 
 		socket.on('you', function(data) {
 			hs.session.twitId = data;
 			console.log("WE GOTS THE ID! See: " + hs.session.twitId );
+		});
+
+		socket.on('isUpdate', function(data) {
+			if( sesColours.id[hs.session.twitId] ) {
+				socket.emit.(sesColour.id[hs.session.twitId], function() {
+					sesColour.id[hs.session.twitId] = null;
+					console.log("send and deleted update for " + hs.session.twitId );
+				}
+			}
 		});
 
     socket.on('disconnect', function () {
