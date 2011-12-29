@@ -143,28 +143,6 @@ function clearLast( x, y) {
 	context.fillRect( x, y, 10, 10);
 	}
 
-
-function populateFriends() {
-	$.get('/friends', function(data) {
-		 console.log('sent/recieved:' + JSON.stringify(data));
-		 socket.emit('you',data.you); // I know this is absolutely the wrong way to do this.
-		$("#twitter").html(data.html, function(res, err) {
-			if( err ) console.log("Render err: " + err);
-			console.log( "Rendered resp: " + res);
-			});
-			console.log( JSON.stringify(data.friends) );
-			for( key in data.friends )
-		 	friends.push( 
-					new userObject( 
-							data.friends[key].id
-							, data.friends[key].name
-							, data.friends[key].colour
-							, data.friends[key].updated  ) 
-					);
-		});
-	}
-
-
 //Colour communication
 
 colour.on('connect', function () {
@@ -212,11 +190,12 @@ $.extend( userObject.prototype, {
 						, timestamp : new Date()
 						 };
 
+				$('div.user.' + id ).children('div.colourPreview')
+					.css('background-color','rgb(' + msg.val1 + ',' + msg.val2 + ',' + msg.val3 + ')');
+
 					socket.emit( "msg", msg, function(err) {
-						console.log("sent: " + msg + " ? err: " + err)
+							console.log("sent: " + msg + " ? err: " + err);
 						});
-						$('div.user.' + id ).children('div.colourPreview')
-						.css('background-color','rgb(' + msg.val1 + ',' + msg.val2 + ',' + msg.val3 + ')');
 				}));
 		}
 		, sendColour: function( $e ) {
@@ -260,6 +239,28 @@ $.extend( userObject.prototype, {
 
 
 
+
+
+	function populateFriends() {
+		$.get('/friends', function(data) {
+			 console.log('sent/recieved:' + JSON.stringify(data));
+			 socket.emit('you',data.you); // I know this is absolutely the wrong way to do this.
+			$("#twitter").html(data.html, function(res, err) {
+				if( err ) console.log("Render err: " + err);
+				console.log( "Rendered resp: " + res);
+				});
+				console.log( JSON.stringify(data.friends) );
+				for( key in data.friends )
+			 	friends.push( 
+						new userObject( 
+								data.friends[key].id
+								, data.friends[key].name
+								, data.friends[key].colour
+								, data.friends[key].updated
+								, data.friends[key].responded  ) 
+						);
+			});
+		}
 
 
 
