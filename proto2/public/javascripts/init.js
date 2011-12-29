@@ -10,7 +10,7 @@ window.addEventListener( 'resize', onWindowResize, function(event){
 	console.log("Window resized:",event);
 });
 //document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-
+/*
 document.body.addEventListener('touchmove', function(e) {
     e.preventDefault();
 		var x = event.touches[0].pageX;
@@ -23,7 +23,7 @@ document.body.addEventListener('touchmove', function(e) {
 		socket.emit( "msg", color );
 		colourBG( color[0], color[0], color[1], color[2] );
 });
-
+*/
 //Initial connection
 var socket = new io.connect('http://emote.me:8000');
 //var colour = new io.connect('http://emote.me:8000/colour')
@@ -119,6 +119,43 @@ $.extend( userObject.prototype, {
 					};
 					var h = ( (event.pageX - canvasPos.x) / canvasSize.x );
 					var s = ( (event.pageY - canvasPos.y) / canvasSize.y );
+					var l = 1.0; 
+					var colour = hsvToRgb(h*360,s*100,l*100);
+					
+				//	console.log( JSON.stringify(event.pageX), JSON.stringify(event.pageY), colour, JSON.stringify(canvasSize), JSON.stringify(canvasPos) );
+					
+					var colourMsg = { 
+						id: id
+						, model: 'RGB'
+						, val1 : colour[0]
+						, val2 : colour[1]
+						, val3 : colour[2]
+						, timestamp : new Date()
+						 };
+
+				$('div.user.' + id )
+					.children('div.colourPreview')
+					.css(
+						'background-color'
+						,'rgb(' + colourMsg.val1 + ',' + colourMsg.val2 + ',' + colourMsg.val3 + ')'
+					 );
+
+					socket.emit( "msg", colourMsg, function(err) {
+							console.log("sent: " + msg + " ? err: " + err);
+						});
+				}));
+				$( 'div.user.' + id ).bind( 'touchmove', (function(event){
+					console.log( 'interacting with ' + id );
+					var canvasPos = {
+						x : $(this).offset().left
+						, y : $(this).offset().top
+					};
+					var canvasSize = {
+						x: $(this).width()
+						, y: $(this).height()
+					};
+					var h = ( (event.touches[0].pageX - canvasPos.x) / canvasSize.x );
+					var s = ( (event.touches[0].pageY - canvasPos.y) / canvasSize.y );
 					var l = 1.0; 
 					var colour = hsvToRgb(h*360,s*100,l*100);
 					
