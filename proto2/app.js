@@ -339,8 +339,8 @@ io.sockets.on('connection', function (socket) {
 			var friendList = User.findOne({'twit.id' : hs.session.twitId });
 			
 			for( var key in friendList.friends ){
-				var mostRecent = Colour.findOne( {'to' : hs.session.twitId
-									, 'from' : friendList.friends[key].id }, function(err, p) {
+				var mostRecent = Colour.findOne( {'colour.to' : hs.session.twitId
+									, 'colour.from' : friendList.friends[key].id }, function(err, p) {
 											if(err) console.log("Err retrieving color:" + err)
 											//reply.push( p );
 												} ).sort('date').limit(1);
@@ -356,10 +356,7 @@ io.sockets.on('connection', function (socket) {
 					})
 				}
 			}
-			
-
 			socket.emit('update', reply, function() {
-				
 			});
 		});
 
