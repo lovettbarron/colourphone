@@ -194,9 +194,10 @@ io.sockets.on('connection', function (socket) {
     console.log('A socket with sessionID ' + hs.sessionID 
         + ' connected!');
     socket.emit('ready');
-		socket.emit('colour', colordata, function() {
+
+/*		socket.emit('colour', colordata, function() {
 			console.log('Current colour sent.')
-		});
+		});*/
 
 	  var intervalID = setInterval(function () {
 	    socket.handshake.session.reload( function () {
