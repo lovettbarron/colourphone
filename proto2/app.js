@@ -61,15 +61,17 @@ var friendSchema = new Schema({
 
 var colourSchema = new Schema({
 	_id : Schema.ObjectId 
-	,	to : String
-	, from : String
-	, model: { type: String, default: 'RGB' }
-	, val1: Number
-	, val2: Number
-	, val3: Number
-	, sent: Date
-	, received: Boolean
-	, replied : Boolean
+	colour: {
+		to : String
+		, from : String
+		, model: { type: String, default: 'RGB' }
+		, val1: Number
+		, val2: Number
+		, val3: Number
+		, sent: Date
+		, received: Boolean
+		, replied : Boolean
+	} 
 }), Colour;
 
 userSchema.plugin(mongooseAuth, {
@@ -226,7 +228,7 @@ io.sockets.on('connection', function (socket) {
 								newColour.colour = JSON.parse( JSON.stringify( {
 													"to" : data.id
 													, "from" : hs.session.twitId
-													,"model"  : 'RGB'
+													,"model"  : "RGB"
 													, "val1" : data.val1
 													, "val2" : data.val2
 													, "val3" : data.val3
