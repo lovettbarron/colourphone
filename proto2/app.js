@@ -100,14 +100,11 @@ userSchema.plugin(mongooseAuth, {
   }
 });
 
-mongoose.model('User', userSchema);
-mongoose.model('Colour', colourSchema);
+//mongoose.model('User', userSchema);
+//mongoose.model('Colour', colourSchema);
 
-User = mongoose.model('User');	
-Colour = mongoose.model('Colour');
-
-//var colorObject = mongoose.model('Colour', colourSchema);
-//var userObject = mongoose.model('User', userSchema);
+User = mongoose.model('User', userSchema);	
+Colour = mongoose.model('Colour', colourSchema);
 
 /************************
  * Server config        *
