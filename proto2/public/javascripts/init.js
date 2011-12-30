@@ -27,8 +27,26 @@ setTimeout(function(){
 	}
 	socket.emit('isUpdate', friends, function(err) {
 		console.log('Checking for update ? err: ' + err)
-	})
+	});
 	}, 500);
+
+
+function loop() {
+    setInterval(function() { // this code is executed every 500 milliseconds:
+			for( var key in friends ) {
+				if( friends[key].colour !== undefined ) {
+					socket.emit( "msg", friends.id[key].colour, function(err) {
+							console.log("sent: " + msg + " ? err: " + err);
+						});
+				}
+			}
+			socket.emit('isUpdate', friends, function(err) {
+				console.log('Checking for update ? err: ' + err)
+			});
+    }, 500);
+}
+
+$(loop);
 
 SCREEN_W = window.innerWidth;
 SCREEN_H = window.innerHeight;
