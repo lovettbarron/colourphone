@@ -326,8 +326,9 @@ io.sockets.on('connection', function (socket) {
 
 		socket.on('isUpdate', function(data) {
 			var reply = [];
-			var response = User.findOne({ 'twit.id' : hs.session.twitId });
-			console.log('Just got pinged from ' + hs.session.twitId );
+			var response = User.findOne({ 'twit.id' : hs.session.twitId }, {'colour.recieved':-1} );
+//			console.log('Just got pinged from ' + hs.session.twitId );
+			console.log(response);
 			for( var key in response.friends) {
 				if( response.friends[key].colour.recieved == false ) {
 					reply.push(response.friends[key].colour);

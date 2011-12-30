@@ -105,6 +105,17 @@ function clearLast( x, y) {
 	context.fillRect( x, y, 10, 10);
 	}
 
+socket.on('update', function(data) {
+			for( var key in data ) {
+				if( friendsJSON[key].colour !== undefined ) {
+					socket.emit( "msg", friendsJSON[key].colour, function(err) {
+							console.log("sent: " + msg + " ? err: " + err);
+						});
+						friendsJSON[key].colour = undefined;
+				}
+			}
+	});
+
 
 //User object for pop and interaction
 var userObject = function( _id, _name, _colour, _updated, _responded ) {
