@@ -227,7 +227,8 @@ io.sockets.on('connection', function (socket) {
 						  if( p.friends[key].id == data.id){*/
 						//	if( p.friends[key].colour === undefined ) p.friends[key].colour = new Array();
 							console.log(JSON.stringify(data));
-								var colourObject = JSON.parse( JSON.stringify({ "colour" : {
+								var newColour = new Colour();
+								newColour = JSON.parse( JSON.stringify( {
 													"to" : data.id
 													, "from" : hs.session.twitId
 													,"model"  : 'RGB'
@@ -237,7 +238,6 @@ io.sockets.on('connection', function (socket) {
 													, "sent" : data.timestamp
 													, "received" : false
 													, "replied"  : false
-												}
 											}));
 								/*p.friends[key].colour.push( colourObject );
 //								console.log("Found friend and adding colour" + colourObject + p);
@@ -250,10 +250,12 @@ io.sockets.on('connection', function (socket) {
 								}
 							}
 						} );*/
-						Colour.insert(colourObject, function(err) {
+/*						Colour.insert(colourObject, function(err) {
 							console.log('Inserted into database ? err:' + err)
+						});*/
+						newColour.save( function(err) {
+							if(err) console.log("Error saving colour:" + err)
 						});
-						Colour.save();
 					} catch(err) {
 						console.log('An error occured updating colour: ' + err);
 					}
