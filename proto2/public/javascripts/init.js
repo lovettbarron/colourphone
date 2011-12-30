@@ -18,7 +18,16 @@ webappCache.addEventListener("updateready", updateCache, false);
 webappCache.addEventListener("error", errorCache, false);
 
 setTimeout(function(){ 
-	socket.emit('isUpdate', friends)
+	for( var key in friends ) {
+		if( friends[key].colour !== undefined ) {
+			socket.emit( "msg", friends.id[key].colour, function(err) {
+					console.log("sent: " + msg + " ? err: " + err);
+				});
+		}
+	}
+	socket.emit('isUpdate', friends, function(err) {
+		console.log('Checking for update ? err: ' + err)
+	})
 	}, 500);
 
 SCREEN_W = window.innerWidth;
@@ -157,9 +166,15 @@ $.extend( userObject.prototype, {
 						,'rgb(' + colourMsg.val1 + ',' + colourMsg.val2 + ',' + colourMsg.val3 + ')'
 					 );
 
-					socket.emit( "msg", colourMsg, function(err) {
+	/*				socket.emit( "msg", colourMsg, function(err) {
 							console.log("sent: " + msg + " ? err: " + err);
-						});
+						});*/
+				for( var key in friends ) {
+					if( friends[key].id == id ) {
+						friends[key].colour = colourMsg;
+					}
+				}
+										
 				}));
 				$( 'div.user.' + id ).bind( 'touchmove', (function(event){
 					console.log( 'interacting with ' + id );
