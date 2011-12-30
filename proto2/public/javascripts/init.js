@@ -227,7 +227,7 @@ function populateFriends() {
 			console.log( "Rendered resp: " + res);
 			});
 			console.log( JSON.stringify(data.friends) );
-			for( var key in data.friends )
+			for( var key in data.friends ){
 			friendsJSON.push({ "id" : data.friends[key].id });
 		 	friends.push( 
 					new userObject( 
@@ -237,7 +237,7 @@ function populateFriends() {
 							, data.friends[key].updated
 							, data.friends[key].responded  ) 
 					);
-		});
+		} });
 }
 
 
