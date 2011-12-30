@@ -254,7 +254,7 @@ function populateFriends() {
 			});
 			console.log( JSON.stringify(data.friends) );
 			for( var key in data.friends )
-			friendsJSon.push({ "id" : data.friends[key].id });
+			friendsJSON.push({ "id" : data.friends[key].id });
 		 	friends.push( 
 					new userObject( 
 							data.friends[key].id
