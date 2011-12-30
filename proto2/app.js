@@ -322,9 +322,9 @@ io.sockets.on('connection', function (socket) {
 
 		socket.on('isUpdate', function(data) {
 			var reply = [];
-			var response = User.friends.find({ 'twit.id' : hs.session.twitId });
-			for( var key in response) {
-				if( response[key].colour.recieved == false ) {
+			var response = User.find({ 'twit.id' : hs.session.twitId });
+			for( var key in response.friends) {
+				if( response.friends[key].colour.recieved == false ) {
 					reply.push(response[key].colour);
 				}	
 			}
