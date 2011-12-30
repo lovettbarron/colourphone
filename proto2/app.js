@@ -222,14 +222,14 @@ io.sockets.on('connection', function (socket) {
 						  if( p.friends[key].id == data.id){
 							if( p.friends[key].colour === undefined ) p.friends[key].colour = new Array();
 							console.log(JSON.stringify(data));
-								var colourObject = { 'colour' : {
-													'model'  : 'RGB'
-													, 'val1' : data.val1
-													, 'val2' : data.val2
-													, 'val3' : data.val3
-													, 'sent' : data.timestamp
-													, 'received' : false
-													, 'replied'  : false
+								var colourObject = { "colour" : {
+													"model"  : 'RGB'
+													, "val1" : data.val1
+													, "val2" : data.val2
+													, "val3" : data.val3
+													, "sent" : data.timestamp
+													, "received" : false
+													, "replied"  : false
 												}
 											};
 								p.friends[key].colour.push( JSON.stringify(colourObject) );
