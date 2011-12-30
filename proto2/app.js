@@ -211,18 +211,7 @@ io.sockets.on('connection', function (socket) {
 		socket.on('msg', function (data) {	
 				console.log('Current session: ' + JSON.stringify(hs.session) );
 				try {
-					//var userModel = new User();	
 					var userID = hs.session.twitId;
-				/*	User.findOne(
-						{ 'twit.id' : hs.session.twitId },
-						function(err, p) {
-							if(err) {
-								console.log('No permission for ' + hs.session.twitId + 
-							' to contact ' + data.id );
-						} else {
-							for( var key in p.friends) {
-						  if( p.friends[key].id == data.id){*/
-						//	if( p.friends[key].colour === undefined ) p.friends[key].colour = new Array();
 								console.log(JSON.stringify(data));
 								var newColour = new Colour();
 								newColour.colour = JSON.parse( JSON.stringify( {
@@ -236,113 +225,31 @@ io.sockets.on('connection', function (socket) {
 													, "received" : false
 													, "replied"  : false
 											})) ;
-								/*p.friends[key].colour.push( colourObject );
-//								console.log("Found friend and adding colour" + colourObject + p);
-								p.markModified('friends');
-								p.save( function(err) {
-									console.log('Saved, or err?' + err)
-										});
-
-									}
-								}
-							}
-						} );*/
-/*						Colour.insert(colourObject, function(err) {
-							console.log('Inserted into database ? err:' + err)
-						});*/
 						newColour.save( function(err) {
 							if(err) console.log("Error saving colour:" + err)
 						});
 					} catch(err) {
 						console.log('An error occured updating colour: ' + err);
 					}
-					
-			//		userToInsert.friends.push({})
-					
-
-			/*		userToInsert.update( { 'friends.id': data.id, 'twit.id' : hs.session.twitId }
-							, { $set : {
-								  'friends.$.colour'  : {
-										'model'  : data.type
-										, 'val1' : data.val1
-										, 'val2' : data.val2
-										, 'val3' : data.val3
-										, 'sent' : data.timestamp
-										, 'received' : false
-										, 'replied'  : false
-										}
-									}
-								 },
-								function(err) {
-									if(err) console.log(err);
-									console.log( 'Recieved colour from ' 
-									+ data.id + ' and saved to ' 
-									+ hs.session.twitId );
-						} );
-					} catch(err) { console.log('Unable to update ' + err)} */
-					/*
-					userToInsert.friends.id[data.id].colour = {
-								'model'  : data.type
-								, 'val1' : data.val1
-								, 'val2' : data.val2
-								, 'val3' : data.val3
-								, 'sent' : data.timestamp
-								, 'received' : false
-								, 'replied'  : false
-					};
-					
-					userToInsert.save( function(err) {
-						if(err) console.log('Problem saving: ' + err)
-					});*/
-		
-			//	socket.broadcast.emit('colour', data );
-/*					if( sesColours.id[data.id] === undefined) {
-					sesColours.push = {
-						id: data.id
-						, friend: hs.session.twitId
-						, color: {
-										'model'  : data.type
-										, 'val1' : data.val1
-										, 'val2' : data.val2
-										, 'val3' : data.val3
-										, 'sent' : data.timestamp
-										, 'received' : false
-										, 'replied'  : false
-										}
-									}
-								} 
-				else {
-					sesColours.id['friends.id']= {
-						id: friends.id
-						, friend: hs.session.twitId
-						, color: {
-										'model'  : data.type
-										, 'val1' : data.val1
-										, 'val2' : data.val2
-										, 'val3' : data.val3
-										, 'sent' : data.timestamp
-										, 'received' : false
-										, 'replied'  : false
-										}
-									}
-								}
-					*/
 		});
 
-		socket.on('you', function(data) {
+	socket.on('you', function(data) {
 			hs.session.twitId = data;
 			console.log("WE GOTS THE ID! See: " + hs.session.twitId );
 		});
 
-		socket.on('isUpdate', function(data) {
+	socket.on('isUpdate', function(data) {
 			var reply = [];
-			var friendList = {};
-			User.findOne({'twit.id' : hs.session.twitId }, function(err,p ) {
+			var friendList;
+			
+			User.findOne( {'twit.id' : hs.session.twitId }, function(err,p ) {
 				if(err) console.log('errRetFriends: ' + err)
 				friendList = p.friends;
 			});
+			
 			console.log('FriendList:' + JSON.stringify(friendList) );
-			for( var key in friendList.friends ){
+			
+			for( var key in friendList ){
 				var mostRecent = Colour.findOne( {'colour.to' : hs.session.twitId
 									, 'colour.from' : friendList.friends[key].id }, function(err, p) {
 											if(err) console.log("Err retrieving color:" + err)
@@ -360,9 +267,10 @@ io.sockets.on('connection', function (socket) {
 					})
 				}
 			}
-			socket.emit('update', reply, function() {
-			});
-		});
+			
+			socket.emit('update', reply, function(err) {
+				 if(err) console.log('err sending update:'+err) });
+	});
 
     socket.on('disconnect', function () {
         console.log('A socket with sessionID ' + hs.sessionID 
