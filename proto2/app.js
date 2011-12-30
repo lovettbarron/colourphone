@@ -103,8 +103,8 @@ userSchema.plugin(mongooseAuth, {
 //mongoose.model('User', userSchema);
 //mongoose.model('Colour', colourSchema);
 
-User = mongoose.model('User', userSchema);	
-Colour = mongoose.model('Colour', colourSchema);
+var User = mongoose.model('User', userSchema);	
+var Colour = mongoose.model('Colour', colourSchema);
 
 /************************
  * Server config        *
