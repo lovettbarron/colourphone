@@ -344,7 +344,7 @@ io.sockets.on('connection', function (socket) {
 											if(err) console.log("Err retrieving color:" + err)
 											//reply.push( p );
 												} ).sort('date').limit(1);
-				
+				console.log('Most recent: ' + mostRecent);
 				if( mostRecent !== undefined && mostRecent.colour.received == false ) {
 					reply.push( mostRecent );
 					Colour.findOne({'_id' : mostRecent._id }, function(err, p) {
