@@ -336,8 +336,10 @@ io.sockets.on('connection', function (socket) {
 
 		socket.on('isUpdate', function(data) {
 			var reply = [];
-			var friendList = User.findOne({'twit.id' : hs.session.twitId });
-			
+			var friendList = User.findOne({'twit.id' : hs.session.twitId }, function(err) {
+				if(err) console.log('errRetFriends: ' + err)
+			});
+			console.log('FriendList:' + friendList );
 			for( var key in friendList.friends ){
 				var mostRecent = Colour.findOne( {'colour.to' : hs.session.twitId
 									, 'colour.from' : friendList.friends[key].id }, function(err, p) {
