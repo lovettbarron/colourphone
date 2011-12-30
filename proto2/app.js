@@ -221,6 +221,7 @@ io.sockets.on('connection', function (socket) {
 							for( var key in p.friends) {
 						  if( p.friends[key].id == data.id){
 							if( p.friends[key].colour === undefined ) p.friends[key].colour = new Array();
+							console.log(JSON.stringify(data));
 								var colourObject = { 'colour' : {
 													'model'  : 'RGB'
 													, 'val1' : data.val1
