@@ -18,36 +18,22 @@ function errorCache(err) {
 webappCache.addEventListener("updateready", updateCache, false);
 webappCache.addEventListener("error", errorCache, false);
 
-setTimeout(function(){ 
-	for( var key in friendsJSON ) {
-		if( friendsJSON[key].colour !== undefined ) {
-			socket.emit( "msg", friendsJSON[key].colour, function(err) {
-					console.log("sent: " + msg + " ? err: " + err);
-				});
-		}
-	}
-	socket.emit('isUpdate', friends, function(err) {
-		console.log('Checking for update ? err: ' + err)
-	});
-	}, 500);
-
 
 
 function loop() {
     setInterval(function() {
 			for( var key in friends ) {
-				if( friends[key].colour !== undefined ) {
-					socket.emit( "msg", friends.id[key].colour, function(err) {
+				if( friendsJSON[key].colour !== undefined ) {
+					socket.emit( "msg", friendsJSON[key].colour, function(err) {
 							console.log("sent: " + msg + " ? err: " + err);
 						});
 				}
 			}
-			socket.emit('isUpdate', friends, function(err) {
+			socket.emit('isUpdate', friendsJSON, function(err) {
 				console.log('Checking for update ? err: ' + err)
 			});
     }, 500);
 }
-
 $(loop);
 
 SCREEN_W = window.innerWidth;
@@ -55,21 +41,8 @@ SCREEN_H = window.innerHeight;
 window.addEventListener( 'resize', onWindowResize, function(event){
 	console.log("Window resized:",event);
 });
-//document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-/*
-document.body.addEventListener('touchmove', function(e) {
-    e.preventDefault();
-		var x = event.touches[0].pageX;
-		var y = event.touches[0].pageY;
-		var h = (x/window.innerWidth);
-		var s = (y/window.innerHeight);
-		var l = 1.0; 
-		var color = hsvToRgb(h*360,s*100,l*100);
-		console.log( h, s, l, color );
-		socket.emit( "msg", color );
-		colourBG( color[0], color[0], color[1], color[2] );
-});
-*/
+
+
 //Initial connection
 var socket = new io.connect('http://emote.me:8000');
 //var colour = new io.connect('http://emote.me:8000/colour')
@@ -131,11 +104,6 @@ function clearLast( x, y) {
 	context.fillRect( x, y, 10, 10);
 	}
 
-//Colour communication
-/*
-colour.on('connect', function () {
-//  colour.emit('hi!');
-}); */
 
 //User object for pop and interaction
 var userObject = function( _id, _name, _colour, _updated, _responded ) {
@@ -229,10 +197,16 @@ $.extend( userObject.prototype, {
 						'background-color'
 						,'rgb(' + colourMsg.val1 + ',' + colourMsg.val2 + ',' + colourMsg.val3 + ')'
 					 );
-
+/*
 					socket.emit( "msg", colourMsg, function(err) {
 							console.log("sent: " + msg + " ? err: " + err);
-						});
+						});*/
+						for( var key in friendsJSON ) {
+							if( friendsJSON[key].id == id ) {
+								friendsJSON[key].colour = colourMsg;
+								console.log('buffered colour in ' + friendsJSON[key])
+							}
+						}
 				}));
 		}
 		, sendColour: function( $e ) {
