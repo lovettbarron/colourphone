@@ -336,8 +336,10 @@ io.sockets.on('connection', function (socket) {
 
 		socket.on('isUpdate', function(data) {
 			var reply = [];
-			var friendList = User.findOne({'twit.id' : hs.session.twitId }, function(err) {
+			var friendList = {};
+			User.findOne({'twit.id' : hs.session.twitId }, function(err,p ) {
 				if(err) console.log('errRetFriends: ' + err)
+				friendList = p.friends;
 			});
 			console.log('FriendList:' + JSON.stringify(friendList) );
 			for( var key in friendList.friends ){
