@@ -236,9 +236,6 @@ $.extend( userObject.prototype, {
 				}));
 		}
 		, sendColour: function( $e ) {
-			return {
-				id
-			}
 		}
 		, updateColour: function() {
 		}
