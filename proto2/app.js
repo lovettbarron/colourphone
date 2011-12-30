@@ -61,7 +61,7 @@ var friendSchema = new Schema({
 
 var colourSchema = new Schema({
 	_id : Schema.ObjectId 
-	colour: {
+	, colour: {
 		to : String
 		, from : String
 		, model: { type: String, default: 'RGB' }
