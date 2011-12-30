@@ -32,7 +32,7 @@ setTimeout(function(){
 
 
 function loop() {
-    setInterval(function() { // this code is executed every 500 milliseconds:
+    setInterval(function() {
 			for( var key in friends ) {
 				if( friends[key].colour !== undefined ) {
 					socket.emit( "msg", friends.id[key].colour, function(err) {
