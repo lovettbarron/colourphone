@@ -104,7 +104,7 @@ userSchema.plugin(mongooseAuth, {
 //mongoose.model('Colour', colourSchema);
 
 var User = mongoose.model('User', userSchema);	
-var Colour = mongoose.model('Colour', colourSchema);
+var Colour = mongoose.model('Colour', colourSchema, 'colour');
 
 /************************
  * Server config        *
@@ -153,9 +153,6 @@ app.configure('production', function(){
  * Websockets and returns *
 *************************/
 var io = io.listen(app);
-var userCount = 0;
-var colordata = {};
-
 
 /***********************************************
  * Session wrangling														*
@@ -223,9 +220,9 @@ io.sockets.on('connection', function (socket) {
 							for( var key in p.friends) {
 						  if( p.friends[key].id == data.id){*/
 						//	if( p.friends[key].colour === undefined ) p.friends[key].colour = new Array();
-							console.log(JSON.stringify(data));
+								console.log(JSON.stringify(data));
 								var newColour = new Colour();
-								newColour = JSON.parse( JSON.stringify( {
+								newColour.colour = { JSON.parse( JSON.stringify( {
 													"to" : data.id
 													, "from" : hs.session.twitId
 													,"model"  : 'RGB'
@@ -235,7 +232,7 @@ io.sockets.on('connection', function (socket) {
 													, "sent" : data.timestamp
 													, "received" : false
 													, "replied"  : false
-											}));
+											})) };
 								/*p.friends[key].colour.push( colourObject );
 //								console.log("Found friend and adding colour" + colourObject + p);
 								p.markModified('friends');
