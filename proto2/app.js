@@ -61,7 +61,7 @@ var friendSchema = new Schema({
 
 var colourSchema = new Schema({
 	_id : Schema.ObjectId 
-	, colour: {
+	, 	colour: {
 		to : String
 		, from : String
 		, model: { type: String, default: 'RGB' }
@@ -344,23 +344,23 @@ io.sockets.on('connection', function (socket) {
 											if(err) console.log("Err retrieving color:" + err)
 											//reply.push( p );
 												} ).sort('date').limit(1);
-				if( mostRecent !== undefined ) reply.push( mostRecent );
+				
+				if( mostRecent !== undefined && mostRecent.colour.received == false ) {
+					reply.push( mostRecent );
+					Colour.findOne({'_id' : mostRecent._id }, function(err, p) {
+						p.colour.received = true;
+						p.markModified('colour');
+						p.save( function(err) {
+							if(err) console.log('Err marking received ? err: ' + err );
+						});
+					})
+				}
 			}
 			
-			
-			
-		/*	var response = User.findOne({ 'twit.id' : hs.session.twitId });
-//			console.log('Just got pinged from ' + hs.session.twitId );
-			console.log(response);
-			for( var key in response.friends) {
-				if( response.friends[key] )
-					for( var key2 in response.friends[key].colour )
-					response.friends[key].colour[key2].recieved == false ) {
-					reply.push(response.friends[key].colour);
-				}	
-			}*/
 
-			socket.emit('update', reply);
+			socket.emit('update', reply, function() {
+				
+			});
 		});
 
     socket.on('disconnect', function () {
