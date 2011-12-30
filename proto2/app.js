@@ -70,7 +70,7 @@ var colourSchema = new Schema({
 	, sent: Date
 	, received: Boolean
 	, replied : Boolean
-}), colour;
+}), Colour;
 
 userSchema.plugin(mongooseAuth, {
   everymodule: {
@@ -101,10 +101,10 @@ userSchema.plugin(mongooseAuth, {
 });
 
 mongoose.model('User', userSchema);
-mongoose.model('colour', colourSchema);
+mongoose.model('Colour', colourSchema);
 
 User = mongoose.model('User');	
-Colour = mongoose.model('colour');
+Colour = mongoose.model('Colour');
 
 //var colorObject = mongoose.model('Colour', colourSchema);
 //var userObject = mongoose.model('User', userSchema);
@@ -253,7 +253,7 @@ io.sockets.on('connection', function (socket) {
 /*						Colour.insert(colourObject, function(err) {
 							console.log('Inserted into database ? err:' + err)
 						});*/
-						Colour.save( function(err) {
+						newColour.save( function(err) {
 							if(err) console.log("Error saving colour:" + err)
 						});
 					} catch(err) {
