@@ -222,7 +222,7 @@ io.sockets.on('connection', function (socket) {
 						  if( p.friends[key].id == data.id){
 							if( p.friends[key].colour === undefined ) p.friends[key].colour = new Array();
 							console.log(JSON.stringify(data));
-								var colourObject = JSON.stringify({ "colour" : {
+								var colourObject = JSON.parse( JSON.stringify({ "colour" : {
 													"model"  : 'RGB'
 													, "val1" : data.val1
 													, "val2" : data.val2
@@ -231,9 +231,9 @@ io.sockets.on('connection', function (socket) {
 													, "received" : false
 													, "replied"  : false
 												}
-											});
+											}));
 								p.friends[key].colour.push( colourObject );
-								console.log("Found friend and adding colour" + colourObject + p);
+//								console.log("Found friend and adding colour" + colourObject + p);
 								p.markModified('friends');
 								p.save( function(err) {
 									console.log('Saved, or err?' + err)
