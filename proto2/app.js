@@ -242,17 +242,17 @@ io.sockets.on('connection', function (socket) {
 			var reply = [];
 			var friendList;
 			var userId = hs.session.twitId;
-			console.log('Searching for ' + userId);
+//			console.log('Searching for ' + userId);
 			User.findOne( {'twit.id' : userId }, function(err,p ) {
 				if(err) console.log('errRetFriends: ' + err)
 				friendList = p.friends;
-				console.log('found user ' + p);
+		//		console.log('found user ' + p);
 			});
 			
 			console.log('FriendList:' + JSON.stringify(friendList) );
 			
 			for( var key in friendList ){
-				var mostRecent = Colour.findOne( {'colour.to' : hs.session.twitId
+				var mostRecent = Colour.findOne( {'colour.to' : userId
 									, 'colour.from' : friendList.friends[key].id }, function(err, p) {
 											if(err) console.log("Err retrieving color:" + err)
 											//reply.push( p );
