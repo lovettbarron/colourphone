@@ -2,6 +2,7 @@ var connections = {}, mouseX = 0, mouseY = 0,
 	prevMouseX = 0, prevMouseY = 0, userid = 0;
 var user = 0;
 var friends = new Array();
+var friendsJSON = new Array();
 var context, canvas;
 
 var webappCache = window.applicationCache;
@@ -18,9 +19,9 @@ webappCache.addEventListener("updateready", updateCache, false);
 webappCache.addEventListener("error", errorCache, false);
 
 setTimeout(function(){ 
-	for( var key in friends ) {
-		if( friends[key].colour !== undefined ) {
-			socket.emit( "msg", friends.id[key].colour, function(err) {
+	for( var key in friendsJSON ) {
+		if( friendsJSON[key].colour !== undefined ) {
+			socket.emit( "msg", friendsJSON[key].colour, function(err) {
 					console.log("sent: " + msg + " ? err: " + err);
 				});
 		}
@@ -29,6 +30,7 @@ setTimeout(function(){
 		console.log('Checking for update ? err: ' + err)
 	});
 	}, 500);
+
 
 
 function loop() {
@@ -187,9 +189,10 @@ $.extend( userObject.prototype, {
 	/*				socket.emit( "msg", colourMsg, function(err) {
 							console.log("sent: " + msg + " ? err: " + err);
 						});*/
-				for( var key in friends ) {
-					if( friends[key].id == id ) {
-						friends[key].colour = colourMsg;
+				for( var key in friendsJSON ) {
+					if( friendsJSON[key].id == id ) {
+						friendsJSON[key].colour = colourMsg;
+						console.log('buffered colour in ' + friendsJSON[key])
 					}
 				}
 										
@@ -233,6 +236,9 @@ $.extend( userObject.prototype, {
 				}));
 		}
 		, sendColour: function( $e ) {
+			return {
+				id
+			}
 		}
 		, updateColour: function() {
 		}
@@ -251,6 +257,7 @@ function populateFriends() {
 			});
 			console.log( JSON.stringify(data.friends) );
 			for( var key in data.friends )
+			friendsJSon.push({ "id" : data.friends[key].id });
 		 	friends.push( 
 					new userObject( 
 							data.friends[key].id
