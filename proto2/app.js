@@ -253,7 +253,7 @@ io.sockets.on('connection', function (socket) {
 /*						Colour.insert(colourObject, function(err) {
 							console.log('Inserted into database ? err:' + err)
 						});*/
-						newColour.save( function(err) {
+						Colour.save( function(err) {
 							if(err) console.log("Error saving colour:" + err)
 						});
 					} catch(err) {
