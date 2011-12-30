@@ -337,7 +337,20 @@ io.sockets.on('connection', function (socket) {
 
 		socket.on('isUpdate', function(data) {
 			var reply = [];
-			var response = User.findOne({ 'twit.id' : hs.session.twitId });
+			var friendList = User.findOne({'twit.id' : hs.session.twitId });
+			
+			for( var key in friendList.friends ){
+				var mostRecent = Colour.findOne( {'to' : hs.session.twitId
+									, 'from' : friendList.friends[key].id }, function(err, p) {
+											if(err) console.log("Err retrieving color:" + err)
+											//reply.push( p );
+												} ).sort('date').limit(1);
+				if( mostRecent !== undefined ) reply.push( mostRecent );
+			}
+			
+			
+			
+		/*	var response = User.findOne({ 'twit.id' : hs.session.twitId });
 //			console.log('Just got pinged from ' + hs.session.twitId );
 			console.log(response);
 			for( var key in response.friends) {
@@ -346,7 +359,8 @@ io.sockets.on('connection', function (socket) {
 					response.friends[key].colour[key2].recieved == false ) {
 					reply.push(response.friends[key].colour);
 				}	
-			}
+			}*/
+
 			socket.emit('update', reply);
 		});
 
