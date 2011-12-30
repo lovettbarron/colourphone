@@ -6,10 +6,17 @@ script(type='text/javascript', src='/javascripts/init.js')
 		$().ready( populateFriends() );
 		
 - if (!everyauth.loggedIn)
-	div#twitter
+	div#header
+		h1 Colour Phone (proto2)
+		h3 Colourful conversations
+	div#auth
 		each item in items
 			a(href='/auth/' + item)
 				span Connect with <span style="text-transform: capitalize">!{item}</span><br />
+	div#footer
+		span A project by<br>
+		a(href='http://readywater.ca') Readywater.ca <br/>
+		a(href='http://aylanewhouse.com/') Ayla Newhouse
 -else
 	div#twitter
 	//div#canvas

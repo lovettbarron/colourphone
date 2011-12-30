@@ -34,6 +34,38 @@ a {
 	z-index: 2;
 }
 
+#header {
+	background-color: #44aaff;
+	color: #ffffff;
+	margin: 0; padding: 5px;
+	text-align: center;
+	height: 30%;
+}
+
+#auth {
+	display: block;
+	text-align: center;
+	font-size: 2em;
+	background-color: #bb11ff;
+	width: 100%;
+	height: 50%;
+}
+
+#auth a {	color: #ffffff; }
+
+#footer {
+	text-align: center;
+	width: 100%;
+	height: 20%;
+	background-color: #ff4433;
+	position: absolute;
+	bottom: 0;
+	font-size: .9em;
+	
+}
+
+#footer a { color: #ffffff }
+
 .user {
 	width: 100%;
 	height: 150px;

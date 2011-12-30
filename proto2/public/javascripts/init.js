@@ -4,6 +4,20 @@ var user = 0;
 var friends = new Array();
 var context, canvas;
 
+var webappCache = window.applicationCache;
+
+function updateCache() {
+    webappCache.swapCache();
+}
+
+function errorCache(err) {
+    console.log("Cache failed to update:" + err);
+}
+
+webappCache.addEventListener("updateready", updateCache, false);
+webappCache.addEventListener("error", errorCache, false);
+
+
 SCREEN_W = window.innerWidth;
 SCREEN_H = window.innerHeight;
 window.addEventListener( 'resize', onWindowResize, function(event){
