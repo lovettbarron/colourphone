@@ -56,11 +56,14 @@ var userSchema = new Schema({
 var friendSchema = new Schema({
 	id: String
 	, name: String
-	, colour: [colourSchema]
+//	, colour: [colourSchema]
 }), friend;
 
 var colourSchema = new Schema({
-	model: { type: String, default: 'RGB' }
+	_id : Schema.ObjectId 
+	,	to : String
+	, from : String
+	, model: { type: String, default: 'RGB' }
 	, val1: Number
 	, val2: Number
 	, val3: Number
@@ -98,8 +101,10 @@ userSchema.plugin(mongooseAuth, {
 });
 
 mongoose.model('User', userSchema);
+mongoose.model('colour', colourSchema);
 
 User = mongoose.model('User');	
+Colour = mongoose.model('colour');
 
 //var colorObject = mongoose.model('Colour', colourSchema);
 //var userObject = mongoose.model('User', userSchema);
@@ -209,9 +214,9 @@ io.sockets.on('connection', function (socket) {
 		socket.on('msg', function (data) {	
 				console.log('Current session: ' + JSON.stringify(hs.session) );
 				try {
-					var userModel = new User();	
+					//var userModel = new User();	
 					var userID = hs.session.twitId;
-					User.findOne(
+				/*	User.findOne(
 						{ 'twit.id' : hs.session.twitId },
 						function(err, p) {
 							if(err) {
@@ -219,11 +224,13 @@ io.sockets.on('connection', function (socket) {
 							' to contact ' + data.id );
 						} else {
 							for( var key in p.friends) {
-						  if( p.friends[key].id == data.id){
-							if( p.friends[key].colour === undefined ) p.friends[key].colour = new Array();
+						  if( p.friends[key].id == data.id){*/
+						//	if( p.friends[key].colour === undefined ) p.friends[key].colour = new Array();
 							console.log(JSON.stringify(data));
 								var colourObject = JSON.parse( JSON.stringify({ "colour" : {
-													"model"  : 'RGB'
+													"to" : data.id
+													, "from" : hs.session.twitId
+													,"model"  : 'RGB'
 													, "val1" : data.val1
 													, "val2" : data.val2
 													, "val3" : data.val3
@@ -232,7 +239,7 @@ io.sockets.on('connection', function (socket) {
 													, "replied"  : false
 												}
 											}));
-								p.friends[key].colour.push( colourObject );
+								/*p.friends[key].colour.push( colourObject );
 //								console.log("Found friend and adding colour" + colourObject + p);
 								p.markModified('friends');
 								p.save( function(err) {
@@ -242,7 +249,11 @@ io.sockets.on('connection', function (socket) {
 									}
 								}
 							}
-						} );
+						} );*/
+						Colour.insert(colourObject, function(err) {
+							console.log('Inserted into database ? err:' + err)
+						});
+						Colour.save();
 					} catch(err) {
 						console.log('An error occured updating colour: ' + err);
 					}
@@ -326,11 +337,13 @@ io.sockets.on('connection', function (socket) {
 
 		socket.on('isUpdate', function(data) {
 			var reply = [];
-			var response = User.findOne({ 'twit.id' : hs.session.twitId }, {'colour.recieved':-1} );
+			var response = User.findOne({ 'twit.id' : hs.session.twitId });
 //			console.log('Just got pinged from ' + hs.session.twitId );
 			console.log(response);
 			for( var key in response.friends) {
-				if( response.friends[key].colour.recieved == false ) {
+				if( response.friends[key] )
+					for( var key2 in response.friends[key].colour )
+					response.friends[key].colour[key2].recieved == false ) {
 					reply.push(response.friends[key].colour);
 				}	
 			}
