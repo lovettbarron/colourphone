@@ -222,7 +222,7 @@ io.sockets.on('connection', function (socket) {
 						//	if( p.friends[key].colour === undefined ) p.friends[key].colour = new Array();
 								console.log(JSON.stringify(data));
 								var newColour = new Colour();
-								newColour.colour = { JSON.parse( JSON.stringify( {
+								newColour.colour = JSON.parse( JSON.stringify( {
 													"to" : data.id
 													, "from" : hs.session.twitId
 													,"model"  : 'RGB'
@@ -232,7 +232,7 @@ io.sockets.on('connection', function (socket) {
 													, "sent" : data.timestamp
 													, "received" : false
 													, "replied"  : false
-											})) };
+											})) ;
 								/*p.friends[key].colour.push( colourObject );
 //								console.log("Found friend and adding colour" + colourObject + p);
 								p.markModified('friends');
