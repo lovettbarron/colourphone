@@ -17,6 +17,9 @@ function errorCache(err) {
 webappCache.addEventListener("updateready", updateCache, false);
 webappCache.addEventListener("error", errorCache, false);
 
+setTimeout(function(){ 
+	socket.emit('isUpdate',)
+	}, 500);
 
 SCREEN_W = window.innerWidth;
 SCREEN_H = window.innerHeight;

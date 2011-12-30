@@ -1,0 +1,14 @@
+CACHE MANIFEST
+
+CACHE:
+# Offline cache v1.9
+# html files
+index.html
+
+# css files
+stylesheets/style.css
+
+# js files
+javascripts/init.js
+javascripts/jquery-1.7.1.min.js
+javascripts/socket.io.js
