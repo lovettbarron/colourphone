@@ -209,6 +209,7 @@ io.sockets.on('connection', function (socket) {
 		socket.on('msg', function (data) {	
 				console.log('Current session: ' + JSON.stringify(hs.session) );
 				try {
+					var userModel = new User();	
 					var userID = hs.session.twitId;
 					User.findOne(
 						{ 'twit.id' : hs.session.twitId },
@@ -220,20 +221,21 @@ io.sockets.on('connection', function (socket) {
 							for( var key in p.friends) {
 						  if( p.friends[key].id == data.id){
 							if( p.friends[key].colour === undefined ) p.friends[key].colour = new Array();
-							p.friends[key].colour.push( { colour : {
-												'model'  : 'RGB'
-												, 'val1' : data.val1
-												, 'val2' : data.val2
-												, 'val3' : data.val3
-												, 'sent' : data.timestamp
-												, 'received' : false
-												, 'replied'  : false
-											}
+								var colourObject = { colour : {
+													'model'  : 'RGB'
+													, 'val1' : data.val1
+													, 'val2' : data.val2
+													, 'val3' : data.val3
+													, 'sent' : data.timestamp
+													, 'received' : false
+													, 'replied'  : false
+												}
+											};
+								p.friends[key].colour.push( colourObject );
+								console.log("Found friend and adding colour" + colourObject + p);
+								p.save( function(err) {
+									console.log('Saved, or err?' + err)
 										});
-										console.log("Found friend and adding colour" + p);
-										p.save( function(err) {
-											console.log('Saved, or err?' + err)
-											});
 
 									}
 								}
