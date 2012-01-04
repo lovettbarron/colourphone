@@ -252,19 +252,23 @@ io.sockets.on('connection', function (socket) {
 			
 			console.log('FriendList:' + JSON.stringify(friendList) );
 			for( var key in friendList ){
+
 				try{
+
 				var mostRecent = Colour.findOne( {'colour.to' : userId
 									, 'colour.from' : friendList.friends[key].id }, function(err, p) {
 											if(err) console.log("Err retrieving color:" + err)
 											//reply.push( p );
-												} ).sort({ 'date': '-1' }).limit(1);
+												} ).sort({ '$natural': '-1' }).limit(1);
 				console.log('Most recent: ' + mostRecent);
+
 				if( mostRecent !== undefined 
 						&& mostRecent.colour.received == false
 						&& mostRecent.colour.from == true
 						&& mostRecent.colour.to == true ) {
 					reply.push( mostRecent );
-					Colour.findOne({'_id' : mostRecent._id }, function(err, p) {
+
+					Colour.findOne({ '_id' : mostRecent._id }, function(err, p) {
 						p.colour.received = true;
 						p.markModified('colour');
 						p.save( function(err) {
@@ -272,6 +276,7 @@ io.sockets.on('connection', function (socket) {
 						});
 					})
 				}
+				
 			} catch(err) {
 				console.log('Failed to find colour to respond with :' + err)
 				}
