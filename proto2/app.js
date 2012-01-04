@@ -247,7 +247,7 @@ io.sockets.on('connection', function (socket) {
 				console.log('Searching for user ' + userId );
 			User.find( {'twit.id' : userId }, function( err, p ) {
 				if(err) console.log('errRetFriends: ' + err);
-				friendList = p.friends;
+				friendList = new Array({p.friends});
 		    console.log('found user ' + p);
 			}).limit(1);
 			console.log('FriendList:' + JSON.stringify(friendList) );
