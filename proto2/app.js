@@ -244,10 +244,11 @@ io.sockets.on('connection', function (socket) {
 			var userId = hs.session.twitId;
 //			console.log('Searching for ' + userId);
 			if( userId ) {
+				console.log('Searching for user ' + userId );
 			User.find( {'twit.id' : userId }, function( err, p ) {
 				if(err) console.log('errRetFriends: ' + err);
 				friendList = p.friends;
-		//		console.log('found user ' + p);
+		    console.log('found user ' + p);
 			}).limit(1);
 			console.log('FriendList:' + JSON.stringify(friendList) );
 			for( var key in friendList ){
