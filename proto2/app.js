@@ -209,7 +209,7 @@ io.sockets.on('connection', function (socket) {
 	    }); }, 60 * 1000);
 
 		socket.on('msg', function (data) {	
-				console.log('Current session: ' + JSON.stringify(hs.session) );
+//				console.log('Current session: ' + JSON.stringify(hs.session) );
 				try {
 					var userID = hs.session.twitId;
 								console.log(JSON.stringify(data));
@@ -252,11 +252,12 @@ io.sockets.on('connection', function (socket) {
 			console.log('FriendList:' + JSON.stringify(friendList) );
 			
 			for( var key in friendList ){
+				try{
 				var mostRecent = Colour.findOne( {'colour.to' : userId
 									, 'colour.from' : friendList.friends[key].id }, function(err, p) {
 											if(err) console.log("Err retrieving color:" + err)
 											//reply.push( p );
-												} ).sort('date').limit(1);
+												} ).sort('date':'-1').limit(1);
 				console.log('Most recent: ' + mostRecent);
 				if( mostRecent !== undefined && mostRecent.colour.received == false ) {
 					reply.push( mostRecent );
@@ -267,6 +268,9 @@ io.sockets.on('connection', function (socket) {
 							if(err) console.log('Err marking received ? err: ' + err );
 						});
 					})
+				}
+			} catch(err) {
+				console.log('Failed to find colour to respond with :' + err)
 				}
 			}
 			
