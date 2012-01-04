@@ -243,7 +243,7 @@ io.sockets.on('connection', function (socket) {
 			var friendList;
 			var userId = hs.session.twitId;
 //			console.log('Searching for ' + userId);
-			if( userID ) {
+			if( userId ) {
 			User.findOne( {'twit.id' : userId }, function(err,p ) {
 				if(err) console.log('errRetFriends: ' + err)
 				friendList = p.friends;
