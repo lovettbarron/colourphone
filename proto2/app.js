@@ -240,7 +240,7 @@ io.sockets.on('connection', function (socket) {
 
 	socket.on('isUpdate', function(data) {
 			var reply = [];
-			var friendList;
+			var friendList = new Array();
 			var userId = hs.session.twitId;
 //			console.log('Searching for ' + userId);
 			if( userId ) {
@@ -249,7 +249,6 @@ io.sockets.on('connection', function (socket) {
 				friendList = p.friends;
 		//		console.log('found user ' + p);
 			});
-			
 			console.log('FriendList:' + JSON.stringify(friendList) );
 			for( var key in friendList ){
 
