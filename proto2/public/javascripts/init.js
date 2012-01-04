@@ -22,7 +22,7 @@ webappCache.addEventListener("error", errorCache, false);
 
 function loop() {
     setInterval(function() {
-			for( var key in friends ) {
+			for( var key in friendsJSON ) {
 				if( friendsJSON[key].colour !== undefined ) {
 					socket.emit( "msg", friendsJSON[key].colour, function(err) {
 							console.log("sent: " + msg + " ? err: " + err);
