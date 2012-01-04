@@ -251,7 +251,6 @@ io.sockets.on('connection', function (socket) {
 			});
 			
 			console.log('FriendList:' + JSON.stringify(friendList) );
-			
 			for( var key in friendList ){
 				try{
 				var mostRecent = Colour.findOne( {'colour.to' : userId
@@ -260,7 +259,10 @@ io.sockets.on('connection', function (socket) {
 											//reply.push( p );
 												} ).sort({ 'date': '-1' }).limit(1);
 				console.log('Most recent: ' + mostRecent);
-				if( mostRecent !== undefined && mostRecent.colour.received == false ) {
+				if( mostRecent !== undefined 
+						&& mostRecent.colour.received == false
+						&& mostRecent.colour.from == true
+						&& mostRecent.colour.to == true ) {
 					reply.push( mostRecent );
 					Colour.findOne({'_id' : mostRecent._id }, function(err, p) {
 						p.colour.received = true;
