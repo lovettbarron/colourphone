@@ -257,7 +257,7 @@ io.sockets.on('connection', function (socket) {
 									, 'colour.from' : friendList.friends[key].id }, function(err, p) {
 											if(err) console.log("Err retrieving color:" + err)
 											//reply.push( p );
-												} ).sort('date':'-1').limit(1);
+												} ).sort({ 'date': '-1' }).limit(1);
 				console.log('Most recent: ' + mostRecent);
 				if( mostRecent !== undefined && mostRecent.colour.received == false ) {
 					reply.push( mostRecent );
