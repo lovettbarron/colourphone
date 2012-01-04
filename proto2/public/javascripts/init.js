@@ -177,7 +177,7 @@ $.extend( userObject.prototype, {
 				for( var key in friendsJSON ) {
 					if( friendsJSON[key].id == id ) {
 						friendsJSON[key].colour = colourMsg;
-						console.log('buffered colour in ' + friendsJSON[key])
+						console.log('buffered colour in ' + JSON.stringify( JSON.parse( friendsJSON[key]) ) );
 					}
 				}
 										
