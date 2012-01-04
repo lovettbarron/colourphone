@@ -26,8 +26,8 @@ function loop() {
 				if( friendsJSON[key].colour !== undefined ) {
 					socket.emit( "msg", friendsJSON[key].colour, function(err,msg) {
 							console.log("sent: " + msg + " ? err: " + err);
-   						friendsJSON[key].colour = undefined;
 						});
+ 						friendsJSON[key].colour = undefined;
 					}
 				}
 			socket.emit('isUpdate', friendsJSON, function(err) {

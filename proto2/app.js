@@ -212,7 +212,7 @@ io.sockets.on('connection', function (socket) {
 //				console.log('Current session: ' + JSON.stringify(hs.session) );
 				try {
 					var userID = hs.session.twitId;
-								console.log(JSON.stringify(data));
+								//console.log(JSON.stringify(data));
 								var newColour = new Colour();
 								newColour.colour = JSON.parse( JSON.stringify( {
 													"to" : data.id
@@ -230,8 +230,8 @@ io.sockets.on('connection', function (socket) {
 						});
 					} catch(err) {
 						console.log('An error occured updating colour: ' + err);
-					}
-		});
+						}
+				});
 
 	socket.on('you', function(data) {
 			hs.session.twitId = data;
@@ -240,7 +240,7 @@ io.sockets.on('connection', function (socket) {
 
 	socket.on('isUpdate', function(data) {
 			var reply = [];
-			var friendList = new Array();
+			var friendList;
 			var userId = hs.session.twitId;
 //			console.log('Searching for ' + userId);
 			if( userId ) {
