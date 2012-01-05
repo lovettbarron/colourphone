@@ -240,14 +240,16 @@ io.sockets.on('connection', function (socket) {
 
 	socket.on('isUpdate', function(data) {
 			var reply = [];
-			var friendList;
+			var friendList = new Array();
 			var userId = hs.session.twitId;
 			
 			if( userId ) {
 				console.log('Searching for user ' + userId );
 			User.find( {'twit.id' : userId }, function( err, docs ) {
 				if(err) console.log('err getting friends:' + err);
-				friendList = docs.friends;
+					for( var friend in docs.friends ) {
+						friendList.push({'id' : friend.id})
+					}
 			});
 			console.log('FriendList:' + JSON.stringify(friendList) );
 /*			if( friendList === undefined ) {
