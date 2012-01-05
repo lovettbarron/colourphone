@@ -242,12 +242,12 @@ io.sockets.on('connection', function (socket) {
 			var reply = [];
 			var friendList;
 			var userId = hs.session.twitId;
-//			console.log('Searching for ' + userId);
+			
 			if( userId ) {
 				console.log('Searching for user ' + userId );
 			User.findOne( {'twit.id' : userId }, function( err, docs ) {
-				friendList = docs.friends;
-		    console.log('found user ' + docs.friends);
+				friendList = JSON.stringify(docs.friends);
+		    console.log('found user ' + JSON.parse( JSON.stringify(docs.friends)));
 			});
 			console.log('FriendList:' + JSON.stringify(friendList) );
 			if( friendList === undefined ) {
