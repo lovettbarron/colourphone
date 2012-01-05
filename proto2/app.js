@@ -246,13 +246,13 @@ io.sockets.on('connection', function (socket) {
 			if( userId ) {
 				console.log('Searching for user ' + userId );
 			User.findOne( {'twit.id' : userId }, function( err, docs ) {
-				friendList = JSON.stringify(docs.friends);
-		    console.log('found user ' + JSON.parse( JSON.stringify(docs.friends)));
+				if(err) console.log('err getting friends:' + err);
+				friendList = docs.friends;
 			});
 			console.log('FriendList:' + JSON.stringify(friendList) );
-			if( friendList === undefined ) {
+/*			if( friendList === undefined ) {
 				 friendList = JSON.parse( JSON.stringify(data));
-				 console.log('subbing for ajax data:' + friendList )}
+				 console.log('subbing for ajax data:' + friendList )} */
 			for( var key in friendList ){
 
 				try{
