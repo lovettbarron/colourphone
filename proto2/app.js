@@ -245,10 +245,10 @@ io.sockets.on('connection', function (socket) {
 //			console.log('Searching for ' + userId);
 			if( userId ) {
 				console.log('Searching for user ' + userId );
-			User.find( {'twit.id' : userId }, function( err, docs ) {
+			User.findOne( {'twit.id' : userId }, function( err, docs ) {
 				friendList = docs.friends;
 		    console.log('found user ' + docs.friends);
-			}).limit(1);
+			});
 			console.log('FriendList:' + JSON.stringify(friendList) );
 			if( friendList === undefined ) {
 				 friendList = data;
@@ -258,9 +258,8 @@ io.sockets.on('connection', function (socket) {
 				try{
 
 				var mostRecent;
-				var colourQuery = Colour.findOne({});
-				colourQuery.where({'colour.to' : userId
-					, 'colour.from' : friendList[key].id })
+				var colourQuery = Colour.findOne({{'colour.to' : userId
+					, 'colour.from' : friendList[key].id }})
 					.sort({ '$natural': '-1' }).limit(1);
 				colourQuery.exec(function(err,docs) {
 					if(err) console.log("Err retrieving color:" + err)
