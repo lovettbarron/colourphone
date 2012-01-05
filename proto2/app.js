@@ -251,7 +251,7 @@ io.sockets.on('connection', function (socket) {
 			}).limit(1);
 			console.log('FriendList:' + JSON.stringify(friendList) );
 			if( friendList === undefined ) {
-				 friendList = JSON.parse(data);
+				 friendList = JSON.stringify(JSON.parse(data));
 				 console.log('subbing for ajax data:' + data )}
 			for( var key in friendList ){
 
