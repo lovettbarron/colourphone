@@ -247,10 +247,12 @@ io.sockets.on('connection', function (socket) {
 				console.log('Searching for user ' + userId );
 			User.find( {'twit.id' : userId }, function( err, docs ) {
 				if(err) console.log('err getting friends:' + err);
+				if(docs.friends.hasOwnProperty(key)){
 					for( var key in docs.friends ) {
 						friendList.push({'id' : docs.friends[key].id})
 						console.log('saving:' + docs.friend[key].id);
 					}
+				}
 			});
 			console.log('FriendList:' + JSON.stringify(friendList) );
 /*			if( friendList === undefined ) {
