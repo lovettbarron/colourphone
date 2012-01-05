@@ -246,20 +246,24 @@ io.sockets.on('connection', function (socket) {
 			if( userId ) {
 				console.log('Searching for user ' + userId );
 			User.find( {'twit.id' : userId }, function( err, p ) {
-				if(err) console.log('errRetFriends: ' + err);
-				friendList = p.friends.slice();
-		    console.log('found user ' + p);
+				friendList = p.friends;
+		    console.log('found user ' + p.friends);
 			}).limit(1);
 			console.log('FriendList:' + JSON.stringify(friendList) );
+			if( friendList === undefined ) {
+				 friendList = data;
+				 console.log('subbing for ajax data:' + data )}
 			for( var key in friendList ){
 
 				try{
 
-				var mostRecent = Colour.findOne( {'colour.to' : userId
-									, 'colour.from' : friendList.friends[key].id }, function(err, p) {
-											if(err) console.log("Err retrieving color:" + err)
-											//reply.push( p );
-												} ).sort({ '$natural': '-1' }).limit(1);
+				var mostRecent;
+				Colour.findOne( {'colour.to' : userId
+					, 'colour.from' : friendList[key].id }, function(err, p) {
+							if(err) console.log("Err retrieving color:" + err)
+								mostRecent = p
+//								reply.push( p );
+								} ).sort({ '$natural': '-1' }).limit(1);
 				console.log('Most recent: ' + mostRecent);
 
 				if( mostRecent !== undefined 
