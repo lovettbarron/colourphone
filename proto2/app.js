@@ -262,7 +262,7 @@ io.sockets.on('connection', function (socket) {
 				colourQuery.where({'colour.to' : userId
 					, 'colour.from' : friendList[key].id })
 					.sort({ '$natural': '-1' }).limit(1);
-				colourQuery.exec(function(err,docs{
+				colourQuery.exec(function(err,docs) {
 					if(err) console.log("Err retrieving color:" + err)
 						mostRecent = docs;
 				});
