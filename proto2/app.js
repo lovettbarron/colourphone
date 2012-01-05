@@ -258,7 +258,7 @@ io.sockets.on('connection', function (socket) {
 				try{
 
 				var mostRecent;
-				var colourQuery = Colour.findOne({{'colour.to' : userId
+				var colourQuery = Colour.findOne({'colour.to' : userId
 					, 'colour.from' : friendList[key].id }})
 					.sort({ '$natural': '-1' }).limit(1);
 				colourQuery.exec(function(err,docs) {
