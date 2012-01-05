@@ -245,25 +245,34 @@ io.sockets.on('connection', function (socket) {
 //			console.log('Searching for ' + userId);
 			if( userId ) {
 				console.log('Searching for user ' + userId );
-			User.find( {'twit.id' : userId }, function( err, p ) {
-				friendList = p.friends;
-		    console.log('found user ' + p.friends);
+			User.find( {'twit.id' : userId }, function( err, docs ) {
+				friendList = docs.friends;
+		    console.log('found user ' + docs.friends);
 			}).limit(1);
 			console.log('FriendList:' + JSON.stringify(friendList) );
 			if( friendList === undefined ) {
-				 friendList = JSON.stringify(JSON.parse(data));
+				 friendList = data;
 				 console.log('subbing for ajax data:' + data )}
 			for( var key in friendList ){
 
 				try{
 
 				var mostRecent;
-				Colour.findOne( {'colour.to' : userId
-					, 'colour.from' : friendList[key].id }, function(err, p) {
+				var colourQuery = Colour.findOne({});
+				colourQuery.where({'colour.to' : userId
+					, 'colour.from' : friendList[key].id })
+					.sort({ '$natural': '-1' }).limit(1);
+				colourQuery.exec(function(err,docs{
+					if(err) console.log("Err retrieving color:" + err)
+						mostRecent = docs;
+				});
+				
+/*				Colour.findOne( {'colour.to' : userId
+					, 'colour.from' : friendList[key].id }, function(err, docs) {
 							if(err) console.log("Err retrieving color:" + err)
-								mostRecent = p
+								mostRecent = p;
 //								reply.push( p );
-								} ).sort({ '$natural': '-1' }).limit(1);
+								} ).sort({ '$natural': '-1' }).limit(1);*/
 				console.log('Most recent: ' + mostRecent);
 
 				if( mostRecent !== undefined 
