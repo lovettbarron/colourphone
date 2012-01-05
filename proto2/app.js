@@ -248,7 +248,8 @@ io.sockets.on('connection', function (socket) {
 			User.find( {'twit.id' : userId }, function( err, docs ) {
 				if(err) console.log('err getting friends:' + err);
 					for( var key in docs.friends ) {
-						friendList.push({'id' : docs.friend[key].id})
+						friendList.push({'id' : docs.friends[key].id})
+						console.log('saving:' + docs.friend[key].id);
 					}
 			});
 			console.log('FriendList:' + JSON.stringify(friendList) );
