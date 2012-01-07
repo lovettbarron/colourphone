@@ -239,70 +239,45 @@ io.sockets.on('connection', function (socket) {
 		});
 
 	socket.on('isUpdate', function(data) {
-			var reply = [];
-			var friendList = new Array();
+			var reply = new Array();
 			var userId = hs.session.twitId;
-			
-			if( userId ) {
-				console.log('Searching for user ' + userId );
-			User.find( {'twit.id' : userId }, function( err, docs ) {
-				if(err) console.log('err getting friends:' + err);
-				if(docs.friends.hasOwnProperty(key)){
-					for( var key in docs.friends ) {
-						friendList.push({'id' : docs.friends[key].id})
-						console.log('saving:' + docs.friend[key].id);
-					}
-				}
-			});
-			console.log('FriendList:' + JSON.stringify(friendList) );
-/*			if( friendList === undefined ) {
-				 friendList = JSON.parse( JSON.stringify(data));
-				 console.log('subbing for ajax data:' + friendList )} */
-			for( var key in friendList ){
 
-				try{
-
-				var mostRecent;
-				var colourQuery = Colour.findOne({'colour.to' : userId
-					, 'colour.from' : friendList[key].id })
-					.sort({ '$natural': -1 }).limit(1)
-					.execFind(function(err,docs) {
-					if(err) console.log("Err retrieving color:" + err)
-						mostRecent = docs;
-				});
-				
-/*				Colour.findOne( {'colour.to' : userId
-					, 'colour.from' : friendList[key].id }, function(err, docs) {
-							if(err) console.log("Err retrieving color:" + err)
-								mostRecent = p;
-//								reply.push( p );
-								} ).sort({ '$natural': '-1' }).limit(1);*/
-				console.log('Most recent: ' + mostRecent);
-
-				if( mostRecent !== undefined 
-						&& mostRecent.colour.received == false
-						&& mostRecent.colour.from == true
-						&& mostRecent.colour.to == true ) {
-					reply.push( mostRecent );
-
-					Colour.findOne({ '_id' : mostRecent._id }, function(err, p) {
-						p.colour.received = true;
-						p.markModified('colour');
-						p.save( function(err) {
-							if(err) console.log('Err marking received ? err: ' + err );
+				User.findOne({'twit.id': userId },['friends'], function(err, doc) {
+					for( var key in doc) {
+					if (doc.hasOwnProperty(key))
+				    {
+								var query = Colour.findOne({'colour.to' : userId
+									, 'colour.from' : doc[key].id });
+									query.sort({ '$natural': -1 })
+									.limit(1)
+									.execFind(function(err2,doc2) {
+									if(err) console.log("Err retrieving color:" + err + err2)
+									if( doc2 !== undefined 
+											&& doc2.colour.received == false
+											&& doc2.colour.from == true
+											&& doc2.colour.to == true ) {
+												reply.push( doc2.colours );
+												}
+											});		
+										}
+									}
+							});
+							
+						socket.emit('update', reply, function(err) {
+							if(err) console.log('err sending update:'+err);
+							for( var key in reply ) {
+								Colour.findOne({ '_id' : reply[key]._id }, function(err, doc) {
+									doc.colour.recieved = true;
+									doc.save( function(e) {
+										if(e) console.log('Err saving modified:' + e );
+									});
+									
+								});
+								
+								}
 						});
-					})
-				}
-				
-			} catch(err) {
-				console.log('Failed to find colour to respond with :' + err)
-				}
-			}
-			
-			socket.emit('update', reply, function(err) {
-				 if(err) console.log('err sending update:'+err) });
-			}//end initial if statement
-	});
+					});
+
 
     socket.on('disconnect', function () {
         console.log('A socket with sessionID ' + hs.sessionID 
@@ -366,26 +341,6 @@ app.get('to/:id', function(req,res) {
 			, httpOnly: true
 			, secure: true 
 		});
-		
-	var cc = io
-		.of('/colour')
-		.on('authorization', function(accept, err) {
-			console.log( data.headers )
-		})
-		.on('connection', function(socket) {
-				var friend = User.find( {'_id': req.session._id, }, function(err, docs) {
-					for( friends in docs.friends ){
-						if( friends.id == req.params.id ) {
-							hasAccess = true;
-						}
-					
-					if( hasAccess ) {
-						User.find( { '_id' : req.sessionID } )
-						}
-					}
-				});
-			 	socket.emit('colour', {});
-			});
 		
   res.render('friend', {
     title: 'Colour Phone v0.2 to ' +  req.params.id
