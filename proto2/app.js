@@ -244,11 +244,11 @@ io.sockets.on('connection', function (socket) {
 			try{
 				User.findOne({'twit.id': userId },['friends'], function(err, doc) {
 					console.log('Return ' + doc );
-					for( var key in doc) {
-					if (doc.hasOwnProperty(key)) {
-
+					var friends = doc.friends;
+					for( var key in friends) {
+					if (friends.hasOwnProperty(key)) {
 								var query = Colour.findOne({'colour.to' : userId
-									, 'colour.from' : doc[key].colour.to });
+									, 'colour.from' : friends[key].id });
 								query.sort({ '$natural': -1 })
 									.limit(1)
 									.execFind(function(err2,doc2) {
