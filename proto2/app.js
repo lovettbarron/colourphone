@@ -243,7 +243,7 @@ io.sockets.on('connection', function (socket) {
 			var userId = hs.session.twitId;
 			try{
 				User.findOne({'twit.id': userId },['friends'], function(err, doc) {
-					console.log('Return ' + doc );
+					//console.log('Return ' + doc );
 					var friends = doc.friends;
 					for( var key in friends) {
 					if (friends.hasOwnProperty(key)) {
@@ -257,6 +257,7 @@ io.sockets.on('connection', function (socket) {
 												&& doc2.colour.received == false
 												&& doc2.colour.from == true
 												&& doc2.colour.to == true ) {
+													console.log('Colour will be sent: ' + doc2.colours);
 													reply.push( doc2.colours );
 													}
 												});		
