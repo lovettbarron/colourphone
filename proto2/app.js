@@ -241,7 +241,7 @@ io.sockets.on('connection', function (socket) {
 	socket.on('isUpdate', function(data) {
 			var reply = new Array();
 			var userId = hs.session.twitId;
-
+try{
 				User.findOne({'twit.id': userId },['friends'], function(err, doc) {
 					for( var key in doc) {
 					if (doc.hasOwnProperty(key))
@@ -276,6 +276,9 @@ io.sockets.on('connection', function (socket) {
 								
 								}
 						});
+					} catch(err) {
+						console.log('Update error:' + err);
+					}
 					});
 
 
