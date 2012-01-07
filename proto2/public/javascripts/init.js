@@ -138,7 +138,9 @@ $.extend( userObject.prototype, {
 				, updated = _updated
 				, responded = _responded;
 				console.log("user id" + id + " instantiated.");
-				$( 'div.user.' + id ).bind( 'mousemove', (function(event){
+				
+				$( 'div.user.' + id ).toggle( function() {
+					$(this).bind( 'mousemove', (function(event){
 					console.log( 'interacting with ' + id );
 					var canvasPos = {
 						x : $(this).offset().left
@@ -153,8 +155,6 @@ $.extend( userObject.prototype, {
 					var l = 1.0; 
 					var colour = hsvToRgb(h*360,s*100,l*100);
 					
-				//	console.log( JSON.stringify(event.pageX), JSON.stringify(event.pageY), colour, JSON.stringify(canvasSize), JSON.stringify(canvasPos) );
-					
 					var colourMsg = { 
 						id: id
 						, model: 'RGB'
@@ -171,9 +171,6 @@ $.extend( userObject.prototype, {
 						,'rgb(' + colourMsg.val1 + ',' + colourMsg.val2 + ',' + colourMsg.val3 + ')'
 					 );
 
-	/*				socket.emit( "msg", colourMsg, function(err) {
-							console.log("sent: " + msg + " ? err: " + err);
-						});*/
 				for( var key in friendsJSON ) {
 					if( friendsJSON[key].id == id ) {
 						friendsJSON[key].colour = colourMsg;
@@ -181,8 +178,14 @@ $.extend( userObject.prototype, {
 					}
 				}
 										
-				}));
-				$( 'div.user.' + id ).bind( 'touchmove', (function(event){
+				}),
+				function() {
+					$(this).unbind('mousemove',false);	
+				});
+				
+				$( 'div.user.' + id ).toggle( function() {
+					
+					$(this).bind( 'touchmove', (function(event){
 					console.log( 'interacting with ' + id );
 					var canvasPos = {
 						x : $(this).offset().left
@@ -197,8 +200,6 @@ $.extend( userObject.prototype, {
 					var l = 1.0; 
 					var colour = hsvToRgb(h*360,s*100,l*100);
 					
-				//	console.log( JSON.stringify(event.pageX), JSON.stringify(event.pageY), colour, JSON.stringify(canvasSize), JSON.stringify(canvasPos) );
-					
 					var colourMsg = { 
 						id: id
 						, model: 'RGB'
@@ -214,10 +215,7 @@ $.extend( userObject.prototype, {
 						'background-color'
 						,'rgb(' + colourMsg.val1 + ',' + colourMsg.val2 + ',' + colourMsg.val3 + ')'
 					 );
-/*
-					socket.emit( "msg", colourMsg, function(err) {
-							console.log("sent: " + msg + " ? err: " + err);
-						});*/
+
 						for( var key in friendsJSON ) {
 							if( friendsJSON[key].id == id ) {
 								friendsJSON[key].colour = colourMsg;
@@ -225,6 +223,10 @@ $.extend( userObject.prototype, {
 							}
 						}
 				}));
+			}),
+			function() {
+				$(this).unbind('touchmove',false);
+			}
 		}
 		, sendColour: function( $e ) {
 		}
