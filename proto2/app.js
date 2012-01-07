@@ -241,24 +241,24 @@ io.sockets.on('connection', function (socket) {
 	socket.on('isUpdate', function(data) {
 			var reply = new Array();
 			var userId = hs.session.twitId;
-try{
+			try{
 				User.findOne({'twit.id': userId },['friends'], function(err, doc) {
 					for( var key in doc) {
-					if (doc.hasOwnProperty(key))
-				    {
+					if (doc.hasOwnProperty(key)) {
+
 								var query = Colour.findOne({'colour.to' : userId
-									, 'colour.from' : doc[key].colour.id });
-									query.sort({ '$natural': -1 })
+									, 'colour.from' : doc[key].colour.to });
+								query.sort({ '$natural': -1 })
 									.limit(1)
 									.execFind(function(err2,doc2) {
-									if(err) console.log("Err retrieving color:" + err + err2)
-									if( doc2 !== undefined 
-											&& doc2.colour.received == false
-											&& doc2.colour.from == true
-											&& doc2.colour.to == true ) {
-												reply.push( doc2.colours );
-												}
-											});		
+										if(err) console.log("Err retrieving color:" + err + err2)
+										if( doc2 !== undefined 
+												&& doc2.colour.received == false
+												&& doc2.colour.from == true
+												&& doc2.colour.to == true ) {
+													reply.push( doc2.colours );
+													}
+												});		
 										}
 									}
 							});
@@ -276,7 +276,7 @@ try{
 								
 								}
 						});
-					} catch(err) {
+					} catch (err) {
 						console.log('Update error:' + err);
 					}
 					});
