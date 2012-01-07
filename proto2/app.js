@@ -253,6 +253,7 @@ io.sockets.on('connection', function (socket) {
 									.limit(1)
 									.execFind(function(err2,doc2) {
 										if(err) console.log("Err retrieving color:" + err + err2)
+										console.log('Returned colour:' + doc2);
 										if( doc2 !== undefined 
 												&& doc2.colour.received == false
 												&& doc2.colour.from == true
@@ -273,9 +274,7 @@ io.sockets.on('connection', function (socket) {
 									doc.save( function(e) {
 										if(e) console.log('Err saving modified:' + e );
 									});
-									
 								});
-								
 								}
 						});
 					} catch (err) {
