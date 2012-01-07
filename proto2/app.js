@@ -243,6 +243,7 @@ io.sockets.on('connection', function (socket) {
 			var userId = hs.session.twitId;
 			try{
 				User.findOne({'twit.id': userId },['friends'], function(err, doc) {
+					console.log('Return ' + doc );
 					for( var key in doc) {
 					if (doc.hasOwnProperty(key)) {
 
