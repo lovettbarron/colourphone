@@ -138,7 +138,7 @@ $.extend( userObject.prototype, {
 				, updated = _updated
 				, responded = _responded;
 				console.log("user id" + id + " instantiated.");
-				
+
 				$( 'div.user.' + id ).toggle( function() {
 					$(this).bind( 'mousemove', (function(event){
 					console.log( 'interacting with ' + id );
@@ -153,8 +153,7 @@ $.extend( userObject.prototype, {
 					var h = ( (event.pageX - canvasPos.x) / canvasSize.x );
 					var s = ( (event.pageY - canvasPos.y) / canvasSize.y );
 					var l = 1.0; 
-					var colour = hsvToRgb(h*360,s*100,l*100);
-					
+					var colour = hsvToRgb(h*360,s*100,l*100);		
 					var colourMsg = { 
 						id: id
 						, model: 'RGB'
@@ -163,25 +162,23 @@ $.extend( userObject.prototype, {
 						, val3 : colour[2]
 						, timestamp : new Date()
 						 };
-
 				$('div.user.' + id )
 					.children('div.colourPreview')
 					.css(
 						'background-color'
 						,'rgb(' + colourMsg.val1 + ',' + colourMsg.val2 + ',' + colourMsg.val3 + ')'
 					 );
-
 				for( var key in friendsJSON ) {
 					if( friendsJSON[key].id == id ) {
 						friendsJSON[key].colour = colourMsg;
 						console.log('buffered colour in ' + JSON.stringify(friendsJSON[key] ) );
 					}
-				}
-										
-				}),
+				}					
+				})),
 				function() {
 					$(this).unbind('mousemove',false);	
-				});
+					}
+				);
 				
 				$( 'div.user.' + id ).toggle( function() {
 					
