@@ -174,7 +174,7 @@ $.extend( userObject.prototype, {
 						console.log('buffered colour in ' + JSON.stringify(friendsJSON[key] ) );
 					}
 				}					
-				})),
+				})) },
 				function() {
 					$(this).unbind('mousemove',false);	
 					}
@@ -196,7 +196,6 @@ $.extend( userObject.prototype, {
 					var s = ( (event.touches[0].pageY - canvasPos.y) / canvasSize.y );
 					var l = 1.0; 
 					var colour = hsvToRgb(h*360,s*100,l*100);
-					
 					var colourMsg = { 
 						id: id
 						, model: 'RGB'
@@ -205,7 +204,6 @@ $.extend( userObject.prototype, {
 						, val3 : colour[2]
 						, timestamp : new Date()
 						 };
-
 				$('div.user.' + id )
 					.children('div.colourPreview')
 					.css(
@@ -219,8 +217,8 @@ $.extend( userObject.prototype, {
 								console.log('buffered colour in ' + JSON.stringify( friendsJSON[key] ) );
 							}
 						}
-				}));
-			}),
+				})); 
+				},
 			function() {
 				$(this).unbind('touchmove',false);
 			});
