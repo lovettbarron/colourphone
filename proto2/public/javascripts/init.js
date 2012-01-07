@@ -226,7 +226,7 @@ $.extend( userObject.prototype, {
 			}),
 			function() {
 				$(this).unbind('touchmove',false);
-			}
+			});
 		}
 		, sendColour: function( $e ) {
 		}
