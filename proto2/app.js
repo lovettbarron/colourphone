@@ -249,12 +249,15 @@ io.sockets.on('connection', function (socket) {
 					if (friends.hasOwnProperty(key)) {
 						if(friends[key].id !== undefined ) {
 						console.log('Friend is ' + JSON.stringify(friends[key].id));	
-								Colour.find({'colour.to' : userId
-									, 'colour.from' : friends[key].id })
+							/*	Colour.find({'colour.to' : userId
+									, 'colour.from' : friends[key].id }) */
+						var query = Colour.find({});
+						 query.where(	{'colour.to' : userId
+									, 'colour.from' : friends[key].id })	
 								.sort({ '$natural': -1 })
 								.limit(1)
 								.exec(function(err2,doc2) {
-										if(err) console.log("Err retrieving color:" + err + err2)
+										if(err2) console.log("Err retrieving color:" + err + err2)
 										console.log('Returned colour:' + doc2);
 										if( doc2 !== undefined 
 												&& doc2.colour.received == false
