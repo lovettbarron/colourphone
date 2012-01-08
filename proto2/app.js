@@ -244,7 +244,7 @@ io.sockets.on('connection', function (socket) {
 			try{
 				User.findOne({'twit.id': userId },['friends'], function(err, doc) {
 					//console.log('Return ' + doc );
-					var friends = doc.friends;
+					var friends = doc.friends.friends;
 					for( var key in friends) {
 					if (friends.hasOwnProperty(key)) {
 						console.log('Friend is ' + JSON.stringify(friends[key]));	
