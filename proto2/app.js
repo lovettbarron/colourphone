@@ -269,7 +269,10 @@ io.sockets.on('connection', function (socket) {
 									}
 						console.log('Reply is ' + JSON.stringify(hs.session.reply));
 						socket.emit('update', hs.session.reply, function(err) {
-							hs.session.reply.splice( 0, 1);
+							hs.session.reply.splice( 0, 1, function() {
+								console.log('Array down to zero?' + hs.session.reply );
+							} );
+							
 							if(err) console.log('err sending update:'+err);
 							for( var key in hs.session.reply ) {
 								Colour.findOne({ '_id' : hs.session.reply[key]._id }, function(err, doc) {
