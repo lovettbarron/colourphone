@@ -249,7 +249,7 @@ io.sockets.on('connection', function (socket) {
 					if (friends.hasOwnProperty(key)) {
 						if(friends[key].id !== undefined ) {
 						console.log('Friend is ' + JSON.stringify(friends[key].id));	
-								var query = Colour.find({'colour.to' : userId
+								Colour.find({'colour.to' : userId
 									, 'colour.from' : friends[key].id })
 								.sort({ '$natural': -1 })
 								.limit(1)
