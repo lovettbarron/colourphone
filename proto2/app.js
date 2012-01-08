@@ -244,10 +244,10 @@ io.sockets.on('connection', function (socket) {
 			try{
 				User.findOne({'twit.id': userId },['friends'], function(err, doc) {
 					//console.log('Return ' + doc );
-					var friends = doc.friends;
-					console.log('Friend query return' + doc);
+//					var friends = doc.friends;
 					for( var key in friends) {
 					if (friends.hasOwnProperty(key)) {
+						if(friends[key].id !=== undefined ) {
 						console.log('Friend is ' + JSON.stringify(friends[key]));	
 								var query = Colour.findOne({'colour.to' : userId
 									, 'colour.from' : friends[key].id });
@@ -264,7 +264,8 @@ io.sockets.on('connection', function (socket) {
 													reply.push( doc2.colours );
 													}
 												});		
-										}
+											}
+										} 
 									}
 							});
 							
