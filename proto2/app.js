@@ -248,7 +248,7 @@ io.sockets.on('connection', function (socket) {
 					for( var key in friends) {
 					if (friends.hasOwnProperty(key)) {
 						if(friends[key].id !== undefined ) {
-						console.log('Friend is ' + JSON.stringify(friends[key].id));	
+					//	console.log('Friend is ' + JSON.stringify(friends[key].id));	
 							/*	Colour.find({'colour.to' : userId
 									, 'colour.from' : friends[key].id }) */
 						var query = Colour.findOne({});
@@ -258,7 +258,7 @@ io.sockets.on('connection', function (socket) {
 								.limit(1)
 								.exec(function(err2,doc2) {
 										if(err2) console.log("Err retrieving color:" + err + err2)
-										console.log('Returned colour:' + doc2);
+										//console.log('Returned colour:' + doc2);
 										if( doc2 !== undefined ) {
 									/*	colourSearch:
 										for(var colourKey in doc2) { //loop
@@ -270,7 +270,7 @@ io.sockets.on('connection', function (socket) {
 												&& doc2.colour.val3 == true
 												&& doc2.colour.date == true
 												 ) {*/
-													console.log('Colour will be sent: ' + doc2.colour);
+													//console.log('Colour will be sent: ' + doc2.colour);
 													reply.push( doc2.colours );
 												/*	break colourSearch;
 													}
@@ -289,6 +289,7 @@ io.sockets.on('connection', function (socket) {
 									doc.colour.recieved = true;
 									doc.save( function(e) {
 										if(e) console.log('Err saving modified:' + e );
+										console.log('supposedly marked colour sent');
 									});
 								});
 								}

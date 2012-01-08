@@ -106,6 +106,7 @@ function clearLast( x, y) {
 	}
 
 socket.on('update', function(data) {
+	console.log('got update:' + JSON.stringify(data));
 			for( var key in data ) {
 				if( friendsJSON[key].colour !== undefined ) {
 /*					socket.emit( "msg", friendsJSON[key].colour, function(err) {
