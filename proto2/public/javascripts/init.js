@@ -112,7 +112,7 @@ socket.on('update', function(data) {
 /*					socket.emit( "msg", friendsJSON[key].colour, function(err) {
 							console.log("sent: " + msg + " ? err: " + err);
 						});*/
-						$('div.user.' + friendJSON[key].id )
+						$('div.user.' + data[key].colour.from )
 							.children('div.colourPreview')
 							.css(
 								'background-color'
