@@ -257,8 +257,8 @@ io.sockets.on('connection', function (socket) {
 										if(err2) console.log("Err retrieving color:" + err + err2)
 										//console.log('Returned colour:' + doc2);
 										if( doc2 !== undefined ) {
-													console.log('Colour will be sent: ' + doc2.colour);
-													reply.push(doc2.colour);
+													//console.log('Colour will be sent: ' + doc2.colour);
+													reply.push({doc2.colour});
 											}
 												});		
 											}
