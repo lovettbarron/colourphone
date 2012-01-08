@@ -262,7 +262,7 @@ io.sockets.on('connection', function (socket) {
 											if( doc2.hasOwnProperty(key2) ) {
 														//console.log('Colour will be sent: ' + doc2[key2].colour);
 														//hs.session.reply.push( doc2[key2].colour );
-														hs.session.reply = { doc2[key].colour.from : doc2[key].colour }
+														hs.session.reply = { JSON.stringify(doc2[key].colour.from) : JSON.stringify(doc2[key].colour) };
 															}
 														}
 													}
