@@ -235,7 +235,7 @@ io.sockets.on('connection', function (socket) {
 
 	socket.on('you', function(data) {
 			hs.session.twitId = data;
-			hs.session.reply = new Array();
+			hs.session.reply = {};// new Array();
 			console.log("WE GOTS THE ID! See: " + hs.session.twitId );
 		});
 
@@ -261,7 +261,8 @@ io.sockets.on('connection', function (socket) {
 											for( var key2 in doc2){
 											if( doc2.hasOwnProperty(key2) ) {
 														//console.log('Colour will be sent: ' + doc2[key2].colour);
-														hs.session.reply.push( doc2[key2].colour );
+														//hs.session.reply.push( doc2[key2].colour );
+														hs.session.reply = { doc2[key].colour.from : doc2[key].colour }
 															}
 														}
 													}
@@ -271,7 +272,7 @@ io.sockets.on('connection', function (socket) {
 									}
 						console.log('Reply is ' + JSON.stringify(hs.session.reply));
 						socket.emit('update', hs.session.reply, function(err) {
-							if(!err) hs.session.reply = new Array();							
+							//if(!err) hs.session.reply = new Array();							
 							if(err) console.log('err sending update:'+err);
 							for( var key in hs.session.reply ) {
 								Colour.findOne({ '_id' : hs.session.reply[key]._id }, function(err, doc) {
