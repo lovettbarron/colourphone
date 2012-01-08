@@ -259,9 +259,8 @@ io.sockets.on('connection', function (socket) {
 									//	console.log('Returned colour:' + doc2);
 										if( doc2 !== undefined ) {
 											for( var key2 in doc2){
-											console.log('doc exists: ' + doc2[key2]);
 											if( doc2.hasOwnProperty(key2) ) {
-														console.log('Colour will be sent: ' + doc2[key2].colour);
+														//console.log('Colour will be sent: ' + doc2[key2].colour);
 														hs.session.reply.push( doc2[key2].colour );
 															}
 														}
@@ -272,6 +271,7 @@ io.sockets.on('connection', function (socket) {
 									}
 						console.log('Reply is ' + JSON.stringify(hs.session.reply));
 						socket.emit('update', hs.session.reply, function(err) {							
+							hs.session.reply.length = 0; hs.session.reply = [];
 							if(err) console.log('err sending update:'+err);
 							for( var key in hs.session.reply ) {
 								Colour.findOne({ '_id' : hs.session.reply[key]._id }, function(err, doc) {
@@ -282,7 +282,6 @@ io.sockets.on('connection', function (socket) {
 									});
 								});
 								}
-							hs.session.reply.length = 0;
 						});
 						/*hs.session.reply.splice( 0, 1, function() {
 							console.log('Array down to zero?' + hs.session.reply );
