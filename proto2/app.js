@@ -235,7 +235,7 @@ io.sockets.on('connection', function (socket) {
 
 	socket.on('you', function(data) {
 			hs.session.twitId = data;
-				hs.session.reply = new Array();
+			hs.session.reply = new Array();
 			console.log("WE GOTS THE ID! See: " + hs.session.twitId );
 		});
 
@@ -258,8 +258,10 @@ io.sockets.on('connection', function (socket) {
 										if(err2) console.log("Err retrieving color:" + err + err2)
 								//		console.log('Returned colour:' + doc2);
 										if( doc2 !== undefined ) {
-													//console.log('Colour will be sent: ' + doc2.colour);
-													hs.session.reply.push( doc2.colour );
+											if( doc2.colour.from == true ) {
+														console.log('Colour will be sent: ' + doc2.colour);
+														hs.session.reply.push( doc2.colour );
+														}
 													}
 												});		
 											}
