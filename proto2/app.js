@@ -255,12 +255,12 @@ io.sockets.on('connection', function (socket) {
 						 query.where(	{'colour.to' : userId
 									, 'colour.from' : friends[key].id })	
 								.sort( 'sent', -1 )
-								.limit(10)
+								.limit(1)
 								.exec(function(err2,doc2) {
 										if(err2) console.log("Err retrieving color:" + err + err2)
 										console.log('Returned colour:' + doc2);
 										if( doc2 !== undefined ) {
-										colourSearch:
+									/*	colourSearch:
 										for(var colourKey in doc2) { //loop
 											if( doc2.colour.received == false
 												&& doc2.colour.from == true
@@ -269,12 +269,12 @@ io.sockets.on('connection', function (socket) {
 												&& doc2.colour.val2 == true
 												&& doc2.colour.val3 == true
 												&& doc2.colour.date == true
-												 ) {
+												 ) {*/
 													console.log('Colour will be sent: ' + doc2.colour);
 													reply.push( doc2.colours );
-													break colourSearch;
+												/*	break colourSearch;
 													}
-												}//loop
+												}*///loop 
 											}
 												});		
 											}
