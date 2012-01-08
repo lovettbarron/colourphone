@@ -259,7 +259,7 @@ io.sockets.on('connection', function (socket) {
 								.exec(function(err2,doc2) {
 										if(err2) console.log("Err retrieving color:" + err + err2)
 										console.log('Returned colour:' + doc2);
-										if( doc2 !== undefined )
+										if( doc2 !== undefined ) {
 											if( doc2.colour.received == false
 												&& doc2.colour.from == true
 												&& doc2.colour.to == true ) {
