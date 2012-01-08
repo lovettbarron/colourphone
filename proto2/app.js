@@ -235,7 +235,7 @@ io.sockets.on('connection', function (socket) {
 
 	socket.on('you', function(data) {
 			hs.session.twitId = data;
-			hs.session.reply = {};// new Array();
+			hs.session.reply = new Array();
 			console.log("WE GOTS THE ID! See: " + hs.session.twitId );
 		});
 
