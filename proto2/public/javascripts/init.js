@@ -108,15 +108,11 @@ function clearLast( x, y) {
 socket.on('update', function(data) {
 	console.log('got update:' + JSON.stringify(data));
 			for( var key in data ) {
-//				if( friendsJSON[key].colour !== undefined ) {
-/*					socket.emit( "msg", friendsJSON[key].colour, function(err) {
-							console.log("sent: " + msg + " ? err: " + err);
-						});*/
-						$('div.user.' + data[key].colour.from )
+						$('div.user.' + data[key].from )
 							.children('div.colourPreview')
 							.css(
 								'background-color'
-								,'rgb(' + data[key].colour.val1 + ',' + data[key].colour.val2 + ',' + data[key].colour.val3 + ')'
+								,'rgb(' + data[key].val1 + ',' + data[key].val2 + ',' + data[key].val3 + ')'
 							 );
 	//			}
 			}
