@@ -247,7 +247,7 @@ io.sockets.on('connection', function (socket) {
 					var friends = doc.friends;
 					for( var key in friends) {
 					if (friends.hasOwnProperty(key)) {
-						console.log('Friend is ' + friends[key]);
+						console.log('Friend is ' + friends[key]);	
 								var query = Colour.findOne({'colour.to' : userId
 									, 'colour.from' : friends[key].id });
 								query.sort({ '$natural': -1 })
@@ -259,7 +259,7 @@ io.sockets.on('connection', function (socket) {
 												&& doc2.colour.received == false
 												&& doc2.colour.from == true
 												&& doc2.colour.to == true ) {
-													console.log('Colour will be sent: ' + doc2.colours);
+													console.log('Colour will be sent: ' + doc2.colour);
 													reply.push( doc2.colours );
 													}
 												});		
