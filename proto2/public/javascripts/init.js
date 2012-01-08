@@ -108,7 +108,7 @@ function clearLast( x, y) {
 socket.on('update', function(data) {
 	console.log('got update:' + JSON.stringify(data));
 			for( var key in data ) {
-				if( friendsJSON[key].colour !== undefined ) {
+//				if( friendsJSON[key].colour !== undefined ) {
 /*					socket.emit( "msg", friendsJSON[key].colour, function(err) {
 							console.log("sent: " + msg + " ? err: " + err);
 						});*/
@@ -118,7 +118,7 @@ socket.on('update', function(data) {
 								'background-color'
 								,'rgb(' + data[key].colour.val1 + ',' + data[key].colour.val2 + ',' + data[key].colour.val3 + ')'
 							 );
-				}
+	//			}
 			}
 	});
 
