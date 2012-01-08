@@ -250,7 +250,7 @@ io.sockets.on('connection', function (socket) {
 						if(friends[key].id !== undefined ) {
 						var query = Colour.find( {'colour.to' : userId
 											, 'colour.from' : friends[key].id } );
-						 query. /*where({'colour.to' : userId
+						 query /*.where({'colour.to' : userId
 										, 'colour.from' : friends[key].id })	*/
 								.sort( 'colour.sent', -1 )
 								.limit(1)
