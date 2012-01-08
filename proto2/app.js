@@ -254,7 +254,7 @@ io.sockets.on('connection', function (socket) {
 						var query = Colour.find({});
 						 query.where(	{'colour.to' : userId
 									, 'colour.from' : friends[key].id })	
-								.sort({ 'sent': -1 })
+								.sort({ 'sent', -1 })
 								.limit(1)
 								.exec(function(err2,doc2) {
 										if(err2) console.log("Err retrieving color:" + err + err2)
