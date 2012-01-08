@@ -258,8 +258,8 @@ io.sockets.on('connection', function (socket) {
 										//console.log('Returned colour:' + doc2);
 										if( doc2 !== undefined ) {
 													//console.log('Colour will be sent: ' + doc2.colour);
-													reply.push({doc2.colour});
-											}
+													reply.push(doc2.colour);
+													}
 												});		
 											}
 										} 
