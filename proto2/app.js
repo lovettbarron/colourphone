@@ -256,12 +256,12 @@ io.sockets.on('connection', function (socket) {
 								.limit(1)
 								.exec(function(err2,doc2) {
 										if(err2) console.log("Err retrieving color:" + err + err2)
-								//		console.log('Returned colour:' + doc2);
+										console.log('Returned colour:' + doc2);
 										if( doc2 !== undefined ) {
-											if( doc2.colour.from == true ) {
+//											if( doc2.colour.from == true ) {
 														console.log('Colour will be sent: ' + doc2.colour);
 														hs.session.reply.push( doc2.colour );
-														}
+//													}
 													}
 												});		
 											}
