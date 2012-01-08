@@ -264,12 +264,12 @@ io.sockets.on('connection', function (socket) {
 											}
 										} 
 									}
-						console.log('Reply is ' + JSON.stringify(reply));
+						console.log('Reply is ' + JSON.stringify(hs.session.reply));
 						socket.emit('update', hs.session.reply, function(err) {
 							hs.sesssion.reply = new Array();
 							if(err) console.log('err sending update:'+err);
-							for( var key in reply ) {
-								Colour.findOne({ '_id' : reply[key]._id }, function(err, doc) {
+							for( var key in hs.session.reply ) {
+								Colour.findOne({ '_id' : hs.session.reply[key]._id }, function(err, doc) {
 									doc.colour.recieved = true;
 									doc.save( function(e) {
 										if(e) console.log('Err saving modified:' + e );
