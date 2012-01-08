@@ -248,12 +248,11 @@ io.sockets.on('connection', function (socket) {
 					for( var key in friends) {
 					if (friends.hasOwnProperty(key)) {
 						if(friends[key].id !== undefined ) {
-						console.log('Friend is ' + JSON.stringify(friends[key]));	
+						console.log('Friend is ' + JSON.stringify(friends[key].id));	
 								var query = Colour.findOne({'colour.to' : userId
 									, 'colour.from' : friends[key].id });
 								query.sort({ '$natural': -1 })
-									.limit(1)
-									.exec(function(err2,doc2) {
+								query.exec(function(err2,doc2) {
 										if(err) console.log("Err retrieving color:" + err + err2)
 										console.log('Returned colour:' + doc2);
 										if( doc2 !== undefined 
