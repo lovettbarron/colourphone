@@ -270,8 +270,8 @@ io.sockets.on('connection', function (socket) {
 												&& doc2.colour.val3 == true
 												&& doc2.colour.date == true
 												 ) {*/
-													//console.log('Colour will be sent: ' + doc2.colour);
-													reply.push( doc2.colour );
+													console.log('Colour will be sent: ' + doc2.colour);
+													reply.push( JSON.parse(doc2.colour) );
 												/*	break colourSearch;
 													}
 												}*///loop 
@@ -281,7 +281,7 @@ io.sockets.on('connection', function (socket) {
 										} 
 									}
 							});
-						console.log('Reply is ' + reply)
+						console.log('Reply is ' + JSON.stringify(reply));
 						socket.emit('update', reply, function(err) {
 							if(err) console.log('err sending update:'+err);
 							for( var key in reply ) {
