@@ -235,7 +235,7 @@ io.sockets.on('connection', function (socket) {
 
 	socket.on('you', function(data) {
 			hs.session.twitId = data;
-			hs.session.reply = new Array();
+			hs.session.reply = {}; //new Array();
 			console.log("WE GOTS THE ID! See: " + hs.session.twitId );
 		});
 
@@ -261,7 +261,7 @@ io.sockets.on('connection', function (socket) {
 											for( var key2 in doc2){
 											if( doc2.hasOwnProperty(key2) ) {
 														//console.log('Colour will be sent: ' + doc2[key2].colour);
-														hs.session.reply[doc2[key2].colour.from] = doc2[key2].colour;
+														hs.session.reply[ doc2[key2].colour.from ] = doc2[key2].colour;
 															}
 														}
 													}
