@@ -260,13 +260,22 @@ io.sockets.on('connection', function (socket) {
 										if(err2) console.log("Err retrieving color:" + err + err2)
 										console.log('Returned colour:' + doc2);
 										if( doc2 !== undefined ) {
+										colourSearch:
+										for(var colourKey in doc2) { //loop
 											if( doc2.colour.received == false
 												&& doc2.colour.from == true
-												&& doc2.colour.to == true ) {
+												&& doc2.colour.to == true
+												&& doc2.colour.val1 == true
+												&& doc2.colour.val2 == true
+												&& doc2.colour.val3 == true
+												&& doc2.colour.date == true
+												 ) {
 													console.log('Colour will be sent: ' + doc2.colour);
 													reply.push( doc2.colours );
+													break colourSearch;
 													}
-												}
+												}//loop
+											}
 												});		
 											}
 										} 
