@@ -247,7 +247,7 @@ io.sockets.on('connection', function (socket) {
 					var friends = doc.friends;
 					for( var key in friends) {
 					if (friends.hasOwnProperty(key)) {
-						console.log('Friend is ' + friends[key]);	
+						console.log('Friend is ' + JSON.stringify(friends[key]));	
 								var query = Colour.findOne({'colour.to' : userId
 									, 'colour.from' : friends[key].id });
 								query.sort({ '$natural': -1 })
