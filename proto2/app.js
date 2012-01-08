@@ -256,10 +256,10 @@ io.sockets.on('connection', function (socket) {
 								.limit(1)
 								.exec(function(err2,doc2) {
 										if(err2) console.log("Err retrieving color:" + err + err2)
-										console.log('Returned colour:' + doc2);
+									//	console.log('Returned colour:' + doc2);
 										if( doc2 !== undefined ) {
 //											if( doc2.colour.from == true ) {
-														console.log('Colour will be sent: ' + doc2.colour);
+												//		console.log('Colour will be sent: ' + doc2.colour);
 														hs.session.reply.push( doc2.colour );
 //													}
 													}
@@ -267,7 +267,7 @@ io.sockets.on('connection', function (socket) {
 											}
 										} 
 									}
-				//		console.log('Reply is ' + JSON.stringify(hs.session.reply));
+						console.log('Reply is ' + JSON.stringify(hs.session.reply));
 						socket.emit('update', hs.session.reply, function(err) {
 							hs.session.reply = [];
 							if(err) console.log('err sending update:'+err);
