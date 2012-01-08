@@ -240,7 +240,6 @@ io.sockets.on('connection', function (socket) {
 		});
 
 	socket.on('isUpdate', function(data) {
-			hs.session.reply.length = 0; hs.session.reply = [];
 			var userId = hs.session.twitId;
 			if( userId ){
 				User.findOne({'twit.id': userId },['friends'], function(err, doc) {
@@ -271,7 +270,8 @@ io.sockets.on('connection', function (socket) {
 										} 
 									}
 						console.log('Reply is ' + JSON.stringify(hs.session.reply));
-						socket.emit('update', hs.session.reply, function(err) {							
+						socket.emit('update', hs.session.reply, function(err) {
+							if(!err) hs.session.reply = new Array();							
 							if(err) console.log('err sending update:'+err);
 							for( var key in hs.session.reply ) {
 								Colour.findOne({ '_id' : hs.session.reply[key]._id }, function(err, doc) {
