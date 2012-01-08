@@ -258,10 +258,10 @@ io.sockets.on('connection', function (socket) {
 										if(err2) console.log("Err retrieving color:" + err + err2)
 									//	console.log('Returned colour:' + doc2);
 										if( doc2 !== undefined ) {
-//											if( doc2.colour.from == true ) {
-												//		console.log('Colour will be sent: ' + doc2.colour);
+											if( doc2.colour.from == true ) {
+														console.log('Colour will be sent: ' + doc2.colour);
 														hs.session.reply.push( doc2.colour );
-//													}
+													}
 													}
 												});		
 											}
@@ -279,10 +279,11 @@ io.sockets.on('connection', function (socket) {
 									});
 								});
 								}
+							hs.session.reply.length = 0;
 						});
-						hs.session.reply.splice( 0, 1, function() {
+						/*hs.session.reply.splice( 0, 1, function() {
 							console.log('Array down to zero?' + hs.session.reply );
-						} );
+						} );*/
 					});
 					} /*catch (err) {
 						console.log('Update error:' + err);
