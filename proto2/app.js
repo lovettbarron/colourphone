@@ -248,9 +248,9 @@ io.sockets.on('connection', function (socket) {
 					for( var key in friends) {
 					if (friends.hasOwnProperty(key)) {
 						if(friends[key].id !== undefined ) {
-						var query = Colour.findOne({});
-						 query.where(	{'colour.to' : userId
-									, 'colour.from' : friends[key].id })	
+						var query = Colour.findOne(	{'colour.to' : userId
+										, 'colour.from' : friends[key].id });
+						 query.where({	})	
 								.sort( 'colour.sent', -1 )
 								.limit(1)
 								.exec(function(err2,doc2) {
@@ -264,7 +264,7 @@ io.sockets.on('connection', function (socket) {
 											}
 										} 
 									}
-						console.log('Reply is ' + JSON.stringify(hs.session.reply));
+				//		console.log('Reply is ' + JSON.stringify(hs.session.reply));
 						socket.emit('update', hs.session.reply, function(err) {
 							hs.sesssion.reply = new Array();
 							if(err) console.log('err sending update:'+err);
