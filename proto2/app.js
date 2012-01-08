@@ -239,7 +239,7 @@ io.sockets.on('connection', function (socket) {
 		});
 
 	socket.on('isUpdate', function(data) {
-			var reply = new Array({});
+			var reply = new Array();
 			var userId = hs.session.twitId;
 			try{
 				User.findOne({'twit.id': userId },['friends'], function(err, doc) {
@@ -258,13 +258,12 @@ io.sockets.on('connection', function (socket) {
 										//console.log('Returned colour:' + doc2);
 										if( doc2 !== undefined ) {
 													console.log('Colour will be sent: ' + doc2.colour);
-													reply.push( doc2.colour );
+													reply.push(doc2.colour);
 											}
 												});		
 											}
 										} 
 									}
-							});
 						console.log('Reply is ' + JSON.stringify(reply));
 						socket.emit('update', reply, function(err) {
 							if(err) console.log('err sending update:'+err);
@@ -278,6 +277,7 @@ io.sockets.on('connection', function (socket) {
 								});
 								}
 						});
+					});
 					} catch (err) {
 						console.log('Update error:' + err);
 					}
