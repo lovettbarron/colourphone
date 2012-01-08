@@ -248,9 +248,10 @@ io.sockets.on('connection', function (socket) {
 					for( var key in friends) {
 					if (friends.hasOwnProperty(key)) {
 						if(friends[key].id !== undefined ) {
-						var query = Colour.findOne(	{'colour.to' : userId
-										, 'colour.from' : friends[key].id });
-						 query //.where({	})	
+						var query = Colour.find( {'colour.to' : userId
+											, 'colour.from' : friends[key].id } );
+						 query. /*where({'colour.to' : userId
+										, 'colour.from' : friends[key].id })	*/
 								.sort( 'colour.sent', -1 )
 								.limit(1)
 								.exec(function(err2,doc2) {
