@@ -162,6 +162,7 @@ $.extend( userObject.prototype, {
 						, val3 : colour[2]
 						, timestamp : new Date()
 						 };
+						
 				$('div.user.' + id )
 					.children('div.colourPreview')
 					.css(
@@ -170,13 +171,18 @@ $.extend( userObject.prototype, {
 					 );
 				for( var key in friendsJSON ) {
 					if( friendsJSON[key].id == id ) {
+						if( colourMsg.val1 !== undefined
+							&& colourMsg.val2 !== undefined
+							&& colourMsg.val3 !== undefined
+							) {
 						friendsJSON[key].colour = colourMsg;
 						console.log('buffered colour in ' + JSON.stringify(friendsJSON[key] ) );
 					}
+				}
 				}					
 				})) },
 				function() {
-					$(this).unbind('mousemove',false);	
+					$(this).unbind('mousemove', function() { console.log('must activate' + $(this) )});	
 					}
 				);
 				
