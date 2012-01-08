@@ -279,7 +279,7 @@ io.sockets.on('connection', function (socket) {
 								}
 						});
 					});
-			/*		} catch (err) {
+					} /*catch (err) {
 						console.log('Update error:' + err);
 					} */
 				});
