@@ -239,7 +239,7 @@ io.sockets.on('connection', function (socket) {
 		});
 
 	socket.on('isUpdate', function(data) {
-			var reply = new Array();
+			var reply = new Array({});
 			var userId = hs.session.twitId;
 			try{
 				User.findOne({'twit.id': userId },['friends'], function(err, doc) {
@@ -248,9 +248,6 @@ io.sockets.on('connection', function (socket) {
 					for( var key in friends) {
 					if (friends.hasOwnProperty(key)) {
 						if(friends[key].id !== undefined ) {
-					//	console.log('Friend is ' + JSON.stringify(friends[key].id));	
-							/*	Colour.find({'colour.to' : userId
-									, 'colour.from' : friends[key].id }) */
 						var query = Colour.findOne({});
 						 query.where(	{'colour.to' : userId
 									, 'colour.from' : friends[key].id })	
@@ -260,21 +257,8 @@ io.sockets.on('connection', function (socket) {
 										if(err2) console.log("Err retrieving color:" + err + err2)
 										//console.log('Returned colour:' + doc2);
 										if( doc2 !== undefined ) {
-									/*	colourSearch:
-										for(var colourKey in doc2) { //loop
-											if( doc2.colour.received == false
-												&& doc2.colour.from == true
-												&& doc2.colour.to == true
-												&& doc2.colour.val1 == true
-												&& doc2.colour.val2 == true
-												&& doc2.colour.val3 == true
-												&& doc2.colour.date == true
-												 ) {*/
 													console.log('Colour will be sent: ' + doc2.colour);
-													reply.push( JSON.parse(doc2.colour) );
-												/*	break colourSearch;
-													}
-												}*///loop 
+													reply.push( doc2.colour );
 											}
 												});		
 											}
