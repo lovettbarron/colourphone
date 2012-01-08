@@ -241,7 +241,7 @@ io.sockets.on('connection', function (socket) {
 
 	socket.on('isUpdate', function(data) {
 			var userId = hs.session.twitId;
-			try{
+			if( userId ){
 				User.findOne({'twit.id': userId },['friends'], function(err, doc) {
 					//console.log('Return ' + doc );
 					var friends = doc.friends;
@@ -279,9 +279,9 @@ io.sockets.on('connection', function (socket) {
 								}
 						});
 					});
-					} catch (err) {
+			/*		} catch (err) {
 						console.log('Update error:' + err);
-					}
+					} */
 				});
 
     socket.on('disconnect', function () {
