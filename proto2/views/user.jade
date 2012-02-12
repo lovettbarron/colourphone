@@ -1,5 +1,9 @@
-- each friend in friends
-	div.user( class=friend.id	)
+- each friend, key in friends
+	-if( (count % 3) == 0 ) 
+		div.row
+	- count++;
+	div.span4.well( class=friend.id	)
 		div.colourPreview
 			div.previewName
+				p= count
 				p= friend.name

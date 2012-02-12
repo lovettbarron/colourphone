@@ -33,7 +33,7 @@ function loop() {
 			socket.emit('isUpdate', friendsJSON, function(err) {
 				console.log('Checking for update ? err: ' + err)
 			});
-    }, 500);
+    }, 200);
 }
 $(loop);
 
