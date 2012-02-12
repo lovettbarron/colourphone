@@ -1,0 +1,17 @@
+-var friends = {'friend1': { 'id':123, 'name':'blah1' }, 'friend2': { 'id':234, 'name':'blah2' }, 'friend3': { 'id':345, 'name':'blah3' }, 'friend4': { 'id':456, 'name':'blah4' }, 'friend5': { 'id':567, 'name':'blah5' }, 'friend6': { 'id':678, 'name':'blah6' }, 'friend7': { 'id':789, 'name':'blah7' }, 'friend8': { 'id':890, 'name':'blah8' }, 'friend9': { 'id':901, 'name':'blah9' } }
+-var count = 0;
+
+include nav
+
+div.container	
+- each friend, key in friends
+	-if( (count % 3) == 0 ) 
+		div.row
+	- count++;
+	div.span4.well( class=friend.id	)
+		div.colourPreview
+			div.previewName
+				p= count
+				p= friend.name
+			
+include footer

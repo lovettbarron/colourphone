@@ -1,0 +1,11 @@
+Colour Phone
+------------
+
+"dependencies": {
+      "express": "2.4.7"
+    , "jade": ">= 0.0.1"
+		, "mongoose":"2.4.1"
+		, "mongoose-auth": "0.0.11"
+		, "winston" : "0.5.9"
+		, "connect-mongo" : ">=0.1.6"
+ 
